@@ -1,0 +1,52 @@
+<!-- Updated index.html: Only container and script tag remain -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>WhoDAT — SPA</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <div class="charselect-wrapper">
+    <button id="charselectTrigger" class="charselect-trigger" aria-haspopup="true" aria-expanded="false">
+      <span class="charselect-icon">🧙</span>
+      <span id="charselectLabel" class="charselect-label">Select Character</span>
+      <span class="charselect-caret">▾</span>
+    </button>
+    <div id="charselectMenu" class="charselect-menu hidden" role="menu" aria-label="Characters"></div>
+  </div>
+
+  <!-- existing search UI (if you want it visible) -->
+  <div class="searchbar-wrapper">
+    <input id="sectionSearch" type="text" placeholder="Find a section">
+    <div id="sectionDropdown" class="dropdown hidden"></div>
+  </div>
+</div>
+
+<div class="container">
+  <div id="sectionContent" class="tab-content"></div>
+</div>
+<!-- Core SPA -->
+<script src="/sections/conf.js" defer></script>
+<script type="module" src="/main.js"></script>
+<!-- Sections (load at page start so each can self-initialize on fragment inject) -->
+<script type="module" src="/sections/travel-log.js"></script>
+<script type="module" src="/sections/items.js"></script>
+<script type="module" src="/sections/achievements.js"></script>
+<script type="module" src="/sections/professions.js"></script>
+<script src="/sections/summary.js" defer></script>
+<script src="/sections/dashboard.js" defer></script>
+<script src="/sections/currencies.js" defer></script>
+<script src="/sections/progression.js" defer></script>
+<script src="/sections/quests.js" defer></script>
+<script src="/sections/mortality.js"></script>
+<script src="/sections/combat.js"></script>
+<script src="/sections/healing.js"></script>
+<script src="/sections/tanking.js"></script>
+<script src="/sections/role.js"></script>
+<script src="/sections/graphs.js"></script>
+</body>
+
+</html>

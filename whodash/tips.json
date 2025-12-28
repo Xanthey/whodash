@@ -1,0 +1,151 @@
+[
+    {
+        "level_range": "1-10",
+        "alliance_zones": [
+            "Elwynn Forest (Humans)",
+            "Dun Morogh (Dwarves/Gnomes)",
+            "Teldrassil (Night Elves)",
+            "Azuremyst Isle (Draenei)"
+        ],
+        "horde_zones": [
+            "Durotar (Orcs/Trolls)",
+            "Mulgore (Tauren)",
+            "Tirisfal Glades (Undead)",
+            "Eversong Woods (Blood Elves)"
+        ],
+        "notes": [
+            "Learn your class abilities from trainers in your starting zone.",
+            "Pick up your first profession(s) at level 5+ (e.g., Skinning + Leatherworking, Mining + Blacksmithing).",
+            "Start collecting linen cloth for First Aid."
+        ]
+    },
+    {
+        "level_range": "10-20",
+        "alliance_zones": [
+            "Westfall",
+            "Loch Modan",
+            "Darkshore",
+            "Bloodmyst Isle"
+        ],
+        "horde_zones": [
+            "The Barrens",
+            "Silverpine Forest",
+            "Ghostlands"
+        ],
+        "notes": [
+            "At level 10, you can choose a talent specialization.",
+            "Consider joining a guild for social and leveling perks.",
+            "Start saving gold for your first mount at level 20 (costs ~4g with training)."
+        ]
+    },
+    {
+        "level_range": "20-30",
+        "alliance_zones": [
+            "Redridge Mountains",
+            "Duskwood",
+            "Wetlands",
+            "Ashenvale"
+        ],
+        "horde_zones": [
+            "Stonetalon Mountains",
+            "Hillsbrad Foothills",
+            "Thousand Needles (late 20s)"
+        ],
+        "notes": [
+            "Level 20: Apprentice Riding becomes available. Buy your first mount!",
+            "Keep professions up to date\u2014especially gathering ones for gold income.",
+            "Visit your class trainer every 2 levels for new abilities."
+        ]
+    },
+    {
+        "level_range": "30-40",
+        "shared_zones": [
+            "Stranglethorn Vale",
+            "Arathi Highlands",
+            "Desolace",
+            "Dustwallow Marsh"
+        ],
+        "notes": [
+            "Level 30: Journeyman Riding unlocks faster mounts (60% speed).",
+            "Consider running Scarlet Monastery for gear and XP.",
+            "Keep your First Aid skill high\u2014Silk Cloth is abundant now."
+        ]
+    },
+    {
+        "level_range": "40-50",
+        "shared_zones": [
+            "Feralas",
+            "Tanaris",
+            "Hinterlands",
+            "Searing Gorge",
+            "Blasted Lands"
+        ],
+        "notes": [
+            "Level 40: Expert Riding (100% ground mount speed) becomes available.",
+            "Start preparing for Mount Hyjal attunement if you plan to raid later.",
+            "Consider running Uldaman, Zul'Farrak, and Maraudon for gear and quests."
+        ]
+    },
+    {
+        "level_range": "50-58",
+        "shared_zones": [
+            "Un'Goro Crater",
+            "Felwood",
+            "Burning Steppes",
+            "Western Plaguelands",
+            "Eastern Plaguelands"
+        ],
+        "notes": [
+            "Level 50+: Class quests often unlock\u2014check your trainer or capital city.",
+            "Save gold for flying training at level 60 (~600g total with mount).",
+            "Start preparing for Outland by finishing key quests in Blasted Lands."
+        ]
+    },
+    {
+        "level_range": "58-68",
+        "shared_zones": [
+            "Hellfire Peninsula",
+            "Zangarmarsh",
+            "Terokkar Forest",
+            "Nagrand",
+            "Blade's Edge Mountains",
+            "Netherstorm",
+            "Shadowmoon Valley"
+        ],
+        "notes": [
+            "Level 60: Flight training and Flying Mount available in Hellfire Peninsula.",
+            "Do the Ring of Blood questline in Nagrand for huge XP and a great weapon.",
+            "Level 68: You can head to Northrend early if desired."
+        ]
+    },
+    {
+        "level_range": "68-80",
+        "shared_zones_by_subrange": {
+            "68-72": [
+                "Borean Tundra",
+                "Howling Fjord"
+            ],
+            "72-75": [
+                "Dragonblight",
+                "Grizzly Hills"
+            ],
+            "75-77": [
+                "Zul'Drak"
+            ],
+            "76-78": [
+                "Sholazar Basin"
+            ],
+            "77-80": [
+                "Icecrown",
+                "Storm Peaks"
+            ]
+        },
+        "notes": [
+            "Level 68: You can train Northrend professions in Valiance Keep (Alliance) or Warsong Hold (Horde).",
+            "Level 70: Expert Riding (150% flying) becomes available (~600g).",
+            "Level 77: Train Cold Weather Flying in Dalaran or K3 (~1,000g) to access Storm Peaks and Icecrown.",
+            "Do the Sons of Hodir questline in Storm Peaks for shoulder enchants.",
+            "Consider doing Argent Tournament dailies at level 77+ for gold and reputation."
+        ]
+    }
+]

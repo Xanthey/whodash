@@ -1,0 +1,40 @@
+services:
+
+  backend:
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: whodat
+      MYSQL_USER: whodatuser
+      MYSQL_PASSWORD: whodatpass
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - 3306:3306
+
+  frontend:
+    build: .
+    container_name: whodat_dashboard
+    command: ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+    working_dir: /var/www/html
+    ports:
+      - "8090:8080"
+    volumes:
+      - /datapools/durotar/vscode/bin/php.ini:/etc/php84/php.ini
+      - /datapools/durotar/vscode/html:/var/www/html
+      - /datapools/durotar/vscode/bin/default.conf:/etc/nginx/conf.d/default.conf
+      - /datapools/durotar/vscode/bin/99-custom.ini:/etc/php8/conf.d/99-custom.ini
+    environment:
+      PHP_INI_DIR: /etc/php84
+      DB_HOST: backend
+      DB_USER: whodatuser
+      DB_PASSWORD: whodatpass
+      DB_NAME: whodat
+##    network_mode: bridge
+    restart: unless-stopped
+    depends_on:
+      - backend
+
+volumes:
+ db_data:

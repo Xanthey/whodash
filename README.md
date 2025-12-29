@@ -313,10 +313,11 @@ Feel free to open an issue or submit a pull request!
 ---
 
 ## 📝 License
+
 <div align="center">
-[![Version](https://img.shields.io/badge/version-3.0.0-blue.svg)](https://github.com/Xanthey/WhoDAT)
-[![WoW](https://img.shields.io/badge/WoW-3.3.5a-orange.svg)](https://wowpedia.fandom.com/wiki/Patch_3.3.5)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+  <img src="https://img.shields.io/badge/version-3.0.0-blue.svg" alt="Version">
+  <img src="https://img.shields.io/badge/WoW-3.3.5a-orange.svg" alt="WoW">
+  <img src="https://img.shields.io/badge/license-MIT-green.svg" alt="License">
 </div>
 ---
 

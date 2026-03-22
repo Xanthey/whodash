@@ -12,7 +12,9 @@
 *A mad-science analytics lab for your characters — powered by the **WhoDAT** addon and the **SyncDAT** uploader.*
 
 </div>
-
+<p align="center">
+  <img src="readmefiles/login.jpeg" alt="WhoDASH" />
+</p>
 ---
 
 ## 🎮 What is WhoDASH?
@@ -23,7 +25,16 @@ WhoDASH is a comprehensive self-hosted web dashboard for WoW: Wrath of the Lich 
 - **Single Page Application** — instant navigation, zero page reloads.
 - **Public character pages** — share a link; visitors see a themed showcase of your character without any account required.
 - **Multi-character, multi-user** — one installation tracks every alt across your whole roster.
-
+<table border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td align="center" valign="top"><b>Dashbaord</b><br><img src="readmefiles/dashboard.jpeg" width="400" alt="Dashboard" /></td>
+    <td align="center" valign="top"><b>Command Palette</b><br><img src="readmefiles/commandpalette.jpeg" width="400" alt="Command Palette" /></td>
+    <td align="center" valign="top"><b>Reputation</b><br><img src="readmefiles/reputation.jpeg" width="400" alt="Reputation" /></td>
+    <td align="center" valign="top"><b>Role Performance</b><br><img src="readmefiles/roles.jpeg" width="400" alt="Role Performance" /></td>
+    <td align="center" valign="top"><b>Travel Log</b><br><img src="readmefiles/travel.jpeg" width="400" alt="Travel Log" /></td>
+    <td align="center" valign="top"><b>Guild Hall</b><br><img src="readmefiles/guild.jpeg" width="400" alt="Guild Hall" /></td>
+  </tr>
+</table>
 ---
 
 ## 🚀 Features

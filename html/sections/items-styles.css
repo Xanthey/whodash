@@ -1,0 +1,316 @@
+/* ============================================================
+   ITEMS — Vault, Bags, Bank, Mail & Combined Item Browser
+   WhoDASH / Belmont Labs — BL-002
+   ============================================================
+   Sources consolidated from style.css:
+     ~6350–6758  Full items block — tabs, vault overview stat
+                 cards, vault sections, quality chart bars,
+                 vault items list, bag/bank/mail grid display,
+                 item cards + dark text variants, combined
+                 tab table + search + sort, responsive,
+                 local fadeIn keyframe.
+   NOTE: .item-icon here is the 64×64 item display square;
+   the nav dropdown uses a same-named class at ~229 — those
+   are unrelated and remain in style.css.
+   .sort-arrow is a shared utility (also used in combat/
+   progression tables); items is its canonical home.
+   .muted local definition (~6760) kept scoped here —
+   it gives a centred empty-state style used in item tabs.
+   @keyframes fadeIn renamed to itemsFadeIn.
+   .vault-stat-sublabel, .vault-item-count, .combined-header,
+   .combined-table-wrapper exist in JS templates but have no
+   CSS definition — left for future.
+   ============================================================ */
+
+/* ============================================================
+   TABS
+   ============================================================ */
+
+.items-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 8px;
+}
+
+.items-tab {
+  padding: 12px 24px;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 1rem;
+  color: #6b7280;
+  transition: all 0.2s;
+}
+
+.items-tab:hover  { color: #1e3a8a; background: #f3f4f6; border-radius: 8px 8px 0 0; }
+.items-tab.active { color: #1e3a8a; border-bottom-color: #1e3a8a; font-weight: 600; }
+
+.items-tab-content        { display: none; animation: itemsFadeIn 0.3s ease-in; }
+.items-tab-content.active { display: block; }
+
+@keyframes itemsFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ============================================================
+   VAULT OVERVIEW — STAT CARDS
+   ============================================================ */
+
+.vault-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.vault-stat-card {
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+  color: white;
+  padding: 24px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.vault-stat-icon    { font-size: 3rem; opacity: 0.9; }
+.vault-stat-content { flex: 1; }
+.vault-stat-label   { font-size: 0.9rem; opacity: 0.9; margin-bottom: 4px; }
+.vault-stat-value   { font-size: 2rem; font-weight: 700; }
+
+/* ============================================================
+   VAULT SECTIONS
+   ============================================================ */
+
+.vault-section {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.vault-section h3 { margin: 0 0 20px 0; color: #1e3a8a; font-size: 1.3rem; }
+
+/* ============================================================
+   QUALITY CHART BARS
+   ============================================================ */
+
+.quality-chart {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.quality-bar {
+  display: grid;
+  grid-template-columns: 120px 1fr 80px;
+  align-items: center;
+  gap: 12px;
+}
+
+.quality-label { font-weight: 700; font-size: 0.95rem; }
+
+.quality-bar-fill {
+  height: 24px;
+  border-radius: 4px;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.quality-bar:hover .quality-bar-fill { opacity: 1; }
+.quality-count { text-align: right; font-weight: 700; color: #111827; }
+
+/* ============================================================
+   VAULT ITEMS LIST
+   ============================================================ */
+
+.vault-items-list { display: flex; flex-direction: column; gap: 8px; }
+
+.vault-item-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 16px;
+  padding: 12px;
+  background: #f9fafb;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.vault-item-row:hover { background: #f3f4f6; }
+
+.vault-item-name     { font-weight: 700; font-size: 0.95rem; }
+.vault-item-ilvl     { color: #4b5563; font-size: 0.9rem; font-weight: 600; }
+.vault-item-location { color: #6b7280; font-size: 0.85rem; font-style: italic; font-weight: 500; }
+
+/* ============================================================
+   BAGS / BANK / MAIL — GRID DISPLAY
+   ============================================================ */
+
+.bag-container {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.bag-container h3 { margin: 0 0 20px 0; color: #1e3a8a; font-size: 1.2rem; }
+
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 16px;
+}
+
+.item-card {
+  background: #f9fafb;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+
+.item-card:hover { transform: translateY(-4px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); }
+
+/* Item icon (64×64 item display square — NOT the nav dropdown icon) */
+.item-card .item-icon,
+.items-grid .item-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 8px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 8px;
+  border: 2px solid #d1d5db;
+}
+
+/* Dark text variants (used in bags/bank/mail on light backgrounds) */
+.item-name-dark {
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 1.2;
+  /* Quality colour applied via inline style */
+}
+
+.item-count-dark  { font-size: 1rem; color: #111827; font-weight: 700; }
+.item-ilvl-dark   { font-size: 0.85rem; color: #374151; margin-top: 4px; font-weight: 600; }
+
+.item-sender-dark {
+  font-size: 0.8rem;
+  color: #374151;
+  margin-top: 4px;
+  font-style: italic;
+  font-weight: 500;
+}
+
+/* ============================================================
+   COMBINED TAB — SEARCH, TABLE & SORT
+   ============================================================ */
+
+.combined-container {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.combined-container h3 { margin: 0 0 20px 0; color: #1e3a8a; font-size: 1.3rem; }
+
+.combined-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.combined-search {
+  flex: 1;
+  min-width: 250px;
+  padding: 10px 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.combined-search:focus { outline: none; border-color: #3b82f6; }
+
+.combined-count          { color: #6b7280; font-size: 0.95rem; }
+.combined-count strong   { color: #111827; font-weight: 600; }
+
+.combined-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.combined-table thead {
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+  color: white;
+}
+
+.combined-table th {
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.combined-table th:hover  { background: rgba(255, 255, 255, 0.1); }
+.combined-table th.sorted { background: rgba(255, 255, 255, 0.15); }
+
+.sort-arrow { margin-left: 4px; font-size: 0.8em; opacity: 0.7; }
+
+.combined-table tbody tr               { border-bottom: 1px solid #f3f4f6; transition: background-color 0.15s; }
+.combined-table tbody tr:hover         { background-color: #f9fafb; }
+.combined-table tbody td               { padding: 12px 16px; color: #111827; }
+.combined-table tbody td strong        { font-weight: 700; }
+.combined-table td.center              { text-align: center; font-weight: 600; }
+
+/* ============================================================
+   EMPTY STATE
+   ============================================================ */
+
+.items-tab-content .muted {
+  text-align: center;
+  padding: 40px 20px;
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 768px) {
+  .vault-overview             { grid-template-columns: 1fr; }
+  .vault-item-row             { grid-template-columns: 1fr; gap: 4px; }
+  .items-grid                 { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 12px; }
+  .item-card .item-icon,
+  .items-grid .item-icon      { width: 48px; height: 48px; }
+  .combined-controls          { flex-direction: column; align-items: stretch; }
+  .combined-search            { min-width: 100%; }
+  .combined-table             { font-size: 0.8rem; }
+  .combined-table th,
+  .combined-table td          { padding: 8px 12px; }
+}

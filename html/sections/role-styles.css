@@ -1,0 +1,311 @@
+/* ============================================================
+   ROLE — Unified Multi-Role Performance Analytics
+   WhoDASH / Belmont Labs — BL-002
+   ============================================================
+   Sources consolidated from style.css:
+     ~9548–9902   Full role block — main tabs, role panes,
+                  overview title, primary-role badge, stats
+                  grid, role cards, distribution chart,
+                  pie legend, insights list, responsive
+   NOTE: .role-stat and .role-stats-grid also appear in
+   combat-styles but those are scoped to the overview card
+   context. The versions here are the standalone card variants.
+   @keyframes fadeIn renamed to roleFadeIn.
+   .legend-item/color/label/value scoped under .pie-legend
+   to avoid colliding with combat/other pie legend versions.
+   ============================================================ */
+
+/* ============================================================
+   MAIN ROLE TABS (top-level role switcher)
+   ============================================================ */
+
+.role-main-tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+  border-bottom: 3px solid #e2e8f0;
+  padding-bottom: 0;
+  flex-wrap: wrap;
+}
+
+.role-main-tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 28px;
+  background: transparent;
+  border: none;
+  border-bottom: 4px solid transparent;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  bottom: -3px;
+}
+
+.role-main-tab:hover {
+  background: rgba(0, 0, 0, 0.02);
+  color: #334155;
+}
+
+.role-main-tab.active {
+  color: #1e293b;
+  background: rgba(0, 0, 0, 0.02);
+  border-bottom-color: #6366f1;
+}
+
+.role-main-tab .tab-icon  { font-size: 1.5rem; }
+.role-main-tab .tab-label { font-size: 1rem; }
+
+/* ============================================================
+   ROLE PANES
+   ============================================================ */
+
+.role-tab-panes {
+  position: relative;
+  min-height: 400px;
+}
+
+.role-pane {
+  display: none;
+  animation: roleFadeIn 0.3s ease-in;
+}
+
+.role-pane.active {
+  display: block;
+}
+
+@keyframes roleFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   OVERVIEW TAB
+   ============================================================ */
+
+.role-overview-title {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 24px 0;
+}
+
+.primary-role-badge {
+  display: block;
+  width: fit-content;
+  padding: 12px 24px;
+  border-radius: 24px;
+  font-weight: 700;
+  font-size: 1.125rem;
+  margin: 0 auto 32px auto;
+  text-align: center;
+}
+
+.primary-role-badge.damage  { background: linear-gradient(135deg, #fee2e2, #fecaca); color: #991b1b; border: 2px solid #ef4444; }
+.primary-role-badge.tanking { background: linear-gradient(135deg, #dbeafe, #bfdbfe); color: #1e40af; border: 2px solid #3b82f6; }
+.primary-role-badge.healing { background: linear-gradient(135deg, #d1fae5, #a7f3d0); color: #065f46; border: 2px solid #10b981; }
+
+/* ============================================================
+   ROLE STATS GRID & CARDS
+   ============================================================ */
+
+.role-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.role-stat-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.role-stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.role-stat-card.damage  { border-top: 4px solid #ef4444; }
+.role-stat-card.tanking { border-top: 4px solid #3b82f6; }
+.role-stat-card.healing { border-top: 4px solid #10b981; }
+
+.role-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #f1f5f9;
+}
+
+.role-card-icon  { font-size: 2rem; }
+
+.role-card-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.role-card-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.role-stat {
+  text-align: center;
+  padding: 12px;
+  background: #f8fafc;
+  border-radius: 8px;
+}
+
+.role-stat-label {
+  font-size: 0.875rem;
+  color: #64748b;
+  margin-bottom: 4px;
+}
+
+.role-stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.role-stat-value.positive { color: #10b981; }
+.role-stat-value.negative { color: #ef4444; }
+
+.role-card-footer {
+  text-align: center;
+  font-size: 0.875rem;
+  color: #64748b;
+  padding-top: 12px;
+  border-top: 1px solid #f1f5f9;
+}
+
+/* ============================================================
+   ROLE DISTRIBUTION CHART
+   ============================================================ */
+
+.role-distribution-card {
+  background: white;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.role-distribution-card h3 {
+  margin: 0 0 24px 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.role-distribution-card canvas {
+  display: block;
+  margin: 0 auto 24px auto;
+}
+
+/* Pie legend — scoped to avoid collision with combat/healing */
+.role-distribution-card .pie-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.role-distribution-card .pie-legend .legend-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  background: #f8fafc;
+  border-radius: 8px;
+}
+
+.role-distribution-card .pie-legend .legend-color {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.role-distribution-card .pie-legend .legend-label {
+  flex: 1;
+  font-weight: 600;
+  color: #334155;
+}
+
+.role-distribution-card .pie-legend .legend-value {
+  color: #64748b;
+  font-size: 0.875rem;
+}
+
+/* ============================================================
+   ROLE INSIGHTS
+   ============================================================ */
+
+.role-insights {
+  background: white;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.role-insights h3 {
+  margin: 0 0 20px 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.insight-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.insight-list li {
+  padding: 12px 16px;
+  background: #f8fafc;
+  border-left: 4px solid #6366f1;
+  border-radius: 8px;
+  color: #334155;
+  line-height: 1.6;
+}
+
+.insight-list li strong          { color: #1e293b; font-weight: 700; }
+.insight-list li strong.positive { color: #10b981; }
+.insight-list li strong.negative { color: #ef4444; }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 1024px) {
+  .role-stats-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  .role-main-tabs              { gap: 8px; }
+  .role-main-tab               { padding: 12px 16px; font-size: 0.9375rem; }
+  .role-main-tab .tab-icon     { font-size: 1.25rem; }
+  .role-main-tab .tab-label    { font-size: 0.875rem; }
+  .role-overview-title         { font-size: 1.5rem; }
+  .primary-role-badge          { font-size: 1rem; padding: 10px 20px; }
+  .role-card-stats             { grid-template-columns: 1fr; }
+}

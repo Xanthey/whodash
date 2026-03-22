@@ -1,0 +1,406 @@
+/* ============================================================
+   TANKING — DTPS / Tank Analytics (Blue/Steel Theme)
+   WhoDASH / Belmont Labs — BL-002
+   ============================================================
+   Sources consolidated from style.css:
+     ~9160–9547   Full tanking block — tabs, overview card,
+                  chart cards, encounters table, death analysis,
+                  survivability metrics, section wrapper
+     ~162217–222  .tanking-overview-card stat colour override
+   NOTE: .stat-value, .stat-label, .stat-sublabel,
+   .stat-value-huge scoped under .tanking-overview-card and
+   .tanking-stat to avoid global bleed.
+   @keyframes fadeIn renamed to tankingFadeIn.
+   ============================================================ */
+
+/* ============================================================
+   TAB NAVIGATION
+   ============================================================ */
+
+.tanking-tabs-container {
+  margin-bottom: 32px;
+}
+
+.tanking-tabs {
+  display: flex;
+  gap: 8px;
+  border-bottom: 2px solid #e2e8f0;
+  margin-bottom: 24px;
+}
+
+.tanking-tab {
+  padding: 12px 24px;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  bottom: -2px;
+}
+
+.tanking-tab:hover {
+  color: #3b82f6;
+  background: rgba(59, 130, 246, 0.05);
+}
+
+.tanking-tab.active {
+  color: #3b82f6;
+  border-bottom-color: #3b82f6;
+  background: rgba(59, 130, 246, 0.05);
+}
+
+.tanking-tab-content {
+  position: relative;
+}
+
+.tanking-tab-pane {
+  display: none;
+}
+
+.tanking-tab-pane.active {
+  display: block;
+  animation: tankingFadeIn 0.3s ease-in;
+}
+
+@keyframes tankingFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   OVERVIEW CARD
+   ============================================================ */
+
+.tanking-overview-card {
+  background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.tanking-title {
+  color: #f1f5f9;
+  font-size: 1.75rem;
+  margin: 0 0 24px 0;
+  font-weight: 600;
+}
+
+.tanking-stats-grid {
+  display: grid;
+  grid-template-columns: 2fr repeat(2, 1fr);
+  gap: 24px;
+}
+
+.tanking-stat-main {
+  grid-column: span 1;
+  text-align: center;
+  padding: 24px;
+  background: rgba(59, 130, 246, 0.2);
+  border-radius: 12px;
+  border: 2px solid rgba(59, 130, 246, 0.4);
+}
+
+.tanking-stat {
+  text-align: center;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}
+
+/* Stat atoms — scoped to the dark overview card */
+.tanking-overview-card .stat-value,
+.tanking-stat .stat-value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #f1f5f9;
+  margin: 8px 0;
+}
+
+.tanking-overview-card .stat-value.highlight {
+  color: #fbbf24;
+}
+
+.tanking-overview-card .stat-label,
+.tanking-stat .stat-label {
+  font-size: 0.875rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}
+
+.tanking-overview-card .stat-sublabel,
+.tanking-stat .stat-sublabel {
+  font-size: 0.875rem;
+  color: #cbd5e1;
+  margin-top: 4px;
+}
+
+.tanking-stat-main .stat-value-huge {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #60a5fa;
+  margin: 8px 0;
+  text-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+/* Force white text on dark card */
+.tanking-overview-card .stat-value,
+.tanking-overview-card .stat-label {
+  color: #ffffff !important;
+  text-shadow: none !important;
+}
+
+/* ============================================================
+   CHART CARDS
+   ============================================================ */
+
+.dtps-chart-card,
+.tanking-breakdown-card,
+.dtps-distribution-card,
+.death-analysis-card,
+.survivability-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.dtps-chart-card h3,
+.tanking-breakdown-card h3,
+.dtps-distribution-card h3,
+.death-analysis-card h3,
+.survivability-card h3 {
+  margin: 0 0 20px 0;
+  color: #1e293b;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.dtps-canvas,
+.tanking-breakdown-card canvas,
+.dtps-distribution-card canvas {
+  display: block;
+  margin: 20px auto;
+}
+
+/* ============================================================
+   ENCOUNTERS TABLE
+   ============================================================ */
+
+.tanking-table-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.tanking-table-card h3 {
+  margin: 0 0 20px 0;
+  color: #1e293b;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.tanking-table-controls {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.tanking-encounters-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.tanking-encounters-table thead { background: #f8fafc; }
+
+.tanking-encounters-table th {
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  color: #475569;
+  border-bottom: 2px solid #e2e8f0;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.2s;
+}
+
+.tanking-encounters-table th:hover  { background: #f1f5f9; }
+.tanking-encounters-table th.sorted { background: #dbeafe; color: #3b82f6; }
+
+.tanking-encounters-table tbody tr {
+  border-bottom: 1px solid #f1f5f9;
+  transition: background-color 0.2s;
+}
+
+.tanking-encounters-table tbody tr:hover { background: #f8fafc; }
+
+.tanking-encounters-table td {
+  padding: 12px 16px;
+  color: #334155;
+}
+
+.dtps-value           { font-weight: 600; color: #64748b; }
+.dtps-value.high-dtps { color: #3b82f6; }
+.high-dtps            { color: #3b82f6; }
+
+.outcome          { font-weight: 600; }
+.outcome.survived { color: #10b981; }
+.outcome.died     { color: #ef4444; }
+
+/* ============================================================
+   DEATH ANALYSIS
+   ============================================================ */
+
+.death-analysis-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+.death-section h4 {
+  margin: 0 0 16px 0;
+  color: #475569;
+  font-size: 1rem;
+}
+
+.killer-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.killer-item {
+  padding: 12px;
+  background: #fef2f2;
+  border-radius: 8px;
+  border-left: 4px solid #ef4444;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.killer-label {
+  font-weight: 600;
+  color: #991b1b;
+  text-transform: capitalize;
+}
+
+.killer-count {
+  margin-left: auto;
+  color: #dc2626;
+  font-weight: 700;
+}
+
+.hotspot-table,
+.recent-deaths-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.hotspot-table thead,
+.recent-deaths-table thead { background: #fef2f2; }
+
+.hotspot-table th,
+.recent-deaths-table th {
+  padding: 8px 12px;
+  text-align: left;
+  font-weight: 600;
+  color: #991b1b;
+}
+
+.hotspot-table td,
+.recent-deaths-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.death-count-cell {
+  color: #dc2626;
+  font-weight: 700;
+}
+
+/* ============================================================
+   SURVIVABILITY METRICS
+   ============================================================ */
+
+.survivability-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.surv-section h4 {
+  margin: 0 0 16px 0;
+  color: #475569;
+  font-size: 1rem;
+}
+
+.surv-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.surv-item {
+  padding: 12px;
+  background: #f0fdf4;
+  border-radius: 8px;
+  border-left: 4px solid #10b981;
+  transition: all 0.2s;
+}
+
+.surv-item.dangerous           { background: #fef2f2; border-left-color: #ef4444; }
+.surv-item:hover               { background: #dcfce7; }
+.surv-item.dangerous:hover     { background: #fee2e2; }
+
+.surv-target {
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 4px;
+}
+
+.surv-stats {
+  display: flex;
+  gap: 12px;
+  font-size: 0.875rem;
+  flex-wrap: wrap;
+}
+
+.surv-dtps     { color: #3b82f6; font-weight: 600; }
+.surv-duration { color: #10b981; font-weight: 600; }
+.surv-duration.negative { color: #ef4444; }
+.surv-damage   { color: #64748b; }
+.surv-zone     { color: #94a3b8; }
+.surv-date     { color: #94a3b8; margin-left: auto; }
+
+/* ============================================================
+   SECTION WRAPPER
+   ============================================================ */
+
+.tanking-section {
+  margin-bottom: 48px;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 968px) {
+  .survivability-container { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  .tanking-stats-grid { grid-template-columns: 1fr; }
+}

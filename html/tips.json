@@ -1,0 +1,190 @@
+[
+    {
+        "level_range": "1-10",
+        "alliance_zones": [
+            "Elwynn Forest (Humans)",
+            "Dun Morogh (Dwarves/Gnomes)",
+            "Teldrassil (Night Elves)",
+            "Azuremyst Isle (Draenei)"
+        ],
+        "horde_zones": [
+            "Durotar (Orcs/Trolls)",
+            "Mulgore (Tauren)",
+            "Tirisfal Glades (Undead)",
+            "Eversong Woods (Blood Elves)"
+        ],
+        "notes": [
+            "Learn your class abilities from trainers every 2 levels.",
+            "Pick up two gathering professions early for easy gold (Skinning + Herbalism or Mining).",
+            "Start collecting Linen Cloth to level First Aid.",
+            "Collect any gear with Stamina or your primary stat (Strength, Agility, or Intellect)."
+        ]
+    },
+    {
+        "level_range": "10-20",
+        "alliance_zones": [
+            "Westfall",
+            "Loch Modan",
+            "Darkshore",
+            "Bloodmyst Isle"
+        ],
+        "horde_zones": [
+            "The Barrens",
+            "Silverpine Forest",
+            "Ghostlands"
+        ],
+        "notes": [
+            "Level 10: Choose your first talent specialization point.",
+            "Save gold for your first mount at level 20 (requires 4g + 1g for Apprentice Riding).",
+            "Consider joining a guild for social benefits and leveling assistance.",
+            "Visit your class trainer every 2 levels\u2014don't skip abilities!",
+            "Keep First Aid maxed for your level using Linen and Wool Cloth."
+        ]
+    },
+    {
+        "level_range": "20-30",
+        "alliance_zones": [
+            "Redridge Mountains",
+            "Duskwood",
+            "Wetlands",
+            "Ashenvale"
+        ],
+        "horde_zones": [
+            "Stonetalon Mountains",
+            "Hillsbrad Foothills",
+            "Ashenvale",
+            "Thousand Needles"
+        ],
+        "notes": [
+            "Level 20: Purchase Apprentice Riding and your first mount (60% speed).",
+            "Dungeon: Shadowfang Keep (Alliance) or Deadmines (Horde) for gear upgrades.",
+            "Keep your professions maxed for your level\u2014gathering professions earn good gold.",
+            "Start collecting Silk Cloth for mid-level First Aid bandages.",
+            "Consider picking up a crafting profession if you have enough gold."
+        ]
+    },
+    {
+        "level_range": "30-40",
+        "shared_zones": [
+            "Stranglethorn Vale",
+            "Arathi Highlands",
+            "Desolace",
+            "Dustwallow Marsh"
+        ],
+        "notes": [
+            "Dungeon: Scarlet Monastery (all wings) for excellent XP and gear.",
+            "Level 30: Paladin and Warlock class mounts become available via quest.",
+            "Save gold for level 40 mount upgrade (requires ~50g total).",
+            "Keep Silk and Mageweave Cloth for First Aid\u2014very useful at this level.",
+            "Stranglethorn Vale: Do the Green Hills of Stranglethorn pages quest for a big XP boost."
+        ]
+    },
+    {
+        "level_range": "40-50",
+        "shared_zones": [
+            "Tanaris",
+            "Feralas",
+            "The Hinterlands",
+            "Searing Gorge",
+            "Blasted Lands"
+        ],
+        "notes": [
+            "Level 40: Purchase Journeyman Riding (100% ground mount speed) for ~50g.",
+            "Dungeons: Zul'Farrak (Tanaris), Uldaman, and Maraudon for gear and XP.",
+            "Start collecting Mageweave and Runecloth for high-level First Aid.",
+            "Level 40+: Many class quests unlock\u2014check your trainer for epic abilities.",
+            "Consider running Sunken Temple for the class-specific helm quest."
+        ]
+    },
+    {
+        "level_range": "50-58",
+        "shared_zones": [
+            "Un'Goro Crater",
+            "Felwood",
+            "Burning Steppes",
+            "Western Plaguelands",
+            "Eastern Plaguelands",
+            "Winterspring"
+        ],
+        "notes": [
+            "Dungeons: Blackrock Depths, Stratholme, and Scholomance for pre-raid gear.",
+            "Save gold for Cold Weather Flying training at level 77 (~1,000g).",
+            "Level 50: Druids can learn Flight Form via class quest.",
+            "Max out First Aid with Runecloth bandages\u2014essential for all classes.",
+            "Complete Onyxia attunement questline if you plan to raid at 60."
+        ]
+    },
+    {
+        "level_range": "58-68",
+        "shared_zones": [
+            "Hellfire Peninsula",
+            "Zangarmarsh",
+            "Terokkar Forest",
+            "Nagrand",
+            "Blade's Edge Mountains",
+            "Netherstorm",
+            "Shadowmoon Valley"
+        ],
+        "notes": [
+            "Level 60: Train Expert Riding (150% flying) in Hellfire for ~250g + mount cost.",
+            "Level 62: Do Ring of Blood quest chain in Nagrand for huge XP and weapon.",
+            "Level 64+: Start Nagrand Nesingwary quest line for easy XP.",
+            "Level 68: You can head to Northrend (Borean Tundra or Howling Fjord).",
+            "Reputation: Prioritize Cenarion Expedition (flying mount discount) or your faction's main hub.",
+            "Dungeons: Hellfire Ramparts, Blood Furnace, Slave Pens for quick gear upgrades."
+        ]
+    },
+    {
+        "level_range": "68-77",
+        "shared_zones_by_subrange": {
+            "68-71": [
+                "Borean Tundra",
+                "Howling Fjord"
+            ],
+            "71-74": [
+                "Dragonblight",
+                "Grizzly Hills"
+            ],
+            "74-77": [
+                "Zul'Drak",
+                "Sholazar Basin"
+            ]
+        },
+        "notes": [
+            "Level 68: Train Northrend professions at Valiance Keep (Alliance) or Warsong Hold (Horde).",
+            "Level 70: Train Artisan Riding (280% flying) in Dalaran for ~5,000g.",
+            "Level 77: Train Cold Weather Flying in Dalaran for ~1,000g (required for Storm Peaks/Icecrown).",
+            "Prioritize quest rewards with Hit Rating, Crit, or Attack/Spell Power.",
+            "Dungeons: Utgarde Keep, Nexus, Azjol-Nerub for leveling gear.",
+            "Reputation: Start Kirin Tor (Dalaran) or Wyrmrest Accord reputation for head enchants."
+        ]
+    },
+    {
+        "level_range": "77-80",
+        "shared_zones": [
+            "Storm Peaks",
+            "Icecrown"
+        ],
+        "notes": [
+            "Level 77: Make Dalaran your home\u2014it has portals to all major cities.",
+            "Must-do: Complete the Sons of Hodir questline in Storm Peaks for shoulder enchants.",
+            "Level 78+: Start daily quests for gold and reputation.",
+            "Icecrown: Do Argent Tournament dailies (level 77+) for mounts, pets, and gold.",
+            "Prepare for level 80: Get friendly with your faction's faction for head enchant.",
+            "Dungeons: Heroic 5-mans unlock at 80 for Badge of Heroism farming."
+        ]
+    },
+    {
+        "level_range": "80",
+        "notes": [
+            "Congratulations! You've reached max level!",
+            "Priorities: Max out your professions, especially gathering for gold income.",
+            "Start running Heroic dungeons for Badge of Heroism gear (item level 200+).",
+            "Get friendly with Kirin Tor or Wyrmrest Accord for head enchants.",
+            "Complete Sons of Hodir to Honored for shoulder enchants (essential for raiding).",
+            "Join a raiding guild if interested in Naxxramas, Ulduar, or ICC progression.",
+            "Daily quests: Argent Tournament, Sons of Hodir, and Ebon Blade for gold.",
+            "Consider leveling an alt or farming old-world content for achievements!"
+        ]
+    }
+]

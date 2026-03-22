@@ -1,0 +1,82 @@
+<!-- Updated index.html: Enhanced command palette -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Belmont Labs -WhoDASH</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="/sections/achievements-styles.css">
+<link rel="stylesheet" href="/sections/bank-alt-styles.css">
+<link rel="stylesheet" href="/sections/character-styles.css">
+<link rel="stylesheet" href="/sections/combat-styles.css">
+<link rel="stylesheet" href="/sections/conf-styles.css">
+<link rel="stylesheet" href="/sections/currencies-styles.css">
+<link rel="stylesheet" href="/sections/dashboard-styles.css">
+<link rel="stylesheet" href="/sections/graphs-styles.css">
+<link rel="stylesheet" href="/sections/healing-styles.css">
+<link rel="stylesheet" href="/sections/items-styles.css">
+<link rel="stylesheet" href="/sections/mortality-styles.css">
+<link rel="stylesheet" href="/sections/onboarding-styles.css">
+<link rel="stylesheet" href="/sections/professions-styles.css">
+<link rel="stylesheet" href="/sections/progression-styles.css">
+<link rel="stylesheet" href="/sections/quests-styles.css">
+<link rel="stylesheet" href="/sections/reputation-styles.css">
+<link rel="stylesheet" href="/sections/role-styles.css">
+<link rel="stylesheet" href="/sections/social-styles.css">
+<link rel="stylesheet" href="/sections/summary-styles.css">
+<link rel="stylesheet" href="/sections/tanking-styles.css">
+<link rel="stylesheet" href="/sections/travel-log-styles.css">
+<link rel="icon" type="image/svg+xml" href="beaker-bold.svg">
+</head>
+
+<body>
+  <div class="topbar">
+    <div class="charselect-wrapper">
+      <button id="charselectTrigger" class="charselect-trigger" aria-haspopup="true" aria-expanded="false">
+        <span class="charselect-icon">🧙</span>
+        <span id="charselectLabel" class="charselect-label">Select Character</span>
+        <span class="charselect-caret">▾</span>
+      </button>
+      <div id="charselectMenu" class="charselect-menu hidden" role="menu" aria-label="Characters"></div>
+    </div>
+
+    <!-- Enhanced search command palette -->
+    <div class="searchbar-wrapper">
+      <input id="sectionSearch" type="text" placeholder="Command Palette & Search (Ctrl+/)">
+      <div id="sectionDropdown" class="dropdown hidden"></div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div id="sectionContent" class="tab-content"></div>
+  </div>
+  <!-- Core SPA -->
+  <script src="/sections/conf.js" defer></script>
+  <script src="/tooltip-engine.js" defer></script>
+  <script type="module" src="/main.js"></script>
+  <!-- Sections (load at page start so each can self-initialize on fragment inject) -->
+  <script type="module" src="/sections/travel-log.js"></script>
+  <script type="module" src="/sections/items.js"></script>
+  <script type="module" src="/sections/achievements.js"></script>
+  <script type="module" src="/sections/professions.js"></script>
+  <script type="module" src="/sections/bazaar.js"></script>
+  <script src="/sections/summary.js" defer></script>
+  <script src="/sections/dashboard.js" defer></script>
+  <script src="/sections/currencies.js" defer></script>
+  <script src="/sections/progression.js" defer></script>
+  <script src="/sections/quests.js" defer></script>
+  <script src="/sections/onboarding.js" defer></script>
+  <script src="/sections/mortality.js"></script>
+  <script src="/sections/combat.js"></script>
+  <script src="/sections/healing.js"></script>
+  <script src="/sections/tanking.js"></script>
+  <script src="/sections/role.js"></script>
+  <script src="/sections/graphs.js"></script>
+  <script src="/sections/reputation.js"></script>
+  <script src="/sections/social.js"></script>
+  <script src="/sections/guild-hall.js"></script>
+  <script src="/sections/character.js"></script>
+</body>
+
+</html>

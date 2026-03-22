@@ -1,0 +1,834 @@
+/* ============================================================
+   BANK ALT PUBLIC PROFILE — STONE CITADEL / DARK PORTAL THEME
+   ============================================================ */
+
+/* ============================================================
+   VARIABLES
+   ============================================================ */
+:root {
+  --stone-bg: #1c1a17;
+  --stone-surface: #2a2720;
+  --stone-panel: #332f28;
+  --stone-panel-dark: #201e18;
+  --stone-border: #5a5245;
+  --stone-border-hi: #7a6e62;
+  --stone-text: #d4cfc5;
+  --stone-text-dim: #8a8278;
+  --stone-text-hi: #f0ebe0;
+  --stone-rune: #c8b98a;
+
+  /* Glow accent — default blue; JS will shift hue via filter */
+  --glow-color: #3a9fff;
+  --glow-rgb: 58, 159, 255;
+  --glow-soft: rgba(58, 159, 255, 0.18);
+  --glow-mid: rgba(58, 159, 255, 0.45);
+  --glow-hard: rgba(58, 159, 255, 0.9);
+
+  /* Vortex colors for the background */
+  --vortex-hue: 200;
+  /* starts blue */
+}
+
+/* ============================================================
+   RESET / BASE FOR BANK ALT PAGE
+   ============================================================ */
+.bankalt-root *,
+.bankalt-root *::before,
+.bankalt-root *::after {
+  box-sizing: border-box;
+}
+
+.bankalt-root {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  color: var(--stone-text);
+  background: transparent;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* ============================================================
+   DARK PORTAL BACKGROUND
+   Uses multiple layers at different animation speeds to create
+   depth.  Hue rotation is driven by a CSS animation on :root
+   (or a wrapper class toggled by JS).
+   ============================================================ */
+
+/* Full-page vortex canvas lives behind everything */
+.bankalt-vortex-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  /* Match the darkest gradient point so corners have no visible jump */
+  background: #04040a;
+}
+
+/* ---- Layer 1: deep base gradient — static, hue color-shifts via JS ---- */
+.bankalt-vortex-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 100% 100% at 50% 50%,
+      hsl(var(--vortex-hue), 65%, 13%) 0%,
+      hsl(var(--vortex-hue), 58%, 10%) 15%,
+      hsl(var(--vortex-hue), 50%, 7%) 30%,
+      hsl(var(--vortex-hue), 40%, 5%) 50%,
+      hsl(var(--vortex-hue), 25%, 3%) 70%,
+      #04040a 90%,
+      #04040a 100%);
+}
+
+/* ---- Layer 2: static light/dark cloud patches — no rotation ---- */
+.bankalt-vortex-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 55% 40% at 68% 38%,
+      hsla(var(--vortex-hue), 80%, 18%, 0.30) 0%,
+      transparent 70%),
+    radial-gradient(ellipse 50% 55% at 32% 64%,
+      hsla(calc(var(--vortex-hue) + 30), 70%, 15%, 0.26) 0%,
+      transparent 70%),
+    radial-gradient(ellipse 40% 60% at 75% 70%,
+      hsla(calc(var(--vortex-hue) - 25), 75%, 13%, 0.22) 0%,
+      transparent 68%),
+    radial-gradient(ellipse 45% 35% at 25% 30%,
+      hsla(calc(var(--vortex-hue) + 15), 65%, 16%, 0.20) 0%,
+      transparent 68%),
+    radial-gradient(ellipse 30% 30% at 50% 50%,
+      hsla(var(--vortex-hue), 55%, 20%, 0.18) 0%,
+      transparent 75%);
+}
+
+/* ---- Dust particle layer — SVG filter trick for cheap particles ---- */
+.bankalt-dust {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bankalt-dust-inner {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 20% 30%, rgba(255, 255, 255, 0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 15%, rgba(255, 255, 255, 0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 45% 65%, rgba(255, 255, 255, 0.35) 0%, transparent 100%),
+    radial-gradient(1px 1px at 80% 55%, rgba(255, 255, 255, 0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 10% 80%, rgba(255, 255, 255, 0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 60% 90%, rgba(255, 255, 255, 0.35) 0%, transparent 100%),
+    radial-gradient(1px 1px at 35% 5%, rgba(255, 255, 255, 0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 90% 40%, rgba(255, 255, 255, 0.3) 0%, transparent 100%),
+    radial-gradient(2px 2px at 55% 25%, rgba(255, 255, 255, 0.45) 0%, transparent 100%),
+    radial-gradient(1px 1px at 25% 50%, rgba(255, 255, 255, 0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 75% 75%, rgba(255, 255, 255, 0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 50% 45%, rgba(255, 255, 255, 0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 15% 60%, rgba(255, 255, 255, 0.35) 0%, transparent 100%),
+    radial-gradient(1px 1px at 85% 20%, rgba(255, 255, 255, 0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 40% 85%, rgba(255, 255, 255, 0.3) 0%, transparent 100%);
+  background-size: 100% 100%;
+  /* No rotation animation — static dust field */
+}
+
+/* ---- Glint sparks layer — replaced by canvas in public_bank_alt.php ---- */
+.bankalt-glints {
+  display: none;
+  /* DOM glints replaced by canvas-based spiral sparks */
+}
+
+.bankalt-glint {
+  display: none;
+}
+
+/* nth-child glint rules removed — replaced by canvas spiral sparks */
+
+/* ---- Canvas spiral spark layer ---- */
+#bankalt-sparks-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* vortex-spin-slow, vortex-spin-mid, vortex-spin-dust, glint-flash removed — replaced by static bg + canvas */
+
+/* Hue cycling is driven by JS tickHue() — no CSS animation needed on :root */
+
+/* ============================================================
+   CONTENT LAYER (above the vortex)
+   ============================================================ */
+.bankalt-content {
+  position: relative;
+  z-index: 10;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 20px 60px;
+}
+
+/* ============================================================
+   STONE PANEL BASE
+   ============================================================ */
+.stone-panel {
+  background: linear-gradient(160deg,
+      var(--stone-panel) 0%,
+      var(--stone-panel-dark) 100%);
+  border: 1px solid var(--stone-border);
+  border-radius: 6px;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 4px 24px rgba(0, 0, 0, 0.6);
+  position: relative;
+}
+
+/* Subtle engraved top edge */
+.stone-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 6px;
+  right: 6px;
+  height: 1px;
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.12) 30%,
+      rgba(255, 255, 255, 0.12) 70%,
+      transparent);
+}
+
+/* ---- Glowing border variant ---- */
+.stone-panel-glow {
+  border-color: var(--glow-color);
+  box-shadow:
+    0 0 0 1px rgba(var(--glow-rgb), 0.3),
+    0 0 12px rgba(var(--glow-rgb), 0.25),
+    0 0 24px rgba(var(--glow-rgb), 0.12),
+    inset 0 0 8px rgba(var(--glow-rgb), 0.06),
+    0 4px 24px rgba(0, 0, 0, 0.7);
+}
+
+/* ============================================================
+   STONE BUTTONS
+   ============================================================ */
+.stone-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  background: linear-gradient(160deg, #3c3830 0%, #252320 100%);
+  border: 1px solid var(--stone-border);
+  border-radius: 4px;
+  color: var(--stone-text);
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.stone-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center,
+      rgba(var(--glow-rgb), 0) 0%,
+      rgba(var(--glow-rgb), 0) 100%);
+  transition: background 0.2s ease;
+}
+
+.stone-btn:hover {
+  border-color: var(--glow-color);
+  color: var(--stone-text-hi);
+  box-shadow:
+    0 0 8px rgba(var(--glow-rgb), 0.4),
+    0 0 16px rgba(var(--glow-rgb), 0.2),
+    inset 0 0 6px rgba(var(--glow-rgb), 0.08);
+}
+
+.stone-btn:hover::after {
+  background: radial-gradient(ellipse at center,
+      rgba(var(--glow-rgb), 0.12) 0%,
+      rgba(var(--glow-rgb), 0) 70%);
+}
+
+.stone-btn.active,
+.stone-btn[aria-selected="true"] {
+  background: linear-gradient(160deg,
+      rgba(var(--glow-rgb), 0.2) 0%,
+      rgba(var(--glow-rgb), 0.08) 100%);
+  border-color: var(--glow-color);
+  color: #fff;
+  box-shadow:
+    0 0 10px rgba(var(--glow-rgb), 0.6),
+    0 0 22px rgba(var(--glow-rgb), 0.3),
+    inset 0 0 8px rgba(var(--glow-rgb), 0.15);
+  text-shadow: 0 0 8px rgba(var(--glow-rgb), 0.9);
+}
+
+/* ============================================================
+   HEADER SECTION
+   ============================================================ */
+.bankalt-header {
+  margin-bottom: 24px;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+/* Hero image / banner area (16:9) */
+.bankalt-hero-image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(160deg,
+      #3a3a3d 0%,
+      #2a2a2e 30%,
+      #1e1e21 60%,
+      #141416 100%);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--stone-border);
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Subtle vignette so the banner edges blend into the stone frame */
+.bankalt-hero-image::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 90% 90% at 50% 50%,
+      transparent 50%,
+      rgba(0, 0, 0, 0.55) 100%);
+  pointer-events: none;
+  animation: none;
+}
+
+.bankalt-hero-placeholder {
+  font-size: 1rem;
+  color: rgba(var(--glow-rgb), 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 600;
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 0 12px rgba(var(--glow-rgb), 0.6);
+  border: 1px dashed rgba(var(--glow-rgb), 0.2);
+  padding: 10px 24px;
+  border-radius: 4px;
+}
+
+/* Character name bar below hero */
+.bankalt-namebar {
+  padding: 20px 28px;
+  background: linear-gradient(to right,
+      var(--stone-panel-dark),
+      var(--stone-panel),
+      var(--stone-panel-dark));
+  border: 1px solid var(--stone-border);
+  border-top: 2px solid var(--glow-color);
+  border-radius: 0 0 8px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  box-shadow:
+    0 0 14px rgba(var(--glow-rgb), 0.2),
+    inset 0 1px 0 rgba(var(--glow-rgb), 0.08);
+}
+
+.bankalt-charname {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--stone-text-hi);
+  text-shadow:
+    0 0 10px rgba(var(--glow-rgb), 0.5),
+    0 2px 4px rgba(0, 0, 0, 0.8);
+  margin: 0;
+  letter-spacing: 0.03em;
+}
+
+.bankalt-realm-tag {
+  font-size: 0.85rem;
+  color: var(--stone-text-dim);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--stone-border);
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+/* Bank alt badge */
+.bankalt-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--glow-color);
+  background: rgba(var(--glow-rgb), 0.1);
+  border: 1px solid rgba(var(--glow-rgb), 0.4);
+  border-radius: 20px;
+  padding: 4px 14px;
+  box-shadow:
+    0 0 6px rgba(var(--glow-rgb), 0.3),
+    inset 0 0 4px rgba(var(--glow-rgb), 0.06);
+  text-shadow: 0 0 8px rgba(var(--glow-rgb), 0.7);
+}
+
+/* ============================================================
+   TAB NAV
+   ============================================================ */
+.bankalt-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+/* ============================================================
+   HELLO AZEROTH TAB
+   ============================================================ */
+.bankalt-hello-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 640px) {
+  .bankalt-hello-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .bankalt-hello-wide {
+    grid-column: 1;
+  }
+}
+
+.bankalt-hello-wide {
+  grid-column: 1 / -1;
+}
+
+.bankalt-info-card {
+  padding: 18px 22px;
+}
+
+.bankalt-info-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--stone-text-dim);
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.bankalt-info-value {
+  font-size: 1.05rem;
+  color: var(--stone-text-hi);
+  font-weight: 500;
+}
+
+/* Rune divider */
+.stone-divider {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg,
+      transparent,
+      var(--stone-border-hi) 25%,
+      rgba(var(--glow-rgb), 0.4) 50%,
+      var(--stone-border-hi) 75%,
+      transparent);
+  margin: 20px 0;
+  position: relative;
+}
+
+.stone-divider::after {
+  content: '✦';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--stone-panel);
+  padding: 0 8px;
+  color: rgba(var(--glow-rgb), 0.6);
+  font-size: 0.7rem;
+  text-shadow: 0 0 6px rgba(var(--glow-rgb), 0.8);
+}
+
+/* Section headings */
+.bankalt-section-title {
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--glow-color);
+  font-weight: 700;
+  margin: 0 0 14px 0;
+  text-shadow: 0 0 8px rgba(var(--glow-rgb), 0.5);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bankalt-section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg,
+      rgba(var(--glow-rgb), 0.3),
+      transparent);
+}
+
+/* Mounts grid */
+.bankalt-mounts-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.bankalt-mount-tag {
+  background: rgba(var(--glow-rgb), 0.08);
+  border: 1px solid rgba(var(--glow-rgb), 0.25);
+  border-radius: 4px;
+  padding: 4px 12px;
+  font-size: 0.82rem;
+  color: var(--stone-text);
+  transition: all 0.15s ease;
+}
+
+.bankalt-mount-tag:hover {
+  background: rgba(var(--glow-rgb), 0.16);
+  border-color: rgba(var(--glow-rgb), 0.5);
+  color: var(--stone-text-hi);
+}
+
+/* Online schedule pills */
+.bankalt-schedule {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.bankalt-schedule-pill {
+  padding: 5px 14px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--stone-border);
+  color: var(--stone-text-dim);
+}
+
+.bankalt-schedule-pill.active {
+  background: rgba(var(--glow-rgb), 0.15);
+  border-color: var(--glow-color);
+  color: var(--stone-text-hi);
+  box-shadow: 0 0 6px rgba(var(--glow-rgb), 0.3);
+}
+
+/* ============================================================
+   AUCTION HOUSE TAB
+   ============================================================ */
+.bankalt-ah-stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.bankalt-stat-card {
+  padding: 14px 18px;
+  text-align: center;
+}
+
+.bankalt-stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--stone-text-hi);
+  text-shadow: 0 0 8px rgba(var(--glow-rgb), 0.4);
+}
+
+.bankalt-stat-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--stone-text-dim);
+  margin-top: 3px;
+}
+
+/* Gold formatter colors */
+.gold {
+  color: #ffd700;
+}
+
+.silver {
+  color: #c0c0c0;
+}
+
+.copper {
+  color: #cd7f32;
+}
+
+/* Auctions table */
+.bankalt-table-wrap {
+  overflow-x: auto;
+  border-radius: 6px;
+  border: 1px solid var(--stone-border);
+}
+
+.bankalt-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.bankalt-table thead th {
+  background: var(--stone-panel-dark);
+  color: var(--stone-text-dim);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--stone-border);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.bankalt-table tbody tr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  transition: background 0.15s ease;
+}
+
+.bankalt-table tbody tr:hover {
+  background: rgba(var(--glow-rgb), 0.05);
+}
+
+.bankalt-table tbody td {
+  padding: 10px 14px;
+  color: var(--stone-text);
+  vertical-align: middle;
+}
+
+.bankalt-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.bankalt-item-name {
+  font-weight: 500;
+  color: var(--stone-text-hi);
+}
+
+.bankalt-duration {
+  font-size: 0.8rem;
+  color: var(--stone-text-dim);
+}
+
+.bankalt-duration.short {
+  color: #f87171;
+}
+
+.bankalt-duration.medium {
+  color: #fbbf24;
+}
+
+.bankalt-duration.long {
+  color: #4ade80;
+}
+
+/* Popular items grid */
+.bankalt-popular-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.bankalt-popular-card {
+  padding: 14px 16px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bankalt-popular-rank {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: rgba(var(--glow-rgb), 0.5);
+  text-shadow: 0 0 8px rgba(var(--glow-rgb), 0.5);
+  min-width: 28px;
+  text-align: center;
+}
+
+.bankalt-popular-info {
+  flex: 1;
+}
+
+.bankalt-popular-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--stone-text-hi);
+  margin-bottom: 2px;
+}
+
+.bankalt-popular-meta {
+  font-size: 0.75rem;
+  color: var(--stone-text-dim);
+}
+
+/* ============================================================
+   COMING SOON PANEL
+   ============================================================ */
+.bankalt-coming-soon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 260px;
+  gap: 16px;
+  text-align: center;
+}
+
+.bankalt-coming-soon-icon {
+  font-size: 3.5rem;
+  filter: drop-shadow(0 0 12px rgba(var(--glow-rgb), 0.5));
+}
+
+.bankalt-coming-soon-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--stone-text-hi);
+  text-shadow: 0 0 10px rgba(var(--glow-rgb), 0.4);
+}
+
+.bankalt-coming-soon-sub {
+  font-size: 0.9rem;
+  color: var(--stone-text-dim);
+  max-width: 320px;
+}
+
+/* Stone rune border decoration for coming soon */
+.bankalt-rune-border {
+  border: 1px dashed rgba(var(--glow-rgb), 0.25);
+  border-radius: 8px;
+  padding: 40px 60px;
+  position: relative;
+}
+
+/* ============================================================
+   EMPTY / LOADING STATES
+   ============================================================ */
+.bankalt-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 40px;
+  color: var(--stone-text-dim);
+  font-size: 0.9rem;
+}
+
+.bankalt-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--stone-border);
+  border-top-color: var(--glow-color);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.bankalt-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--stone-text-dim);
+  font-size: 0.9rem;
+}
+
+/* ============================================================
+   GLOW ACCENT OVERRIDES (changes with --vortex-hue animation)
+   ============================================================ */
+
+/* Each of these just ensures the accent color tracks hue shift */
+.bankalt-root .stone-panel-glow,
+.bankalt-root .stone-btn.active,
+.bankalt-root .bankalt-badge {
+  /* color values use var(--glow-color) which CSS can't easily animate
+     So we rely on JS to inject a custom property update periodically */
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 760px) {
+  .bankalt-charname {
+    font-size: 1.4rem;
+  }
+
+  .bankalt-ah-stats-row {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .bankalt-namebar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .bankalt-content {
+    padding: 12px 12px 40px;
+  }
+
+  .bankalt-tabs {
+    gap: 4px;
+  }
+
+  .stone-btn {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+  }
+}
+.bankalt-hero-image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 8px 8px 0 0;
+  background: #111;
+}
+
+.bankalt-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+}
+
+.bankalt-hero-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--stone-text-dim, #666);
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}

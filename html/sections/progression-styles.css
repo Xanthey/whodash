@@ -1,0 +1,537 @@
+/* ============================================================
+   PROGRESSION — Raid Progress, Boss Kills, Lockouts
+   WhoDASH / Belmont Labs — BL-002
+   ============================================================
+   Sources consolidated from style.css:
+     ~4474–4953  Full progression block — tabs, overview
+                 stat cards, raid progression bars, difficulty
+                 breakdown pie + legend, boss kills table +
+                 filters, lockout cards + history table,
+                 responsive breakpoints.
+   NOTE: .legend-item/color/label/value here are scoped under
+   .pie-legend (column-stack layout) matching role/combat.
+   .difficulty-badge here is a pill variant (border-radius:12px)
+   vs social's rectangular badge — kept as standalone since
+   progression is its primary home.
+   .clear-filters-btn is a shared utility repeated across many
+   sections; progression's copy at ~4223 is used here.
+   Classes used in JS templates with no existing CSS definition
+   (added fresh below): .prog-combat-card, .stat-detail,
+   .boss-kill-row, .has-combat-data, .combat-stats-cell,
+   .combat-indicator, .tooltip-* boss-kill hover tooltip.
+   ============================================================ */
+
+/* ============================================================
+   CONTAINER & TABS
+   ============================================================ */
+
+.prog-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.prog-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  border-bottom: 2px solid #e6eefb;
+  padding-bottom: 0;
+}
+
+.prog-tab {
+  padding: 12px 24px;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: #6e7f9b;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: -2px;
+}
+
+.prog-tab:hover  { color: #2456a5; background: #f7fafc; }
+.prog-tab.active { color: #2456a5; border-bottom-color: #3182ce; background: #eef4ff; }
+
+.prog-tab-content        { display: none; }
+.prog-tab-content.active { display: block; }
+
+.prog-content-wrapper { margin-top: 24px; }
+
+/* ============================================================
+   OVERVIEW — STAT CARDS
+   ============================================================ */
+
+.prog-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.prog-stat-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f7fafc 100%);
+  border: 1px solid #e6eefb;
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(30, 60, 114, 0.06);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.prog-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(30, 60, 114, 0.12);
+}
+
+/* Combat-data variant of the stat card */
+.prog-combat-card {
+  border-color: #bcd0ee;
+}
+
+.prog-combat-card.muted {
+  opacity: 0.6;
+}
+
+.stat-detail {
+  font-size: 0.8rem;
+  color: #6e7f9b;
+  margin-top: 6px;
+}
+
+/* ============================================================
+   RAID PROGRESSION BARS
+   ============================================================ */
+
+.raid-progression-section {
+  background: #fff;
+  border: 1px solid #e6eefb;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(30, 60, 114, 0.06);
+}
+
+.raid-progression-section h3 {
+  margin: 0 0 20px 0;
+  font-size: 1.25rem;
+  color: #2456a5;
+  font-weight: 700;
+}
+
+.raid-card {
+  background: #f7fafc;
+  border: 1px solid #e6eefb;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.raid-card:last-child { margin-bottom: 0; }
+
+.raid-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #2456a5;
+  margin-bottom: 12px;
+}
+
+.raid-difficulty-row {
+  display: grid;
+  grid-template-columns: 120px 1fr 80px;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.raid-difficulty-row:last-child { margin-bottom: 0; }
+
+.diff-name {
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.9rem;
+}
+
+.raid-progress-bar {
+  height: 24px;
+  background: #e6eefb;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+}
+
+.raid-progress-fill {
+  height: 100%;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border-radius: 12px;
+  transition: width 0.5s ease-out;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.raid-progress-text {
+  font-weight: 700;
+  color: #2456a5;
+  font-size: 0.9rem;
+  text-align: right;
+}
+
+/* ============================================================
+   DIFFICULTY BREAKDOWN — PIE + LEGEND
+   ============================================================ */
+
+.difficulty-breakdown-section {
+  background: #fff;
+  border: 1px solid #e6eefb;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(30, 60, 114, 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.difficulty-breakdown-section h3 {
+  margin: 0 0 20px 0;
+  font-size: 1.25rem;
+  color: #2456a5;
+  font-weight: 700;
+  align-self: flex-start;
+}
+
+.difficulty-pie-chart { margin-bottom: 20px; }
+
+.pie-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.pie-legend .legend-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pie-legend .legend-color {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.pie-legend .legend-label { flex: 1; font-weight: 600; color: #374151; }
+.pie-legend .legend-value { color: #6e7f9b; font-weight: 600; }
+
+/* ============================================================
+   BOSS KILLS TAB — FILTERS & TABLE
+   ============================================================ */
+
+.boss-kills-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.boss-kills-header h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #2456a5;
+  font-weight: 700;
+}
+
+.boss-filters {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.boss-search-input,
+.difficulty-filter {
+  padding: 8px 12px;
+  border: 1px solid #d7e3fb;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #374151;
+  background: #fff;
+  transition: border-color 0.2s;
+}
+
+.boss-search-input { min-width: 220px; }
+.difficulty-filter  { min-width: 160px; }
+
+.boss-search-input:focus,
+.difficulty-filter:focus {
+  outline: none;
+  border-color: #2456a5;
+  box-shadow: 0 0 0 3px rgba(36, 86, 165, 0.1);
+}
+
+.clear-filters-btn {
+  padding: 8px 14px;
+  background: #f0f4f8;
+  border: 1px solid #d7e3fb;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #6e7f9b;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.clear-filters-btn:hover {
+  background: #e6eefb;
+  color: #2456a5;
+}
+
+.boss-kills-table-container {
+  max-height: 600px;
+  overflow-y: auto;
+  border: 1px solid #e6eefb;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+.boss-kills-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+.boss-kills-table thead {
+  background: linear-gradient(135deg, #2456a5 0%, #1e4a8f 100%);
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.boss-kills-table th {
+  padding: 14px 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.boss-kills-table tbody tr {
+  border-bottom: 1px solid #e6eefb;
+  transition: background 0.15s;
+}
+
+.boss-kills-table tbody tr:hover { background: #f7fafc; }
+
+.boss-kills-table td {
+  padding: 12px 16px;
+  color: #374151;
+}
+
+/* Difficulty badge — pill style (progression canonical) */
+.difficulty-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.diff-normal { background: #e0f2fe; color: #0369a1; }
+.diff-heroic { background: #fef3c7; color: #92400e; }
+.diff-mythic { background: #fce7f3; color: #9f1239; }
+
+/* Boss kill row — combat data highlight */
+.boss-kill-row                  { cursor: default; }
+.boss-kill-row.has-combat-data  { cursor: pointer; }
+
+.combat-stats-cell { text-align: center; }
+
+.combat-indicator {
+  display: inline-block;
+  font-size: 1rem;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.boss-kill-row.has-combat-data:hover .combat-indicator { opacity: 1; }
+
+/* Boss kill hover tooltip */
+.tooltip-header {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #2456a5;
+  margin-bottom: 4px;
+}
+
+.tooltip-boss-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1e3a6e;
+  margin-bottom: 2px;
+}
+
+.tooltip-instance {
+  font-size: 0.85rem;
+  color: #6e7f9b;
+  margin-bottom: 8px;
+}
+
+.tooltip-divider {
+  border: none;
+  border-top: 1px solid #e6eefb;
+  margin: 8px 0;
+}
+
+.tooltip-stats { display: flex; flex-direction: column; gap: 6px; }
+
+.tooltip-stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  font-size: 0.9rem;
+}
+
+.tooltip-label { color: #6e7f9b; }
+.tooltip-value { font-weight: 700; color: #2c3e50; }
+
+.tooltip-footer {
+  margin-top: 10px;
+  font-size: 0.8rem;
+  color: #94a3b8;
+  font-style: italic;
+  text-align: center;
+}
+
+/* ============================================================
+   LOCKOUTS TAB — CARDS & HISTORY TABLE
+   ============================================================ */
+
+.lockouts-section,
+.lockout-history-section {
+  background: #fff;
+  border: 1px solid #e6eefb;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(30, 60, 114, 0.06);
+}
+
+.lockouts-section h3,
+.lockout-history-section h3 {
+  margin: 0 0 20px 0;
+  font-size: 1.25rem;
+  color: #2456a5;
+  font-weight: 700;
+}
+
+.lockouts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.lockout-card {
+  background: #f7fafc;
+  border: 1px solid #e6eefb;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.lockout-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.lockout-instance  { font-weight: 700; color: #2456a5; font-size: 1rem; }
+
+.lockout-difficulty {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #6e7f9b;
+  background: #e6eefb;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.lockout-progress { margin-bottom: 12px; }
+
+.lockout-progress-bar {
+  height: 20px;
+  background: #e6eefb;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.lockout-progress-fill {
+  height: 100%;
+  background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  border-radius: 10px;
+  transition: width 0.5s ease-out;
+}
+
+.lockout-progress-text { font-size: 0.85rem; color: #6e7f9b; font-weight: 600; }
+.lockout-reset         { font-size: 0.9rem; color: #374151; font-weight: 600; }
+
+.extended-badge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 8px;
+  background: #fef3c7;
+  color: #92400e;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* Lockout History Table */
+.lockout-history-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+
+.lockout-history-table thead {
+  background: #f7fafc;
+  border-bottom: 2px solid #e6eefb;
+}
+
+.lockout-history-table th {
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #6e7f9b;
+}
+
+.lockout-history-table tbody tr { border-bottom: 1px solid #f0f4f8; }
+.lockout-history-table tbody tr:hover { background: #f7fafc; }
+
+.lockout-history-table td {
+  padding: 10px 16px;
+  color: #374151;
+  font-size: 0.95rem;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 768px) {
+  .prog-stats-grid  { grid-template-columns: 1fr; }
+  .prog-tabs        { flex-wrap: wrap; }
+  .prog-tab         { flex: 1; min-width: 100px; }
+  .lockouts-grid    { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,140 @@
+/* ============================================================
+   GRAPHS — Timeline Graphs (SVG chart cards)
+   WhoDASH / Belmont Labs — BL-002
+   ============================================================
+   Sources consolidated from sections_graphs.js:
+     ~55–160   Inline <style> injected by renderGraphsLayout()
+               into #tab-graphs via innerHTML.
+   ⚠️  PENDING ACTION: Remove the <style> block injected by
+       renderGraphsLayout() in sections_graphs.js (lines ~54–
+       160) once this file is linked — the innerHTML template
+       string should only contain the HTML, not the <style>.
+   NOTE: .loading-spinner, .error-msg, .no-data-msg are local
+   to the graphs context (colours differ from mortality's
+   version). .whodat-tip is the SVG graph tooltip overlay.
+   ============================================================ */
+
+/* ============================================================
+   CONTAINER & HEADER
+   ============================================================ */
+
+.graphs-container {
+  padding: 20px;
+}
+
+.graphs-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.graphs-header h1 {
+  font-size: 2.5rem;
+  color: #2456a5;
+  margin-bottom: 8px;
+}
+
+.graphs-header p {
+  color: #64748b;
+  font-size: 1.1rem;
+}
+
+/* ============================================================
+   GRAPH GRID & CARDS
+   ============================================================ */
+
+.graphs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.graph-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 16px rgba(49, 130, 206, 0.08);
+  border: 1px solid rgba(49, 130, 206, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.graph-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(49, 130, 206, 0.16);
+}
+
+.graph-card h3 {
+  color: #2456a5;
+  font-size: 1.25rem;
+  margin: 0 0 20px 0;
+  font-weight: 600;
+  text-align: center;
+}
+
+.graph-wrapper {
+  position: relative;
+  height: 200px;
+  margin-top: 12px;
+}
+
+.graph-svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ============================================================
+   STATE MESSAGES
+   ============================================================ */
+
+.graphs-container .loading-spinner {
+  text-align: center;
+  padding: 40px;
+  color: #3182ce;
+}
+
+.error-msg {
+  text-align: center;
+  padding: 40px;
+  color: #ef4444;
+  font-weight: 500;
+}
+
+.no-data-msg {
+  text-align: center;
+  padding: 60px 20px;
+  color: #94a3b8;
+  font-style: italic;
+  font-size: 0.95rem;
+}
+
+/* ============================================================
+   SVG TOOLTIP
+   ============================================================ */
+
+.whodat-tip {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+  white-space: nowrap;
+  z-index: 1000;
+}
+
+.whodat-tip.visible {
+  opacity: 1;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 1024px) {
+  .graphs-grid {
+    grid-template-columns: 1fr;
+  }
+}

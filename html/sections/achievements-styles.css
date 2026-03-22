@@ -1,0 +1,582 @@
+/* ============================================================
+   ACHIEVEMENTS — Achievement & Collection Tracker
+   WhoDASH / Belmont Labs — BL-002
+   ============================================================ */
+
+/* ============================================================
+   LEGACY WIDGET — LATEST ACHIEVEMENTS LIST
+   (used in dashboard/summary widgets)
+   ============================================================ */
+
+/* Latest 5 list */
+.ach-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.ach-item {
+  border: 1px solid #e6eefb;
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: #ffffff;
+}
+
+.ach-item .ach-name {
+  font-weight: 700;
+  color: #2456a5;
+}
+
+.ach-item .ach-meta {
+  margin-top: 4px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.ach-item .ach-desc {
+  margin-top: 6px;
+  color: #334e88;
+}
+
+/* ============================================================
+   CONTAINER & LAYOUT
+   ============================================================ */
+
+.ach-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* ============================================================
+   TAB NAVIGATION
+   ============================================================ */
+
+.ach-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  border-bottom: 2px solid #e6eefb;
+  padding-bottom: 0;
+}
+
+.ach-tab {
+  padding: 12px 24px;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: #6e7f9b;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: -2px;
+}
+
+.ach-tab:hover {
+  color: #2456a5;
+  background: #f7fafc;
+}
+
+.ach-tab.active {
+  color: #2456a5;
+  border-bottom-color: #3182ce;
+  background: #eef4ff;
+}
+
+.ach-tab-content {
+  display: none;
+}
+
+.ach-tab-content.active {
+  display: block;
+}
+
+.ach-content-wrapper {
+  margin-top: 24px;
+}
+
+/* ============================================================
+   OVERVIEW TAB — STATS GRID
+   ============================================================ */
+
+.ach-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.ach-stat-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f7fafc 100%);
+  border: 1px solid #e6eefb;
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(30, 60, 114, 0.06);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.ach-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(30, 60, 114, 0.12);
+}
+
+/* ============================================================
+   OVERVIEW TAB — CATEGORIES
+   ============================================================ */
+
+.category-section,
+.recent-achievements-section,
+.highest-achievements-section {
+  background: #fff;
+  border: 1px solid #e6eefb;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(30, 60, 114, 0.06);
+}
+
+.category-section h3,
+.recent-achievements-section h3,
+.highest-achievements-section h3 {
+  margin: 0 0 20px 0;
+  font-size: 1.25rem;
+  color: #2456a5;
+  font-weight: 700;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
+}
+
+.category-card {
+  background: linear-gradient(135deg, #f7fafc 0%, #eef4ff 100%);
+  border: 1px solid #d7e3fb;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.category-name {
+  font-weight: 700;
+  color: #2456a5;
+  font-size: 1rem;
+  margin-bottom: 12px;
+}
+
+.category-stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #6e7f9b;
+  font-weight: 600;
+}
+
+/* ============================================================
+   OVERVIEW TAB — RECENT ACHIEVEMENTS
+   ============================================================ */
+
+.recent-achievements-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.recent-achievement-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background: #f7fafc;
+  border: 1px solid #e6eefb;
+  border-radius: 8px;
+  gap: 16px;
+}
+
+.achievement-content {
+  flex: 1;
+}
+
+.achievement-name {
+  font-weight: 700;
+  color: #2456a5;
+  margin-bottom: 4px;
+}
+
+.achievement-desc {
+  font-size: 0.85rem;
+  color: #6e7f9b;
+}
+
+.achievement-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.achievement-points {
+  font-weight: 700;
+  color: #f59e0b;
+  font-size: 0.95rem;
+}
+
+.achievement-date {
+  font-size: 0.85rem;
+  color: #9ca3af;
+}
+
+/* ============================================================
+   OVERVIEW TAB — HIGHEST ACHIEVEMENTS TABLE
+   ============================================================ */
+
+.highest-achievements-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.highest-achievements-table thead {
+  background: #f7fafc;
+  border-bottom: 2px solid #e6eefb;
+}
+
+.highest-achievements-table th {
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #6e7f9b;
+}
+
+.highest-achievements-table tbody tr {
+  border-bottom: 1px solid #f0f4f8;
+}
+
+.highest-achievements-table tbody tr:hover {
+  background: #f7fafc;
+}
+
+.highest-achievements-table td {
+  padding: 10px 16px;
+  color: #374151;
+  font-size: 0.95rem;
+}
+
+.points-cell {
+  color: #f59e0b;
+  font-weight: 700;
+}
+
+/* ============================================================
+   COLLECTIONS TAB — MOUNTS & PETS
+   ============================================================ */
+
+.mounts-section,
+.pets-section {
+  background: #fff;
+  border: 1px solid #e6eefb;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(30, 60, 114, 0.06);
+}
+
+.mounts-section h3,
+.pets-section h3 {
+  margin: 0 0 20px 0;
+  font-size: 1.25rem;
+  color: #2456a5;
+  font-weight: 700;
+}
+
+.collection-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.collection-card {
+  background: #f7fafc;
+  border: 1px solid #e6eefb;
+  border-radius: 8px;
+  padding: 12px;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+}
+
+.collection-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(30, 60, 114, 0.12);
+}
+
+.collection-card.active-mount,
+.collection-card.active-pet {
+  border: 2px solid #10b981;
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+}
+
+.collection-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 12px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 8px;
+}
+
+.collection-icon-placeholder {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  background: #e6eefb;
+  border-radius: 8px;
+}
+
+.collection-name {
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.9rem;
+}
+
+.active-badge {
+  margin-top: 8px;
+  padding: 4px 8px;
+  background: #10b981;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+/* ============================================================
+   TIMELINE TAB — SECTION WRAPPERS
+   ============================================================ */
+
+.spam-days-section,
+.monthly-graph-section,
+.timeline-section {
+  background: #fff;
+  border: 1px solid #e6eefb;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(30, 60, 114, 0.06);
+}
+
+.spam-days-section h3,
+.monthly-graph-section h3,
+.timeline-section h3 {
+  margin: 0 0 20px 0;
+  font-size: 1.25rem;
+  color: #2456a5;
+  font-weight: 700;
+}
+
+/* ============================================================
+   TIMELINE TAB — SPAM DAYS
+   ============================================================ */
+
+.spam-days-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.spam-day-card {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 2px solid #fbbf24;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+}
+
+.spam-day-date {
+  font-weight: 700;
+  color: #92400e;
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+.spam-day-stats {
+  font-size: 0.9rem;
+  color: #78350f;
+  font-weight: 600;
+}
+
+.spam-day-count {
+  margin-bottom: 4px;
+}
+
+/* ============================================================
+   TIMELINE TAB — MONTHLY GRAPH
+   ============================================================ */
+
+.monthly-graph-canvas {
+  width: 100%;
+  height: auto;
+  max-width: 1000px;
+  display: block;
+}
+
+/* ============================================================
+   TIMELINE TAB — ACHIEVEMENT TIMELINE
+   ============================================================ */
+
+.timeline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.timeline-search {
+  padding: 8px 12px;
+  border: 1px solid #d7e3fb;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #374151;
+  background: #fff;
+  min-width: 250px;
+  transition: border-color 0.2s;
+}
+
+.timeline-search:focus {
+  outline: none;
+  border-color: #2456a5;
+  box-shadow: 0 0 0 3px rgba(36, 86, 165, 0.1);
+}
+
+.timeline-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.ach-timeline-item {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  background: #f7fafc;
+  border: 1px solid #e6eefb;
+  border-radius: 8px;
+}
+
+.ach-timeline-date {
+  min-width: 120px;
+  font-weight: 600;
+  color: #6e7f9b;
+  font-size: 0.9rem;
+}
+
+.ach-timeline-achievement {
+  flex: 1;
+}
+
+.ach-timeline-name {
+  font-weight: 700;
+  color: #2456a5;
+  margin-bottom: 4px;
+}
+
+.ach-timeline-desc {
+  font-size: 0.85rem;
+  color: #6e7f9b;
+  margin-bottom: 6px;
+}
+
+.ach-timeline-points {
+  font-size: 0.85rem;
+  color: #f59e0b;
+  font-weight: 600;
+}
+
+/* ============================================================
+   TIMELINE ALIASES — sections_achievements.js uses unprefixed
+   .timeline-* class names; these aliases ensure compatibility.
+   ============================================================ */
+
+.timeline-item      { display: flex; gap: 16px; padding: 16px; background: #f7fafc; border: 1px solid #e6eefb; border-radius: 8px; }
+.timeline-date      { min-width: 120px; font-weight: 600; color: #6e7f9b; font-size: 0.9rem; }
+.timeline-achievement { flex: 1; }
+.timeline-name      { font-weight: 700; color: #2456a5; margin-bottom: 4px; }
+.timeline-desc      { font-size: 0.85rem; color: #6e7f9b; margin-bottom: 6px; }
+.timeline-points    { font-size: 0.85rem; color: #f59e0b; font-weight: 600; }
+
+/* ============================================================
+   CONTRAST FIXES
+   ============================================================ */
+
+.achievement-stat-value {
+  color: #1e40af !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.achievement-stat-label {
+  color: #475569 !important;
+  font-weight: 600 !important;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 768px) {
+  .ach-stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ach-tabs {
+    flex-wrap: wrap;
+  }
+
+  .ach-tab {
+    flex: 1;
+    min-width: 100px;
+  }
+
+  .category-grid,
+  .collection-grid,
+  .spam-days-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .recent-achievement-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .achievement-meta {
+    align-items: flex-start;
+  }
+
+  .ach-timeline-item {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .ach-timeline-date {
+    min-width: auto;
+  }
+
+  /* Plain-name aliases responsive */
+  .timeline-item { flex-direction: column; gap: 8px; }
+  .timeline-date { min-width: auto; }
+}

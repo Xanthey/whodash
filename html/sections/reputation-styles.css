@@ -1,0 +1,734 @@
+/* ============================================================
+   REPUTATION — Faction Standing & Journey Tracker
+   WhoDASH / Belmont Labs — BL-002
+   ============================================================ */
+
+/* ============================================================
+   LEGACY WIDGETS — REP BAR (dashboard/summary use)
+   ============================================================ */
+
+/* Reputation vertical bar (animated fill) */
+.rep-vbar {
+  width: 100%;
+  height: 0%;
+  border-radius: 6px;
+  transition: height 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Rainbow-ready reputation row */
+.rep-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 8px 0;
+}
+
+.rep-name {
+  flex: 0 0 240px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #222;
+}
+
+.rep-value {
+  flex: 0 0 auto;
+  min-width: 64px;
+  text-align: right;
+  color: #7a7a7a;
+  font-variant-numeric: tabular-nums;
+}
+
+.rep-bar {
+  flex: 1 1 auto;
+  height: 16px;
+  background: #101314;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.rep-fill {
+  height: 100%;
+  width: 100%;
+  border-radius: inherit;
+}
+
+/* Container animation only */
+.rep-fill-inner {
+  height: 100%;
+  width: 0%;
+  border-radius: inherit;
+  will-change: width;
+}
+
+/* ============================================================
+   ANIMATED REPUTATION CARD (dashboard widget)
+   ============================================================ */
+
+.reputation-card {
+  background: #fff;
+  border: 1px solid #e6eefb;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(30, 60, 114, 0.06);
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.reputation-card h3 {
+  margin: 0 0 16px 0;
+  color: #2456a5;
+  font-size: 1.25rem;
+  position: sticky;
+  top: 0;
+  background: #fff;
+  padding-bottom: 8px;
+  z-index: 1;
+}
+
+.rep-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding: 12px;
+  background: #f7fafc;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #334e88;
+}
+
+.rep-legend .chip {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  margin-right: 6px;
+  vertical-align: middle;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.rep-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Overrides the flex layout above for the grid-based animated list */
+.reputation-card .rep-row {
+  display: grid;
+  grid-template-columns: 150px 1fr 80px;
+  gap: 12px;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.reputation-card .rep-name {
+  color: #2456a5;
+  font-weight: 600;
+  font-size: 0.95rem;
+  flex: unset;
+  white-space: unset;
+}
+
+.reputation-card .rep-bar {
+  position: relative;
+  height: 22px;
+  background: #eef4ff;
+  border-radius: 11px;
+  border: 1px solid #d7e3fb;
+  overflow: hidden;
+  flex: unset;
+}
+
+.reputation-card .rep-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  border-radius: 11px;
+  transition: width 0.5s ease-out;
+}
+
+.reputation-card .rep-value {
+  text-align: right;
+  color: #334e88;
+  font-weight: 600;
+  font-size: 0.9rem;
+  flex: unset;
+  min-width: unset;
+}
+
+@media (max-width: 700px) {
+  .reputation-card .rep-row {
+    grid-template-columns: 100%;
+    gap: 6px;
+  }
+
+  .reputation-card .rep-value {
+    text-align: left;
+    font-size: 0.85rem;
+  }
+}
+
+/* ============================================================
+   TAB NAVIGATION
+   ============================================================ */
+
+.reputation-tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 0;
+}
+
+.reputation-tab {
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  padding: 14px 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #666;
+  transition: all 0.2s ease;
+  position: relative;
+  bottom: -2px;
+}
+
+.reputation-tab:hover {
+  color: #3b82f6;
+  background: rgba(59, 130, 246, 0.05);
+}
+
+.reputation-tab.active {
+  color: #3b82f6;
+  border-bottom-color: #3b82f6;
+  background: rgba(59, 130, 246, 0.08);
+}
+
+.reputation-tab .tab-icon {
+  font-size: 1.3rem;
+}
+
+.reputation-pane {
+  display: none;
+  animation: repFadeIn 0.3s ease-in;
+}
+
+.reputation-pane.active {
+  display: block;
+}
+
+@keyframes repFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================================
+   JOURNEY TAB — CONTAINER & HEADER
+   ============================================================ */
+
+.reputation-journey-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.journey-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.journey-title h2 {
+  font-size: 2.5rem;
+  margin: 0 0 12px 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.journey-title p {
+  font-size: 1.1rem;
+  color: #666;
+  margin: 0;
+}
+
+/* ============================================================
+   JOURNEY TAB — STATS GRID
+   Note: .stat-icon / .stat-value / .stat-label / .stat-sublabel
+   are scoped here to avoid collision with travel-log / achievements
+   versions which share those generic names.
+   ============================================================ */
+
+.reputation-journey-container .stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-bottom: 50px;
+}
+
+.reputation-journey-container .stat-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 2px solid #f0f0f0;
+  transition: all 0.3s ease;
+}
+
+.reputation-journey-container .stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.reputation-journey-container .stat-card.exalted { border-color: #FF00FF; }
+.reputation-journey-container .stat-card.revered { border-color: #00FFCC; }
+.reputation-journey-container .stat-card.honored { border-color: #00FF88; }
+.reputation-journey-container .stat-card.friendly { border-color: #00FF00; }
+
+.reputation-journey-container .stat-icon {
+  font-size: 3rem;
+  opacity: 0.9;
+}
+
+.reputation-journey-container .stat-content {
+  flex: 1;
+}
+
+.reputation-journey-container .stat-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 6px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.reputation-journey-container .stat-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.reputation-journey-container .stat-sublabel {
+  font-size: 0.85rem;
+  color: #999;
+}
+
+/* ============================================================
+   JOURNEY TAB — DISTRIBUTION (DONUT CHART)
+   ============================================================ */
+
+.distribution-section {
+  background: white;
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 50px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.distribution-section h3 {
+  font-size: 1.8rem;
+  margin: 0 0 30px 0;
+  color: #333;
+}
+
+.distribution-container {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 40px;
+  align-items: center;
+}
+
+.donut-chart {
+  width: 250px;
+  height: 250px;
+  position: relative;
+  margin: 0 auto;
+}
+
+.donut-segments {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, transparent 0deg, transparent 360deg);
+  position: relative;
+}
+
+.donut-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  background: white;
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 20px white;
+}
+
+.donut-total {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.donut-label {
+  font-size: 0.9rem;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.distribution-legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.reputation-journey-container .legend-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.reputation-journey-container .legend-color {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.legend-text {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+}
+
+.legend-name {
+  font-weight: 600;
+  color: #333;
+}
+
+.legend-count {
+  font-weight: 700;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+/* ============================================================
+   JOURNEY TAB — TOP FACTIONS
+   ============================================================ */
+
+.top-factions-section {
+  background: white;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.top-factions-section h3 {
+  font-size: 1.8rem;
+  margin: 0 0 30px 0;
+  color: #333;
+}
+
+.top-factions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.top-faction-card {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 12px;
+  padding: 20px;
+  border: 2px solid #dee2e6;
+  transition: all 0.3s ease;
+}
+
+.top-faction-card.exalted {
+  background: linear-gradient(135deg, #fff5f8 0%, #ffe5f1 100%);
+  border-color: #FF00FF;
+}
+
+.top-faction-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.faction-header {
+  margin-bottom: 16px;
+}
+
+.faction-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 6px;
+}
+
+.faction-standing {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.faction-progress-bar {
+  height: 10px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.6s ease;
+}
+
+.faction-progress-text {
+  font-size: 0.85rem;
+  color: #666;
+  text-align: center;
+}
+
+/* ============================================================
+   FACTIONS TAB — CONTAINER & HEADER
+   ============================================================ */
+
+.factions-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.factions-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.factions-header h3 {
+  font-size: 1.8rem;
+  margin: 0;
+  color: #333;
+}
+
+.factions-filters {
+  display: flex;
+  gap: 10px;
+}
+
+.reputation-tab-filter.filter-btn,
+.factions-filters .filter-btn {
+  padding: 10px 20px;
+  border: 2px solid #e0e0e0;
+  background: white;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.reputation-tab-filter.filter-btn:hover,
+.factions-filters .filter-btn:hover {
+  border-color: #3b82f6;
+  color: #3b82f6;
+}
+
+.reputation-tab-filter.filter-btn.active,
+.factions-filters .filter-btn.active {
+  background: #3b82f6;
+  border-color: #3b82f6;
+  color: white;
+}
+
+/* ============================================================
+   FACTIONS TAB — FACTION CARDS
+   ============================================================ */
+
+.factions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.faction-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 2px solid #f0f0f0;
+  transition: all 0.3s ease;
+}
+
+/* Visual separator for the first faction with no recent changes */
+.faction-card.first-static-faction {
+  margin-top: 32px;
+  position: relative;
+}
+
+.faction-card.first-static-faction::before {
+  content: '';
+  position: absolute;
+  top: -16px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(to right, transparent, #e2e8f0 20%, #e2e8f0 80%, transparent);
+}
+
+.faction-card:hover {
+  transform: translateX(4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.faction-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.faction-info {
+  flex: 1;
+}
+
+.faction-card .faction-name {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.faction-standing-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 6px;
+  color: white;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.faction-trend {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.trend-up {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.trend-down {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.trend-stable {
+  background: #f5f5f5;
+  color: #666;
+}
+
+.faction-progress {
+  margin-top: 16px;
+}
+
+.progress-bar-container {
+  height: 12px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 12px;
+  transition: width 0.6s ease;
+}
+
+.progress-stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.standing-change-alert {
+  margin-top: 12px;
+  padding: 10px 16px;
+  background: #fff3e0;
+  border-left: 4px solid #ff9800;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #e65100;
+  font-weight: 600;
+}
+
+/* ============================================================
+   EMPTY STATE
+   ============================================================ */
+
+#tab-reputation .no-data {
+  text-align: center;
+  padding: 60px 20px;
+  color: #999;
+  font-size: 1.1rem;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 768px) {
+  .distribution-container {
+    grid-template-columns: 1fr;
+  }
+
+  .reputation-journey-container .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .factions-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .top-factions-grid {
+    grid-template-columns: 1fr;
+  }
+}

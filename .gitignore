@@ -1,0 +1,14 @@
+# Environment / secrets
+.env
+*.env
+
+# Docker runtime
+*.log
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+*.swp

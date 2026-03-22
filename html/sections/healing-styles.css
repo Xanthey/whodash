@@ -1,0 +1,431 @@
+/* ============================================================
+   HEALING — HPS / Healer Analytics (Green Theme)
+   WhoDASH / Belmont Labs — BL-002
+   ============================================================
+   Sources consolidated from style.css:
+     ~8778–9159   Full healing block — tabs, overview card,
+                  chart cards, encounters table, overheal
+                  analysis, efficiency metrics
+     ~162224–229  .healing-overview-card stat colour override
+   NOTE: .stat-value, .stat-label, .stat-sublabel,
+   .stat-value-huge are scoped inside .healing-overview-card
+   and .healing-stat to avoid global bleed.
+   .hps-canvas responsive override also folded in from ~162232.
+   ============================================================ */
+
+/* ============================================================
+   TAB NAVIGATION
+   ============================================================ */
+
+.healing-tabs-container {
+  margin-bottom: 32px;
+}
+
+.healing-tabs {
+  display: flex;
+  gap: 8px;
+  border-bottom: 2px solid #e2e8f0;
+  margin-bottom: 24px;
+}
+
+.healing-tab {
+  padding: 12px 24px;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  bottom: -2px;
+}
+
+.healing-tab:hover {
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.05);
+}
+
+.healing-tab.active {
+  color: #10b981;
+  border-bottom-color: #10b981;
+  background: rgba(16, 185, 129, 0.05);
+}
+
+.healing-tab-content {
+  position: relative;
+}
+
+.healing-tab-pane {
+  display: none;
+}
+
+.healing-tab-pane.active {
+  display: block;
+  animation: healingFadeIn 0.3s ease-in;
+}
+
+@keyframes healingFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   OVERVIEW CARD
+   ============================================================ */
+
+.healing-overview-card {
+  background: linear-gradient(135deg, #064e3b 0%, #022c22 100%);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.healing-title {
+  color: #f1f5f9;
+  font-size: 1.75rem;
+  margin: 0 0 24px 0;
+  font-weight: 600;
+}
+
+.healing-stats-grid {
+  display: grid;
+  grid-template-columns: 2fr repeat(2, 1fr);
+  gap: 24px;
+}
+
+.healing-stat-main {
+  grid-column: span 1;
+  text-align: center;
+  padding: 24px;
+  background: rgba(16, 185, 129, 0.2);
+  border-radius: 12px;
+  border: 2px solid rgba(16, 185, 129, 0.4);
+}
+
+.healing-stat {
+  text-align: center;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}
+
+/* Stat atoms — scoped to the dark overview card */
+.healing-overview-card .stat-value,
+.healing-stat .stat-value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #f1f5f9;
+  margin: 8px 0;
+}
+
+.healing-overview-card .stat-value.highlight {
+  color: #fbbf24;
+}
+
+.healing-overview-card .stat-label,
+.healing-stat .stat-label {
+  font-size: 0.875rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}
+
+.healing-overview-card .stat-sublabel,
+.healing-stat .stat-sublabel {
+  font-size: 0.875rem;
+  color: #cbd5e1;
+  margin-top: 4px;
+}
+
+.healing-stat-main .stat-value-huge {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #10b981;
+  margin: 8px 0;
+  text-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+/* Force white text on dark card */
+.healing-overview-card .stat-value,
+.healing-overview-card .stat-label {
+  color: #ffffff !important;
+  text-shadow: none !important;
+}
+
+/* ============================================================
+   CHART CARDS
+   ============================================================ */
+
+.hps-chart-card,
+.healing-breakdown-card,
+.hps-distribution-card,
+.overheal-analysis-card,
+.efficiency-metrics-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.hps-chart-card h3,
+.healing-breakdown-card h3,
+.hps-distribution-card h3,
+.overheal-analysis-card h3,
+.efficiency-metrics-card h3 {
+  margin: 0 0 20px 0;
+  color: #1e293b;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.hps-canvas,
+.healing-breakdown-card canvas,
+.hps-distribution-card canvas {
+  display: block;
+  margin: 20px auto;
+}
+
+/* ============================================================
+   ENCOUNTERS TABLE
+   ============================================================ */
+
+.healing-table-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.healing-table-card h3 {
+  margin: 0 0 20px 0;
+  color: #1e293b;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.healing-table-controls {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.healing-encounters-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.healing-encounters-table thead {
+  background: #f8fafc;
+}
+
+.healing-encounters-table th {
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  color: #475569;
+  border-bottom: 2px solid #e2e8f0;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.2s;
+}
+
+.healing-encounters-table th:hover  { background: #f1f5f9; }
+.healing-encounters-table th.sorted { background: #d1fae5; color: #10b981; }
+
+.healing-encounters-table tbody tr {
+  border-bottom: 1px solid #f1f5f9;
+  transition: background-color 0.2s;
+}
+
+.healing-encounters-table tbody tr:hover { background: #f8fafc; }
+
+.healing-encounters-table td {
+  padding: 12px 16px;
+  color: #334155;
+}
+
+.hps-value {
+  font-weight: 600;
+  color: #64748b;
+}
+
+.hps-value.high-hps { color: #10b981; }
+
+.overheal-value.low-overheal  { color: #10b981; font-weight: 600; }
+.overheal-value.high-overheal { color: #ef4444; font-weight: 600; }
+
+/* ============================================================
+   OVERHEAL ANALYSIS
+   ============================================================ */
+
+.overheal-by-type {
+  margin-bottom: 24px;
+}
+
+.overheal-by-type h4 {
+  margin: 0 0 16px 0;
+  color: #475569;
+  font-size: 1rem;
+}
+
+.type-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.type-item {
+  padding: 16px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 2px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.type-label {
+  font-weight: 600;
+  color: #475569;
+  text-transform: capitalize;
+}
+
+.type-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #64748b;
+}
+
+.type-value.low-overheal  { color: #10b981; }
+.type-value.high-overheal { color: #ef4444; }
+
+.type-count {
+  margin-left: auto;
+  color: #94a3b8;
+  font-size: 0.875rem;
+}
+
+.improvement-opportunities {
+  margin-top: 24px;
+}
+
+.improvement-opportunities h4 {
+  margin: 0 0 16px 0;
+  color: #475569;
+  font-size: 1rem;
+}
+
+.opportunities-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.opportunities-table thead {
+  background: #fef2f2;
+}
+
+.opportunities-table th {
+  padding: 8px 12px;
+  text-align: left;
+  font-weight: 600;
+  color: #991b1b;
+  font-size: 0.875rem;
+}
+
+.opportunities-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 0.875rem;
+}
+
+/* ============================================================
+   EFFICIENCY METRICS
+   ============================================================ */
+
+.efficiency-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.efficiency-section h4 {
+  margin: 0 0 16px 0;
+  color: #475569;
+  font-size: 1rem;
+}
+
+.efficiency-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.efficiency-item {
+  padding: 12px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border-left: 4px solid #e2e8f0;
+  transition: all 0.2s;
+}
+
+.efficiency-item:hover {
+  background: #f1f5f9;
+  border-left-color: #10b981;
+}
+
+.efficiency-target {
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 4px;
+}
+
+.efficiency-stats {
+  display: flex;
+  gap: 12px;
+  font-size: 0.875rem;
+}
+
+.efficiency-hps {
+  color: #10b981;
+  font-weight: 600;
+}
+
+.efficiency-overheal {
+  font-weight: 600;
+}
+
+.efficiency-date {
+  color: #94a3b8;
+  margin-left: auto;
+}
+
+/* ============================================================
+   SECTION WRAPPER & UTILITY
+   ============================================================ */
+
+.healing-section {
+  margin-bottom: 48px;
+}
+
+.low-overheal  { color: #10b981; }
+.high-overheal { color: #ef4444; }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 968px) {
+  .efficiency-container { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  .healing-stats-grid { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,700 @@
+/* ============================================================
+   PROFESSIONS — Skills, Recipes & WDTooltip System
+   WhoDASH / Belmont Labs — BL-002
+   ============================================================
+   Sources consolidated from style.css:
+     ~788–824    .q-badge and .q-* quality badge colour classes
+                 (used on recipe rows and tooltip names)
+     ~5454–5869  Full professions block — tabs, overview stat
+                 cards, profession cards + progress bars,
+                 secondary skill cards, recipe counts table,
+                 recipes tab filters + grid + cards, notable
+                 recipes, responsive breakpoints.
+     ~10068–10087 Contrast fixes: .profession-stat-value,
+                 .profession-stat-label.
+     ~53000–53848 WDTooltip system (canonical) — floating
+                 tooltip shell, header/icon/name, quality
+                 colours, stat lines, Wowhead HTML block,
+                 reagents section (inline-flex variant).
+     ~53849–54224 WDTooltip v2 — reagents block with icon-
+                 placeholder, wd-reagent-* quantity/name/
+                 have badges (ok/low).
+     ~53110–53333 Recipe list grouped layout — .recipes-body,
+                 .recipe-prof-block/header/name/count/list,
+                 .recipe-row, .recipe-quality-dot + rq-*,
+                 .recipe-row-stats, .recipe-search-wrap/icon,
+                 gem colour classes, responsive @600px.
+   NOTE: The recipe list block appears 3× in style.css
+   (~53115, ~53515, ~53854) as successive drafts; the third
+   copy (~53854+) is the most complete — used here, others
+   are dead. WDTooltip similarly appears at ~53000 and ~53366
+   (duplicate); only one copy retained here.
+   .profession-stat-value / .profession-stat-label contrast
+   overrides extracted just for the profession selectors —
+   the shared .stat-label rule stays in style.css.
+   ============================================================ */
+
+/* ============================================================
+   ITEM QUALITY BADGE COLOURS
+   (.q-badge wrapper + .q-* modifier classes)
+   ============================================================ */
+
+.q-badge {
+  padding: 2px 6px;
+  border-radius: 12px;
+  font-size: 12px;
+  line-height: 1.6;
+  display: inline-block;
+}
+
+.q-poor      { background: #6b6b6b; color: #fff; }
+.q-common    { background: #dfe7df; color: #2e5b2e; }
+.q-uncommon  { background: #1eff00; color: #033600; }
+.q-rare      { background: #0070dd; color: #fff; }
+.q-epic      { background: #a335ee; color: #fff; }
+.q-legendary { background: #ff8000; color: #231300; }
+
+/* ============================================================
+   CONTAINER & TABS
+   ============================================================ */
+
+.prof-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.prof-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  border-bottom: 2px solid #e6eefb;
+  padding-bottom: 0;
+}
+
+.prof-tab {
+  padding: 12px 24px;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: #6e7f9b;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: -2px;
+}
+
+.prof-tab:hover  { color: #2456a5; background: #f7fafc; }
+.prof-tab.active { color: #2456a5; border-bottom-color: #3182ce; background: #eef4ff; }
+
+.prof-tab-content        { display: none; }
+.prof-tab-content.active { display: block; }
+
+.prof-content-wrapper { margin-top: 24px; }
+
+/* ============================================================
+   OVERVIEW — STAT CARDS
+   ============================================================ */
+
+.prof-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+.prof-stat-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f7fafc 100%);
+  border: 1px solid #e6eefb;
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(30, 60, 114, 0.06);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.prof-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(30, 60, 114, 0.12);
+}
+
+/* Contrast overrides for profession stat values */
+.profession-stat-value {
+  color: #1e40af !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.profession-stat-label { color: #475569 !important; font-weight: 600 !important; }
+.profession-card .stat-value { color: #1e3a8a !important; font-weight: 700 !important; }
+
+/* ============================================================
+   PROFESSION CARDS (primary skills)
+   ============================================================ */
+
+.professions-section,
+.secondary-section,
+.recipe-counts-section {
+  background: #fff;
+  border: 1px solid #e6eefb;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(30, 60, 114, 0.06);
+}
+
+.professions-section h3,
+.secondary-section h3,
+.recipe-counts-section h3 {
+  margin: 0 0 20px 0;
+  font-size: 1.25rem;
+  color: #2456a5;
+  font-weight: 700;
+}
+
+.profession-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.profession-card {
+  background: linear-gradient(135deg, #f7fafc 0%, #eef4ff 100%);
+  border: 1px solid #d7e3fb;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.profession-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.profession-name { font-weight: 700; color: #2456a5; font-size: 1.1rem; }
+.profession-rank { font-weight: 600; color: #6e7f9b; font-size: 0.95rem; }
+
+.profession-progress-bar {
+  height: 24px;
+  background: #e6eefb;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.profession-progress-fill {
+  height: 100%;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  border-radius: 12px;
+  transition: width 0.5s ease-out;
+}
+
+.profession-stats { font-size: 0.9rem; color: #6e7f9b; font-weight: 600; }
+
+/* ============================================================
+   SECONDARY SKILL CARDS
+   ============================================================ */
+
+.secondary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+}
+
+.secondary-card {
+  background: #f7fafc;
+  border: 1px solid #e6eefb;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.secondary-name { font-weight: 700; color: #374151; margin-bottom: 12px; font-size: 1rem; }
+
+.secondary-progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.secondary-progress-bar {
+  flex: 1;
+  height: 20px;
+  background: #e6eefb;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.secondary-progress-fill {
+  height: 100%;
+  background: linear-gradient(135deg, #3182ce 0%, #1e4a8f 100%);
+  border-radius: 10px;
+  transition: width 0.5s ease-out;
+}
+
+.secondary-rank {
+  font-weight: 600;
+  color: #2456a5;
+  font-size: 0.9rem;
+  min-width: 60px;
+  text-align: right;
+}
+
+/* ============================================================
+   RECIPE COUNTS TABLE
+   ============================================================ */
+
+.recipe-counts-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.recipe-counts-table thead {
+  background: #f7fafc;
+  border-bottom: 2px solid #e6eefb;
+}
+
+.recipe-counts-table th {
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #6e7f9b;
+}
+
+.recipe-counts-table tbody tr       { border-bottom: 1px solid #f0f4f8; }
+.recipe-counts-table tbody tr:hover { background: #f7fafc; }
+.recipe-counts-table td             { padding: 10px 16px; color: #374151; font-size: 0.95rem; }
+
+/* ============================================================
+   RECIPES TAB — FILTERS & CARD GRID
+   ============================================================ */
+
+.recipes-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.recipes-header h3 { margin: 0; font-size: 1.25rem; color: #2456a5; font-weight: 700; }
+
+.recipe-filters {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.recipe-search-input,
+.profession-filter {
+  padding: 8px 12px;
+  border: 1px solid #d7e3fb;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #374151;
+  background: #fff;
+  transition: border-color 0.2s;
+}
+
+.recipe-search-input { min-width: 220px; }
+.profession-filter   { min-width: 160px; }
+
+.recipe-search-input:focus,
+.profession-filter:focus {
+  outline: none;
+  border-color: #2456a5;
+  box-shadow: 0 0 0 3px rgba(36, 86, 165, 0.1);
+}
+
+.recipe-cards-container { margin-bottom: 24px; }
+
+.recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.recipe-card {
+  background: #fff;
+  border: 1px solid #e6eefb;
+  border-radius: 8px;
+  padding: 16px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.recipe-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(30, 60, 114, 0.12); }
+
+.recipe-card-name       { font-weight: 700; color: #2456a5; font-size: 1rem; margin-bottom: 8px; }
+.recipe-card-profession { font-size: 0.85rem; color: #6e7f9b; font-weight: 600; margin-bottom: 6px; }
+.recipe-card-type       { font-size: 0.8rem; color: #9ca3af; margin-bottom: 4px; }
+.recipe-card-cooldown   { font-size: 0.85rem; color: #f59e0b; font-weight: 600; margin-top: 8px; }
+
+/* ============================================================
+   NOTABLE RECIPES
+   ============================================================ */
+
+.notable-recipes-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 24px;
+  margin-top: 24px;
+}
+
+.notable-recipe-card {
+  background: #fff;
+  border: 1px solid #e6eefb;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(30, 60, 114, 0.06);
+}
+
+.notable-recipe-card h4 { margin: 0 0 16px 0; color: #2456a5; font-size: 1.1rem; }
+
+.notable-recipe-list { display: flex; flex-direction: column; gap: 8px; }
+
+.notable-recipe-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: #f7fafc;
+  border-radius: 6px;
+  border: 1px solid #e6eefb;
+}
+
+.recipe-name     { font-weight: 600; color: #374151; flex: 1; }
+.recipe-prof,
+.recipe-cooldown { font-size: 0.85rem; color: #6e7f9b; font-weight: 600; }
+
+/* ============================================================
+   RECIPE GROUPED LIST (Wowhead-inspired layout)
+   ============================================================ */
+
+.recipes-body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 8px;
+}
+
+.recipe-prof-block {
+  background: #fff;
+  border: 1px solid #e6eefb;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(30, 60, 114, 0.05);
+}
+
+.recipe-prof-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: linear-gradient(135deg, #eef4ff 0%, #f7fafc 100%);
+  border-bottom: 1px solid #d7e3fb;
+}
+
+.recipe-prof-name  { font-weight: 700; font-size: 1.05rem; color: #2456a5; }
+
+.recipe-prof-count {
+  font-size: 0.82rem;
+  color: #6e7f9b;
+  font-weight: 600;
+  background: #dce9fb;
+  padding: 2px 10px;
+  border-radius: 12px;
+}
+
+.recipe-prof-list { padding: 6px 0; }
+
+.recipe-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 18px;
+  cursor: default;
+  transition: background 0.12s;
+  border-bottom: 1px solid transparent;
+}
+
+.recipe-row:last-child { border-bottom: none; }
+.recipe-row:hover      { background: #f0f6ff; border-bottom-color: #e6eefb; }
+
+.recipe-row-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 3px;
+  border: 1px solid #c8d8f0;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+
+.recipe-row-name-wrap {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex: 1;
+  min-width: 0;
+}
+
+.recipe-row-name {
+  color: #2456a5;
+  font-size: 0.9rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.recipe-row:hover .recipe-row-name { color: #1a3d80; text-decoration: underline; }
+
+/* Quality difficulty dot */
+.recipe-quality-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+.rq-trivial  { background: #9d9d9d; }
+.rq-easy     { background: #1eff00; }
+.rq-medium   { background: #0070dd; }
+.rq-optimal  { background: #ff8c00; }
+.rq-difficult{ background: #cc2222; }
+
+.recipe-row-stats           { font-size: 0.82rem; color: #6e7f9b; white-space: nowrap; text-align: right; flex-shrink: 0; }
+.recipe-row-stats--cooldown { color: #d97706; font-weight: 600; }
+
+.recipe-empty-filter { padding: 12px 20px; color: #9ca3af; font-style: italic; font-size: 0.88rem; }
+.recipe-results-info { font-size: 0.82rem; color: #6e7f9b; margin-top: 6px; }
+
+/* Updated search bar with icon */
+.recipe-search-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.recipe-search-icon {
+  position: absolute;
+  left: 10px;
+  font-size: 0.85rem;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* When inside search-wrap, add left padding to make room for icon */
+.recipe-search-wrap .recipe-search-input { padding-left: 30px; }
+
+/* Gem colour classes (JC categorization) */
+.gem-red      { color: #ff4040; }
+.gem-yellow   { color: #ffd700; }
+.gem-blue     { color: #4090ff; }
+.gem-orange   { color: #ff8c00; }
+.gem-green    { color: #40c040; }
+.gem-purple   { color: #a335ee; }
+.gem-meta     { color: #c0c0c0; }
+.gem-prismatic{ color: #e6cc80; }
+
+/* ============================================================
+   WD-TOOLTIP SYSTEM
+   Floating tooltip for recipe / item / spell mouseovers.
+   ============================================================ */
+
+.wd-tooltip {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  max-width: 320px;
+  min-width: 180px;
+  background: #0f1d35;
+  border: 1px solid #2456a5;
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(36, 86, 165, 0.25);
+  padding: 0;
+  overflow: hidden;
+  font-size: 0.88rem;
+  font-family: inherit;
+  color: #c9d8f0;
+  line-height: 1.45;
+}
+
+.wd-tooltip-loading {
+  padding: 12px 16px;
+  color: #6e9bd4;
+  font-style: italic;
+  font-size: 0.85rem;
+}
+
+/* Header */
+.wd-tooltip-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px 10px;
+  border-bottom: 1px solid #1e3a5f;
+  background: #162b4a;
+}
+
+.wd-tooltip-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 5px;
+  border: 1px solid #2456a5;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+
+.wd-tooltip-name { font-weight: 700; font-size: 0.95rem; line-height: 1.25; }
+
+/* Quality colour modifiers on tooltip name */
+.wd-tooltip-name.q-poor      { color: #9d9d9d; }
+.wd-tooltip-name.q-common    { color: #ffffff; }
+.wd-tooltip-name.q-uncommon  { color: #1eff00; }
+.wd-tooltip-name.q-rare      { color: #0070dd; }
+.wd-tooltip-name.q-epic      { color: #a335ee; }
+.wd-tooltip-name.q-legendary { color: #ff8000; }
+.wd-tooltip-name.q-artifact  { color: #e6cc80; }
+.wd-tooltip-name.q-heirloom  { color: #00ccff; }
+
+/* Stat lines */
+.wd-tooltip-stats {
+  padding: 10px 14px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.wd-tooltip-stat          { color: #c9d8f0; font-size: 0.84rem; }
+.wd-tooltip-stat--bonus   { color: #58d68d; font-weight: 600; }
+.wd-tooltip-stat--req     { color: #e57373; font-size: 0.82rem; }
+.wd-tooltip-stat--use     { color: #5dade2; }
+.wd-tooltip-stat--flavor  { color: #9b8ea0; font-style: italic; font-size: 0.82rem; }
+.wd-tooltip-stat--sell    { color: #aaaaaa; font-size: 0.82rem; }
+
+/* Footer */
+.wd-tooltip-footer {
+  padding: 8px 14px;
+  border-top: 1px solid #1e3a5f;
+  background: #0d1929;
+}
+
+.wd-tooltip-link       { color: #4a90d9; font-size: 0.78rem; text-decoration: none; pointer-events: auto; }
+.wd-tooltip-link:hover { text-decoration: underline; color: #7ab3e8; }
+
+/* Wowhead tooltip_enus HTML passthrough block */
+.wd-tooltip-wh-html {
+  padding: 10px 14px 8px;
+  font-size: 0.84rem;
+  color: #c9d8f0;
+  line-height: 1.5;
+}
+
+.wd-tooltip-wh-html b.q0 { color: #9d9d9d; }
+.wd-tooltip-wh-html b.q1 { color: #ffffff; }
+.wd-tooltip-wh-html b.q2 { color: #1eff00; }
+.wd-tooltip-wh-html b.q3 { color: #0070dd; }
+.wd-tooltip-wh-html b.q4 { color: #a335ee; }
+.wd-tooltip-wh-html b.q5 { color: #ff8000; }
+.wd-tooltip-wh-html b.q6 { color: #e6cc80; }
+.wd-tooltip-wh-html b.q7 { color: #00ccff; }
+.wd-tooltip-wh-html .q   { color: #9b8ea0; font-style: italic; }
+.wd-tooltip-wh-html .q0  { color: #9d9d9d; }
+.wd-tooltip-wh-html .q1  { color: #ffffff; }
+.wd-tooltip-wh-html .q2  { color: #1eff00; }
+.wd-tooltip-wh-html .q3  { color: #0070dd; }
+.wd-tooltip-wh-html .q4  { color: #a335ee; }
+.wd-tooltip-wh-html b.q2.whtt-extra   { color: #aaaaaa; font-size: 0.8rem; }
+.wd-tooltip-wh-html table            { width: 100%; border-collapse: collapse; }
+.wd-tooltip-wh-html th               { text-align: right; color: #aaaaaa; font-weight: normal; }
+.wd-tooltip-wh-html .whtt-sellprice  { color: #aaaaaa; font-size: 0.8rem; margin-top: 4px; }
+.wd-tooltip-wh-html .moneygold       { color: #f0c040; }
+.wd-tooltip-wh-html .moneysilver     { color: #c0c0c0; }
+.wd-tooltip-wh-html .moneycopper     { color: #c87533; }
+
+/* Reagents section */
+.wd-tooltip-reagents {
+  padding: 8px 14px 10px;
+  border-top: 1px solid #1e3a5f;
+  background: #0d1929;
+}
+
+.wd-tooltip-reagent-label {
+  font-size: 0.75rem;
+  color: #6e9bd4;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.wd-tooltip-reagent {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.83rem;
+  color: #c9d8f0;
+  padding: 2px 0;
+}
+
+.wd-tooltip-reagent a       { color: #c9d8f0; text-decoration: none; pointer-events: auto; }
+.wd-tooltip-reagent a:hover { color: #7ab3e8; text-decoration: underline; }
+
+.wd-tooltip-reagent-icon {
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  border: 1px solid #2456a5;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+
+.wd-tooltip-reagent-icon-placeholder {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+/* Reagent quantity / name / availability badges */
+.wd-reagent-qty  { color: #8aafd4; flex-shrink: 0; min-width: 22px; }
+.wd-reagent-name { flex: 1; }
+
+.wd-reagent-have {
+  font-size: 0.78rem;
+  font-weight: 600;
+  flex-shrink: 0;
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+.wd-reagent-have--ok  { color: #4caf7d; background: rgba(76, 175, 80, 0.15); }
+.wd-reagent-have--low { color: #e57373; background: rgba(229, 115, 115, 0.15); }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 768px) {
+  .prof-stats-grid { grid-template-columns: 1fr; }
+  .prof-tabs       { flex-wrap: wrap; }
+  .prof-tab        { flex: 1; min-width: 100px; }
+
+  .profession-cards,
+  .secondary-cards,
+  .recipe-grid      { grid-template-columns: 1fr; }
+
+  .notable-recipes-section { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+  .recipe-row-stats  { display: none; }
+  .recipe-prof-header{ padding: 12px 14px; }
+  .recipe-row        { padding: 7px 12px; }
+}

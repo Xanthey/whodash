@@ -1,0 +1,604 @@
+/* ============================================================
+   SUMMARY — Character Overview / Highlights Dashboard
+   WhoDASH / Belmont Labs — BL-002
+   ============================================================
+   Sources consolidated from style.css:
+     ~106         .muted (global utility — included, shared)
+     ~858–883     .chip, .mini-kpi
+     ~1082–1474   hero-stats-grid, highlights-list, activity heatmap,
+                  top-loot, sparkline, activity-feed
+     ~11473–11581 .hero-stat-card variants, .hero-icon/value/label,
+                  .social-fun-facts, .facts-grid, .fact-card
+   NOTE: .bracket-tier-label has no dedicated CSS; it is a JS
+   selector hook that inherits from .hero-stat-tier.
+   ============================================================ */
+
+/* ============================================================
+   GLOBAL UTILITY
+   ============================================================ */
+
+.muted {
+  color: #6e7f9b;
+  margin: 8px 0 0 0;
+  font-size: 0.95em;
+}
+
+/* ============================================================
+   CHIP / LEGEND DOT
+   ============================================================ */
+
+.chip {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 6px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.chip-blue { background: #2456a5; }
+.chip-gray { background: #6e7f9b; }
+.chip-gold { background: #f1d38a; }
+
+/* ============================================================
+   MINI KPI
+   ============================================================ */
+
+.mini-kpi {
+  color: #2456a5;
+  font-weight: 600;
+  margin: 4px 0;
+}
+
+/* ============================================================
+   HERO STATS GRID
+   ============================================================ */
+
+.hero-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.hero-stat {
+  background: linear-gradient(135deg, #ffffff 0%, #f7fafc 100%);
+  border: 1px solid #e6eefb;
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(30, 60, 114, 0.06);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.hero-stat:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(30, 60, 114, 0.12);
+}
+
+.hero-stat-icon {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+}
+
+.hero-stat-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #2456a5;
+  margin-bottom: 8px;
+}
+
+.hero-stat-label {
+  font-size: 0.95rem;
+  color: #6e7f9b;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.hero-stat-tier {
+  font-size: 0.85rem;
+  color: #3182ce;
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+.hero-stat-subtitle {
+  font-size: 0.85rem;
+  color: #6e7f9b;
+  margin-top: 4px;
+}
+
+/* ── Hero stat card variants (social/bracket comparisons) ── */
+
+.hero-stat-card {
+  background: linear-gradient(135deg, #eef4ff 0%, #ffffff 100%);
+  border: 2px solid #d4e3fc;
+  border-radius: 16px;
+  padding: 32px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(36, 86, 165, 0.08);
+  transition: all 0.3s;
+}
+
+.hero-stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(36, 86, 165, 0.15);
+}
+
+.hero-stat-card.hero-primary  { background: linear-gradient(135deg, #fff3cd 0%, #ffffff 100%); border-color: #ffc107; }
+.hero-stat-card.hero-secondary { background: linear-gradient(135deg, #e3f2fd 0%, #ffffff 100%); border-color: #2196f3; }
+.hero-stat-card.hero-tertiary  { background: linear-gradient(135deg, #f3e5f5 0%, #ffffff 100%); border-color: #9c27b0; }
+
+.hero-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+
+.hero-value {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #2456a5;
+  margin-bottom: 8px;
+}
+
+.hero-label {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 4px;
+}
+
+.hero-sublabel {
+  font-size: 0.9rem;
+  color: #6e7f9b;
+}
+
+/* ============================================================
+   TIPS CARD
+   ============================================================ */
+
+.tips-card {
+  background: #fff;
+  border: 1px solid #e6eefb;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(30, 60, 114, 0.06);
+}
+
+.tips-card h3 {
+  margin: 0 0 12px 0;
+  color: #2456a5;
+  font-size: 1.25rem;
+}
+
+.tips-subtitle {
+  color: #6e7f9b;
+  font-size: 0.9rem;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e6eefb;
+}
+
+.tips-section-title {
+  margin: 16px 0 10px 0;
+  color: #2456a5;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.tips-zones-list,
+.tips-notes-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px 0;
+}
+
+.tips-zones-list li {
+  padding: 6px 12px;
+  margin-bottom: 6px;
+  background: linear-gradient(135deg, #eef4ff 0%, #f7fafc 100%);
+  border-left: 3px solid #3182ce;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: #2c5282;
+}
+
+.tips-notes-list li {
+  padding: 8px 0 8px 20px;
+  margin-bottom: 8px;
+  position: relative;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #4a5568;
+}
+
+.tips-notes-list li::before {
+  content: "✱";
+  position: absolute;
+  left: 6px;
+  color: #3182ce;
+  font-weight: bold;
+}
+
+.tips-card .muted {
+  color: #9ca3af;
+  font-style: italic;
+  text-align: center;
+  padding: 20px;
+}
+
+/* ============================================================
+   HIGHLIGHTS CARD
+   ============================================================ */
+
+.highlights-card {
+  background: #fff;
+  border: 1px solid #e6eefb;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(30, 60, 114, 0.06);
+}
+
+.highlights-card h3 {
+  margin: 0 0 16px 0;
+  color: #2456a5;
+  font-size: 1.25rem;
+}
+
+.highlights-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.highlights-list li {
+  padding: 14px 0;
+  border-bottom: 1px solid #eef4ff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Extended variant — more generous row spacing */
+.highlights-list-extended li {
+  padding: 16px 0;
+}
+
+.highlights-list li:last-child {
+  border-bottom: none;
+}
+
+.hl-icon {
+  font-size: 1.1rem;
+  margin-right: 8px;
+  display: inline-block;
+  min-width: 24px;
+}
+
+.hl-label {
+  color: #6e7f9b;
+  font-weight: 500;
+}
+
+.highlights-list strong {
+  color: #2456a5;
+  font-weight: 700;
+}
+
+/* ============================================================
+   ACTIVITY HEATMAP
+   ============================================================ */
+
+.activity-card {
+  background: #fff;
+  border: 1px solid #e6eefb;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(30, 60, 114, 0.06);
+}
+
+.activity-card h3 {
+  margin: 0 0 16px 0;
+  color: #2456a5;
+  font-size: 1.25rem;
+}
+
+.activity-heatmap {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16px, 1fr));
+  gap: 5px;
+  max-width: 100%;
+}
+
+.heatmap-cell {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+  background: #eef4ff;
+  border: 1px solid #d7e3fb;
+  transition: all 0.2s;
+}
+
+.heatmap-cell[data-intensity="0"] { background: #eef4ff; border-color: #d7e3fb; }
+.heatmap-cell[data-intensity="1"] { background: #c8d9f1; border-color: #b8c9e1; }
+.heatmap-cell[data-intensity="2"] { background: #9ab8e5; border-color: #8aa8d5; }
+.heatmap-cell[data-intensity="3"] { background: #5a92d6; border-color: #4a82c6; }
+.heatmap-cell[data-intensity="4"] { background: #3182ce; border-color: #2456a5; }
+
+.heatmap-cell:hover {
+  transform: scale(1.4);
+  z-index: 10;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* ============================================================
+   TOP LOOT WIDGET
+   ============================================================ */
+
+.top-loot-card {
+  background: #fff;
+  border: 1px solid #e6eefb;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(30, 60, 114, 0.06);
+}
+
+.top-loot-card h3 {
+  margin: 0 0 16px 0;
+  color: #2456a5;
+  font-size: 1.25rem;
+}
+
+.top-loot-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.top-loot-item {
+  display: grid;
+  grid-template-columns: 40px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  background: #f7fafc;
+  border-radius: 10px;
+  border: 1px solid #e6eefb;
+  transition: all 0.2s;
+}
+
+.top-loot-item:hover {
+  background: #eef4ff;
+  border-color: #d7e3fb;
+  transform: translateX(4px);
+}
+
+.loot-rank {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #3182ce 0%, #2456a5 100%);
+  color: #fff;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 4px rgba(49, 130, 206, 0.2);
+}
+
+.loot-name {
+  color: #334e88;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.loot-count {
+  color: #2456a5;
+  font-weight: 700;
+  font-size: 1rem;
+  background: #eef4ff;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid #d7e3fb;
+}
+
+/* ============================================================
+   SPARKLINE CARD
+   ============================================================ */
+
+.sparkline-card {
+  background: #fff;
+  border: 1px solid #e6eefb;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(30, 60, 114, 0.06);
+}
+
+.sparkline-card h3 {
+  margin: 0 0 16px 0;
+  color: #2456a5;
+  font-size: 1.25rem;
+}
+
+.sparkline-canvas {
+  width: 100%;
+  height: 120px;
+  border-radius: 8px;
+  background: #f7fafc;
+}
+
+.sparkline-info {
+  margin-top: 12px;
+  padding: 12px;
+  background: #eef4ff;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: #334e88;
+  font-weight: 500;
+  text-align: center;
+}
+
+.sparkline-tooltip {
+  position: absolute;
+  display: none;
+  background: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  pointer-events: none;
+  z-index: 100;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* ============================================================
+   ACTIVITY FEED
+   ============================================================ */
+
+.activity-feed-card {
+  background: #fff;
+  border: 1px solid #e6eefb;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(30, 60, 114, 0.06);
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.activity-feed-card h3 {
+  margin: 0 0 16px 0;
+  color: #2456a5;
+  font-size: 1.25rem;
+  position: sticky;
+  top: 0;
+  background: #fff;
+  padding-bottom: 8px;
+  z-index: 1;
+}
+
+.activity-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.activity-item {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 12px;
+  padding: 12px;
+  background: #f7fafc;
+  border-radius: 12px;
+  border: 1px solid #e6eefb;
+  transition: all 0.2s;
+}
+
+.activity-item:hover {
+  background: #eef4ff;
+  border-color: #d7e3fb;
+  transform: translateX(4px);
+}
+
+.activity-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #d7e3fb;
+}
+
+.activity-icon-img {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  border: 1px solid #d7e3fb;
+  display: block;
+  background: #fff;
+}
+
+.activity-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.activity-desc {
+  color: #334e88;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.activity-desc strong {
+  color: #2456a5;
+  font-weight: 600;
+}
+
+.activity-time {
+  color: #6e7f9b;
+  font-size: 0.85rem;
+}
+
+/* ============================================================
+   SOCIAL FUN FACTS (bracket comparison cards)
+   ============================================================ */
+
+.social-fun-facts {
+  margin-bottom: 40px;
+}
+
+.social-fun-facts h3 {
+  font-size: 1.5rem;
+  color: #2456a5;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.facts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.fact-card {
+  background: #fff;
+  border: 2px solid #e6eefb;
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.fact-card:hover {
+  border-color: #3182ce;
+  box-shadow: 0 4px 12px rgba(49, 130, 206, 0.1);
+}
+
+.fact-icon {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+}
+
+.fact-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2456a5;
+  margin-bottom: 8px;
+}
+
+.fact-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 4px;
+}
+
+.fact-subtitle {
+  font-size: 0.85rem;
+  color: #6e7f9b;
+}

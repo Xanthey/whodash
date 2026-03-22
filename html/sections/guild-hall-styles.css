@@ -1,0 +1,1397 @@
+/* ============================================
+   GUILD HALL STYLES - TAVERN THEME
+   Inspired by WoW taverns with day/night mode
+   ============================================ */
+
+/* ============================================
+   ROOT VARIABLES - DAY MODE (DEFAULT)
+   Guild Hall Theme - Stone, Wood, and Brass
+   ============================================ */
+:root {
+    /* Day Mode Colors - Warm Stone & Wood */
+    --tavern-bg-primary: #2a2520;
+    --tavern-bg-secondary: #3a342c;
+    --tavern-wood-dark: #5d4e37;
+    --tavern-wood-light: #8b7355;
+    --tavern-stone: #6b6b6b;
+    --tavern-gold: #d4af37;
+    --tavern-brass: #b5a642;
+    --tavern-shadow: rgba(0, 0, 0, 0.5);
+    --tavern-text-primary: #f5e6d3;
+    --tavern-text-secondary: #d4c5b3;
+    --tavern-border: #8b7355;
+
+    /* Faction Colors */
+    --horde-red: #b30000;
+    --alliance-blue: #0078ff;
+    --neutral-gray: #808080;
+
+    /* Room Accent Colors */
+    --human-accent: #3d6b3a;
+    --dwarf-accent: #b87333;
+    --undead-accent: #6b3a2a;
+    --tauren-accent: #8b6914;
+    --night-elf-accent: #4a7b5c;
+
+    /* Effects */
+    --torch-glow: rgba(255, 140, 0, 0.6);
+    --fire-light: #ff8c00;
+}
+
+/* ============================================
+   ROOT VARIABLES - NIGHT MODE
+   Guild Hall Theme - Darker Stone & Torchlit
+   ============================================ */
+:root[data-tavern-theme="night"] {
+    --tavern-bg-primary: #1a1410;
+    --tavern-bg-secondary: #2c241c;
+    --tavern-wood-dark: #3a2f22;
+    --tavern-wood-light: #5d4e37;
+    --tavern-stone: #4a4a4a;
+    --tavern-gold: #ffd700;
+    --tavern-brass: #d4af37;
+    --tavern-shadow: rgba(0, 0, 0, 0.7);
+    --tavern-text-primary: #f5e6d3;
+    --tavern-text-secondary: #d4c5b3;
+    --tavern-border: #5d4e37;
+
+    --torch-glow: rgba(255, 140, 0, 0.9);
+    --fire-light: #ff6b00;
+}
+
+/* ============================================
+   FULL-PAGE THEME APPLICATION (GUILD HALL STONE THEME)
+   ULTRA-HIGH PRIORITY OVERRIDES
+   ============================================ */
+
+/* When Guild Hall is active, style the entire page with stone/wood theme */
+body.guild-hall-active,
+body.guild-hall-active[style],
+html body.guild-hall-active {
+    background: linear-gradient(135deg, #2a2520 0%, #1a1410 50%, #2a2520 100%) !important;
+    background-color: #2a2520 !important;
+    background-attachment: fixed !important;
+}
+
+/* Force background on html element too */
+html:has(body.guild-hall-active) {
+    background: linear-gradient(135deg, #2a2520 0%, #1a1410 50%, #2a2520 100%) !important;
+    background-color: #2a2520 !important;
+}
+
+/* Override the main page wrapper that's probably white */
+body.guild-hall-active>*:first-child,
+body.guild-hall-active #app,
+body.guild-hall-active #root,
+body.guild-hall-active .app-container,
+body.guild-hall-active .main-wrapper,
+body.guild-hall-active main {
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+/* Override ALL white backgrounds */
+body.guild-hall-active * {
+    /* Reset any white/light backgrounds */
+}
+
+body.guild-hall-active #tab-guild-hall,
+body.guild-hall-active .main-content,
+body.guild-hall-active .content-card,
+body.guild-hall-active .section-card,
+body.guild-hall-active .card,
+body.guild-hall-active .white-card,
+body.guild-hall-active .panel,
+body.guild-hall-active [style*="background: white"],
+body.guild-hall-active [style*="background-color: white"],
+body.guild-hall-active [style*="background:#fff"],
+body.guild-hall-active [style*="background-color:#fff"],
+body.guild-hall-active [style*="background: rgb(255"] {
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+/* Override the main content container */
+body.guild-hall-active #sectionContent {
+    background: transparent !important;
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* Target the .container wrapper (THE KEY MISSING PIECE) */
+body.guild-hall-active .container {
+    background: transparent !important;
+    max-width: 1440px !important;
+    /* Keep width constraint */
+    margin: 48px auto !important;
+    /* Keep centering */
+    padding: 20px !important;
+    /* Reduce padding but keep some */
+    border-radius: 0 !important;
+    /* Remove rounded corners */
+    box-shadow: none !important;
+    /* Remove shadow */
+}
+
+/* Also target other common container classes */
+body.guild-hall-active .main-content,
+body.guild-hall-active main,
+body.guild-hall-active [class*="content-wrapper"],
+body.guild-hall-active [class*="main-wrapper"] {
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+/* Override ALL blue text colors */
+body.guild-hall-active [style*="color: blue"],
+body.guild-hall-active [style*="color: #00"],
+body.guild-hall-active [style*="color: rgb("],
+body.guild-hall-active .text-blue,
+body.guild-hall-active .text-primary,
+body.guild-hall-active .text-info {
+    color: var(--tavern-gold) !important;
+}
+
+/* Fix blue character selector */
+body.guild-hall-active select,
+body.guild-hall-active .character-select,
+body.guild-hall-active [class*="select"] {
+    background: rgba(93, 78, 55, 0.8) !important;
+    color: var(--tavern-text-primary) !important;
+    border: 2px solid var(--tavern-gold) !important;
+}
+
+/* Style the command palette/search bar */
+body.guild-hall-active input[type="search"],
+body.guild-hall-active input[placeholder*="Command"],
+body.guild-hall-active input[placeholder*="Search"] {
+    background: linear-gradient(135deg, rgba(61, 54, 44, 0.95) 0%, rgba(42, 37, 32, 0.95) 100%) !important;
+    border: 2px solid var(--tavern-gold) !important;
+    border-radius: 12px !important;
+    color: var(--tavern-text-primary) !important;
+    box-shadow:
+        0 4px 12px rgba(212, 175, 55, 0.3),
+        inset 0 1px 3px rgba(139, 115, 85, 0.1) !important;
+}
+
+/* Character selector trigger — explicitly reset the global button,\.btn styles
+   (background gradient, box-shadow, padding, margin) that bleed through and
+   create segmented boxes. Bazaar works without this because its dark topbar
+   hides the blue gradient, but our brown topbar does not. */
+body.guild-hall-active .charselect-trigger,
+body.guild-hall-active .charselect-trigger:hover,
+body.guild-hall-active .charselect-trigger:focus,
+body.guild-hall-active .charselect-trigger:active {
+    background: transparent !important;
+    background-image: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 4px 0 !important;
+    margin: 0 !important;
+    color: var(--tavern-text-primary) !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+    outline: none !important;
+}
+
+body.guild-hall-active .charselect-icon,
+body.guild-hall-active .charselect-label,
+body.guild-hall-active .charselect-caret {
+    color: var(--tavern-text-primary) !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
+/* Character selector dropdown menu — no gold border, matches hall-tab container feel */
+body.guild-hall-active .charselect-menu {
+    background: var(--tavern-wood-dark) !important;
+    border: none !important;
+    border-radius: 12px !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Character selector menu items — cream text, styled like hall-tab buttons */
+body.guild-hall-active .charselect-item {
+    color: var(--tavern-text-primary) !important;
+    background: var(--tavern-wood-light) !important;
+    border-radius: 8px !important;
+    padding: 10px 12px !important;
+    border: 2px solid var(--tavern-wood-dark) !important;
+    transition: all 0.2s ease;
+}
+
+body.guild-hall-active .charselect-item .char-name,
+body.guild-hall-active .charselect-item .char-meta {
+    color: var(--tavern-text-primary) !important;
+}
+
+body.guild-hall-active .charselect-item .char-meta {
+    opacity: 0.75;
+}
+
+body.guild-hall-active .charselect-item:hover {
+    background: var(--tavern-brass) !important;
+    color: var(--tavern-text-primary) !important;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3) !important;
+}
+
+body.guild-hall-active .charselect-item:hover .char-name,
+body.guild-hall-active .charselect-item:hover .char-meta {
+    color: var(--tavern-text-primary) !important;
+}
+
+body.guild-hall-active .charselect-item.active {
+    background: var(--tavern-gold) !important;
+    color: var(--tavern-wood-dark) !important;
+    border-color: var(--tavern-brass) !important;
+    font-weight: bold !important;
+}
+
+body.guild-hall-active .charselect-item.active .char-name,
+body.guild-hall-active .charselect-item.active .char-meta {
+    color: var(--tavern-wood-dark) !important;
+}
+
+body.guild-hall-active input[type="search"]::placeholder {
+    color: var(--tavern-text-secondary) !important;
+    opacity: 0.7 !important;
+}
+
+/* Header/topbar — deep dark background, same structural approach as Bazaar.
+   Selector targets only the actual topbar elements, NOT class*=header wildcards
+   which would catch .tavern-header inside the page and box it up. */
+body.guild-hall-active header,
+body.guild-hall-active .topbar {
+    background: linear-gradient(to bottom, var(--tavern-bg-secondary) 0%, var(--tavern-bg-primary) 100%) !important;
+    border-bottom: 3px solid var(--tavern-gold) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Animated background texture (stone grain) */
+body.guild-hall-active::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+        radial-gradient(1px 1px at 20% 30%, rgba(139, 115, 85, 0.3), transparent),
+        radial-gradient(1px 1px at 60% 70%, rgba(139, 115, 85, 0.3), transparent),
+        radial-gradient(1px 1px at 50% 50%, rgba(139, 115, 85, 0.2), transparent),
+        radial-gradient(1px 1px at 80% 10%, rgba(139, 115, 85, 0.3), transparent),
+        radial-gradient(1px 1px at 90% 60%, rgba(139, 115, 85, 0.2), transparent);
+    background-size: 200% 200%;
+    opacity: 0.4;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Make sure content is above the texture */
+body.guild-hall-active #sectionContent,
+body.guild-hall-active>*:not(::before) {
+    position: relative;
+    z-index: 2;
+}
+
+.guild-hall-active {
+    background: transparent !important;
+    color: var(--tavern-text-primary);
+    min-height: 100vh;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* ============================================
+   TAVERN HEADER (MATCHING BAZAAR STYLE)
+   ============================================ */
+.tavern-header {
+    position: relative;
+    text-align: center;
+    padding: 16px 20px;
+    /* Reduced to match Bazaar */
+    margin: 0 0 24px 0;
+    /* No top margin - flush with top */
+    background: linear-gradient(135deg, rgba(93, 78, 55, 0.95) 0%, rgba(61, 54, 44, 0.95) 100%);
+    /* Guild Hall wood/stone */
+    border: 3px solid var(--tavern-gold);
+    border-radius: 12px;
+    box-shadow:
+        0 0 20px rgba(212, 175, 55, 0.3),
+        inset 0 0 30px rgba(139, 115, 85, 0.1);
+    overflow: hidden;
+}
+
+/* Animated shimmer effect like The Bazaar */
+.tavern-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: repeating-linear-gradient(45deg,
+            transparent,
+            transparent 10px,
+            rgba(212, 175, 55, 0.05) 10px,
+            rgba(212, 175, 55, 0.05) 20px);
+    animation: tavern-shimmer 20s linear infinite;
+}
+
+@keyframes tavern-shimmer {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(50%, 50%);
+    }
+}
+
+.tavern-sign {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    z-index: 1;
+}
+
+.sign-post {
+    display: none;
+    /* Remove the post for cleaner Bazaar-like look */
+}
+
+.sign-board {
+    background: transparent;
+    border: none;
+    padding: 0;
+    box-shadow: none;
+}
+
+.sign-board::before,
+.sign-board::after {
+    display: none;
+    /* Remove brass rivets */
+}
+
+.tavern-icon {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 2px 4px var(--tavern-shadow));
+}
+
+.tavern-title {
+    font-size: 2rem;
+    /* Reduced from 2.5rem for better proportions */
+    font-weight: bold;
+    color: var(--tavern-gold);
+    text-shadow:
+        2px 2px 4px rgba(0, 0, 0, 0.5),
+        0 0 10px rgba(212, 175, 55, 0.4);
+    margin: 0;
+    font-family: 'Cinzel', 'Georgia', serif;
+    letter-spacing: 2px;
+}
+
+.tavern-subtitle {
+    font-size: 1rem;
+    color: var(--tavern-text-secondary);
+    font-style: italic;
+    margin-top: 8px;
+}
+
+/* ============================================
+   TAVERN DECORATIONS
+   ============================================ */
+.tavern-decorations {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.tavern-torch {
+    font-size: 2rem;
+    animation: torch-flicker 2s infinite;
+    filter: drop-shadow(0 0 10px var(--fire-light));
+}
+
+.tavern-banner {
+    font-size: 1.5rem;
+}
+
+@keyframes torch-flicker {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    25% {
+        opacity: 0.9;
+        transform: scale(1.05);
+    }
+
+    50% {
+        opacity: 0.95;
+        transform: scale(0.98);
+    }
+
+    75% {
+        opacity: 0.92;
+        transform: scale(1.03);
+    }
+}
+
+/* Night mode - brighter torches */
+:root[data-tavern-theme="night"] .tavern-torch {
+    filter: drop-shadow(0 0 20px var(--fire-light));
+}
+
+/* Time indicator (like The Bazaar) */
+.tavern-time-indicator {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    padding: 6px 12px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 20px;
+    border: 1px solid var(--tavern-gold);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--tavern-text-primary);
+    z-index: 2;
+}
+
+:root[data-tavern-theme="day"] .tavern-time-night,
+:root[data-tavern-theme="night"] .tavern-time-day {
+    display: none;
+}
+
+/* ============================================
+   DAY/NIGHT TOGGLE - HIDDEN (AUTOMATIC)
+   ============================================ */
+.day-night-controls {
+    display: none !important;
+    /* Hidden - automatic transition at 6am/6pm */
+}
+
+.day-night-button {
+    display: none !important;
+}
+
+/* ============================================
+   GUILD TABS (MULTIPLE GUILDS)
+   ============================================ */
+.guild-tabs {
+    display: flex;
+    gap: 8px;
+    padding: 0 20px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.guild-tab {
+    background: var(--tavern-wood-light);
+    border: 3px solid var(--tavern-wood-dark);
+    border-radius: 8px 8px 0 0;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    color: var(--tavern-text-primary);
+    box-shadow: 0 2px 4px var(--tavern-shadow);
+}
+
+.guild-tab:hover {
+    background: var(--tavern-wood-dark);
+    color: var(--tavern-gold);
+    transform: translateY(-2px);
+}
+
+.guild-tab.active {
+    background: var(--tavern-bg-primary);
+    border-bottom: 3px solid var(--tavern-bg-primary);
+    transform: translateY(3px);
+    box-shadow:
+        0 -2px 8px var(--tavern-shadow),
+        inset 0 2px 4px rgba(255, 255, 255, 0.1);
+}
+
+.guild-faction-icon {
+    font-size: 1.2rem;
+}
+
+.guild-name {
+    font-weight: bold;
+}
+
+.guild-realm {
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+/* ============================================
+   HALL NAVIGATION (CONTENT TABS)
+   ============================================ */
+.hall-navigation {
+    margin-bottom: 30px;
+    padding: 0 20px;
+}
+
+.hall-tabs {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    justify-content: center;
+    background: var(--tavern-wood-dark);
+    padding: 8px;
+    border-radius: 12px;
+    box-shadow:
+        0 4px 12px var(--tavern-shadow),
+        inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hall-tab {
+    background: var(--tavern-wood-light);
+    border: 2px solid var(--tavern-wood-dark);
+    border-radius: 8px;
+    padding: 12px 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    color: var(--tavern-text-primary);
+    flex: 1;
+    min-width: 140px;
+    justify-content: center;
+}
+
+.hall-tab:hover {
+    background: var(--tavern-brass);
+    color: var(--tavern-text-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--tavern-shadow);
+}
+
+.hall-tab.active {
+    background: var(--tavern-gold);
+    color: var(--tavern-wood-dark);
+    border-color: var(--tavern-brass);
+    box-shadow:
+        0 4px 12px rgba(255, 215, 0, 0.4),
+        inset 0 2px 4px rgba(255, 255, 255, 0.3);
+}
+
+.hall-tab .tab-icon {
+    font-size: 1.3rem;
+}
+
+/* ============================================
+   HALL PANELS (TAVERN ROOMS)
+   ============================================ */
+.hall-panels {
+    padding: 0 20px 40px;
+}
+
+.hall-panel {
+    display: none;
+}
+
+.hall-panel.active {
+    display: block;
+}
+
+.tavern-room {
+    background: var(--tavern-bg-secondary);
+    border: 4px solid var(--tavern-wood-dark);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow:
+        0 8px 24px var(--tavern-shadow),
+        inset 0 2px 4px rgba(255, 255, 255, 0.1);
+    margin-bottom: 20px;
+}
+
+.room-header {
+    position: relative;
+    background: var(--tavern-wood-light);
+    padding: 16px;
+    border-bottom: 3px solid var(--tavern-wood-dark);
+}
+
+.room-sign {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--tavern-gold);
+    text-align: center;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.room-awning {
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: repeating-linear-gradient(90deg,
+            var(--tavern-brass) 0px,
+            var(--tavern-brass) 20px,
+            var(--tavern-gold) 20px,
+            var(--tavern-gold) 40px);
+}
+
+.room-content {
+    padding: 30px;
+    min-height: 300px;
+}
+
+/* ============================================
+   TAVERN ROOM STYLES (DIFFERENT RACES)
+   ============================================ */
+.tavern-room[data-tavern-style="human"] .room-header {
+    background: linear-gradient(135deg, var(--human-accent), var(--tavern-wood-light));
+}
+
+.tavern-room[data-tavern-style="dwarf"] .room-header {
+    background: linear-gradient(135deg, var(--dwarf-accent), var(--tavern-wood-light));
+}
+
+.tavern-room[data-tavern-style="undead"] .room-header {
+    background: linear-gradient(135deg, var(--undead-accent), var(--tavern-wood-light));
+}
+
+.tavern-room[data-tavern-style="tauren"] .room-header {
+    background: linear-gradient(135deg, var(--tauren-accent), var(--tavern-wood-light));
+}
+
+.tavern-room[data-tavern-style="night-elf"] .room-header {
+    background: linear-gradient(135deg, var(--night-elf-accent), var(--tavern-wood-light));
+}
+
+/* ============================================
+   LOADING STATES
+   ============================================ */
+.tavern-loading {
+    text-align: center;
+    padding: 80px 0;
+    color: var(--tavern-text-secondary);
+}
+
+.tavern-spinner {
+    font-size: 3rem;
+    margin-bottom: 16px;
+    animation: tavern-spin 3s linear infinite;
+}
+
+@keyframes tavern-spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Night mode - glowing loading */
+:root[data-tavern-theme="night"] .tavern-loading {
+    color: var(--tavern-text-primary);
+}
+
+:root[data-tavern-theme="night"] .tavern-spinner {
+    filter: drop-shadow(0 0 15px var(--tavern-gold));
+}
+
+/* ============================================
+   CONTENT COMPONENTS
+   ============================================ */
+
+/* Stats Cards */
+.stat-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.stat-card {
+    background: var(--tavern-bg-primary);
+    border: 2px solid var(--tavern-wood-dark);
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+    box-shadow: 0 2px 8px var(--tavern-shadow);
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: var(--tavern-text-secondary);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--tavern-gold);
+}
+
+.stat-subvalue {
+    font-size: 0.85rem;
+    color: var(--tavern-text-secondary);
+    margin-top: 4px;
+}
+
+/* Tables */
+.tavern-table {
+    width: 100%;
+    background: var(--tavern-bg-primary);
+    border: 2px solid var(--tavern-wood-dark);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px var(--tavern-shadow);
+}
+
+.tavern-table thead {
+    background: var(--tavern-wood-light);
+    color: var(--tavern-text-primary);
+}
+
+.tavern-table th {
+    padding: 12px;
+    text-align: left;
+    font-weight: bold;
+    border-bottom: 2px solid var(--tavern-wood-dark);
+}
+
+.tavern-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--tavern-border);
+}
+
+.tavern-table tbody tr:hover {
+    background: var(--tavern-bg-secondary);
+}
+
+.tavern-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Search/Filter Controls */
+.tavern-controls {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.tavern-search {
+    flex: 1;
+    min-width: 200px;
+    padding: 10px 16px;
+    border: 2px solid var(--tavern-wood-dark);
+    border-radius: 8px;
+    background: var(--tavern-bg-primary);
+    color: var(--tavern-text-primary);
+    font-size: 1rem;
+}
+
+.tavern-search::placeholder {
+    color: var(--tavern-text-secondary);
+    opacity: 0.7;
+}
+
+.tavern-button {
+    padding: 10px 20px;
+    border: 2px solid var(--tavern-wood-dark);
+    border-radius: 8px;
+    background: var(--tavern-wood-light);
+    color: var(--tavern-text-primary);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tavern-button:hover {
+    background: var(--tavern-brass);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--tavern-shadow);
+}
+
+.tavern-button.primary {
+    background: var(--tavern-gold);
+    color: var(--tavern-wood-dark);
+}
+
+/* ============================================
+   GUILD BANK GRID (FOR VAULT)
+   ============================================ */
+.bank-tabs-nav {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.bank-tab-button {
+    padding: 8px 16px;
+    border: 2px solid var(--tavern-wood-dark);
+    border-radius: 6px;
+    background: var(--tavern-wood-light);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.bank-tab-button:hover {
+    background: var(--tavern-brass);
+}
+
+.bank-tab-button.active {
+    background: var(--tavern-gold);
+    color: var(--tavern-wood-dark);
+}
+
+.bank-tab-icon {
+    width: 24px;
+    height: 24px;
+}
+
+.bank-grid {
+    display: grid;
+    grid-template-columns: repeat(14, 1fr);
+    /* 14 columns wide */
+    grid-template-rows: repeat(7, 1fr);
+    /* 7 rows tall */
+    grid-auto-flow: column;
+    /* Fill DOWN each column */
+    gap: 4px;
+    background: var(--tavern-wood-dark);
+    padding: 8px;
+    border-radius: 8px;
+}
+
+.bank-slot {
+    aspect-ratio: 1;
+    background: var(--tavern-bg-primary);
+    border: 2px solid var(--tavern-wood-dark);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.bank-slot:hover {
+    border-color: var(--tavern-gold);
+    transform: scale(1.1);
+    z-index: 10;
+}
+
+.bank-slot.empty {
+    opacity: 0.4;
+}
+
+.item-icon {
+    width: 90%;
+    height: 90%;
+    object-fit: contain;
+    padding: 2px;
+}
+
+.item-count {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Item quality borders */
+.bank-slot.quality-0 {
+    border-color: #9d9d9d;
+}
+
+/* Poor */
+.bank-slot.quality-1 {
+    border-color: #ffffff;
+}
+
+/* Common */
+.bank-slot.quality-2 {
+    border-color: #1eff00;
+}
+
+/* Uncommon */
+.bank-slot.quality-3 {
+    border-color: #0070dd;
+}
+
+/* Rare */
+.bank-slot.quality-4 {
+    border-color: #a335ee;
+}
+
+/* Epic */
+.bank-slot.quality-5 {
+    border-color: #ff8000;
+}
+
+/* Legendary */
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 768px) {
+    .tavern-title {
+        font-size: 1.8rem;
+    }
+
+    .tavern-subtitle {
+        font-size: 0.85rem;
+    }
+
+    .hall-tabs {
+        gap: 2px;
+        padding: 4px;
+    }
+
+    .hall-tab {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+        min-width: unset;
+    }
+
+    .hall-tab .tab-icon {
+        font-size: 1rem;
+    }
+
+    .room-content {
+        padding: 16px;
+    }
+
+    .bank-grid {
+        grid-template-columns: repeat(7, 1fr);
+    }
+
+    .stat-cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hall-panel.active {
+    animation: fadeIn 0.3s ease;
+}
+
+/* Night mode transition */
+:root {
+    transition: all 0.5s ease;
+}
+
+/* ============================================
+   NUCLEAR OPTION - OVERRIDE EVERYTHING
+   These rules MUST be at the end of the file
+   ============================================ */
+
+/* Force remove ALL white backgrounds inside Guild Hall */
+body.guild-hall-active #tab-guild-hall * {
+    background-color: transparent;
+}
+
+body.guild-hall-active #tab-guild-hall .stat-card,
+body.guild-hall-active #tab-guild-hall .info-card,
+body.guild-hall-active #tab-guild-hall .hall-panel,
+body.guild-hall-active #tab-guild-hall table {
+    background-color: rgba(42, 37, 32, 0.6) !important;
+}
+
+/* Force ALL text inside Guild Hall to use proper colors */
+body.guild-hall-active #tab-guild-hall {
+    color: var(--tavern-text-primary) !important;
+}
+
+/* Force gold color on ALL values */
+body.guild-hall-active #tab-guild-hall .stat-value,
+body.guild-hall-active #tab-guild-hall h1,
+body.guild-hall-active #tab-guild-hall h2,
+body.guild-hall-active #tab-guild-hall h3,
+body.guild-hall-active #tab-guild-hall h4 {
+    color: var(--tavern-gold) !important;
+}
+
+/* Character selector at top */
+body.guild-hall-active .char-select,
+body.guild-hall-active [class*="character"],
+body.guild-hall-active select,
+body.guild-hall-active option {
+    background: rgba(93, 78, 55, 0.8) !important;
+    color: var(--tavern-text-primary) !important;
+    border-color: var(--tavern-gold) !important;
+}
+
+
+/* ============================================
+   FIX: WHITE PANEL BACKGROUNDS
+   ULTRA-HIGH SPECIFICITY
+   ============================================ */
+body.guild-hall-active .hall-panel,
+body.guild-hall-active #tab-guild-hall .hall-panel,
+body.guild-hall-active [id*="guild-"] {
+    background: rgba(42, 37, 32, 0.9) !important;
+    color: var(--tavern-text-primary) !important;
+}
+
+body.guild-hall-active .room-panel {
+    background: transparent !important;
+}
+
+body.guild-hall-active .stat-card,
+body.guild-hall-active .info-card,
+body.guild-hall-active .data-card,
+body.guild-hall-active [class*="card"] {
+    background: rgba(93, 78, 55, 0.6) !important;
+    border: 1px solid var(--tavern-border) !important;
+    color: var(--tavern-text-primary) !important;
+}
+
+/* ============================================
+   FIX: ALL BLUE TEXT TO GOLD (ULTRA-SPECIFIC)
+   ============================================ */
+
+/* Treasury amounts - FORCE gold color */
+body.guild-hall-active .stat-value,
+body.guild-hall-active .balance-value,
+body.guild-hall-active .amount,
+body.guild-hall-active [class*="value"],
+body.guild-hall-active #tab-guild-hall .stat-value,
+body.guild-hall-active #tab-guild-hall .balance-value,
+body.guild-hall-active #guild-treasury-panel .stat-value,
+body.guild-hall-active #guild-treasury-panel .balance-value,
+body.guild-hall-active #guild-treasury-panel .amount {
+    color: var(--tavern-gold) !important;
+}
+
+/* Section headings - FORCE gold color */
+body.guild-hall-active h1,
+body.guild-hall-active h2,
+body.guild-hall-active h3,
+body.guild-hall-active h4,
+body.guild-hall-active h5,
+body.guild-hall-active h6,
+body.guild-hall-active .heading,
+body.guild-hall-active .section-title,
+body.guild-hall-active [class*="title"],
+body.guild-hall-active [class*="heading"] {
+    color: var(--tavern-gold) !important;
+}
+
+/* Labels - FORCE cream color */
+body.guild-hall-active .stat-label,
+body.guild-hall-active .label,
+body.guild-hall-active [class*="label"] {
+    color: var(--tavern-text-secondary) !important;
+}
+
+/* Table headers - FORCE gold */
+body.guild-hall-active table th,
+body.guild-hall-active thead th {
+    background: rgba(93, 78, 55, 0.7) !important;
+    color: var(--tavern-gold) !important;
+    border-color: var(--tavern-border) !important;
+}
+
+/* Table content */
+body.guild-hall-active table,
+body.guild-hall-active table td {
+    background: rgba(42, 37, 32, 0.5) !important;
+    color: var(--tavern-text-primary) !important;
+    border-color: rgba(139, 115, 85, 0.3) !important;
+}
+
+/* Character selector */
+body.guild-hall-active .character-selector,
+body.guild-hall-active [class*="char-select"] {
+    background: rgba(93, 78, 55, 0.8) !important;
+    color: var(--tavern-text-primary) !important;
+    border: 2px solid var(--tavern-gold) !important;
+}
+
+/* ============================================
+   FIX: TREASURY SPECIFIC (MAXIMUM SPECIFICITY)
+   ============================================ */
+#guild-treasury-panel,
+body.guild-hall-active #guild-treasury-panel,
+#tab-guild-hall #guild-treasury-panel {
+    background: rgba(93, 78, 55, 0.4) !important;
+}
+
+#guild-treasury-panel .stat-value,
+#guild-treasury-panel .balance-value,
+#guild-treasury-panel .amount,
+#guild-treasury-panel h3,
+#guild-treasury-panel h4,
+#guild-treasury-panel .gold-amount,
+.treasury-balance,
+.treasury-stat-value {
+    color: var(--tavern-gold) !important;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5) !important;
+}
+
+#guild-treasury-panel .stat-label,
+#guild-treasury-panel .label,
+.treasury-label {
+    color: var(--tavern-text-secondary) !important;
+}
+
+/* Override ANY inline styles with blue */
+body.guild-hall-active [style*="color: blue"],
+body.guild-hall-active [style*="color:#00"],
+body.guild-hall-active [style*="color: #00"],
+body.guild-hall-active [style*="color: rgb(0"] {
+    color: var(--tavern-gold) !important;
+}
+
+/* ============================================
+   FIX: VAULT TAB ICONS
+   ============================================ */
+.vault-tab-button {
+    background: rgba(93, 78, 55, 0.5);
+    border: 2px solid var(--tavern-border);
+    color: var(--tavern-text-primary);
+}
+
+.vault-tab-button.active {
+    background: var(--tavern-wood-light);
+    border-color: var(--tavern-gold);
+}
+
+.vault-tab-icon {
+    width: 32px;
+    height: 32px;
+    display: inline-block;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* ============================================
+   FIX: MEMBER LIST STYLES
+   ============================================ */
+.member-row {
+    background: rgba(93, 78, 55, 0.2);
+    border-bottom: 1px solid rgba(139, 115, 85, 0.3);
+    color: var(--tavern-text-primary);
+}
+
+.member-row:hover {
+    background: rgba(93, 78, 55, 0.4);
+}
+
+.member-name {
+    color: var(--tavern-text-primary) !important;
+    font-weight: bold;
+}
+
+.member-rank {
+    color: var(--tavern-gold) !important;
+}
+
+.member-class,
+.member-level,
+.member-zone {
+    color: var(--tavern-text-secondary) !important;
+}
+
+/* ============================================
+   GENERAL TEXT COLOR FIXES
+   ============================================ */
+table {
+    color: var(--tavern-text-primary) !important;
+}
+
+table th {
+    background: rgba(93, 78, 55, 0.5) !important;
+    color: var(--tavern-gold) !important;
+    border-color: var(--tavern-border) !important;
+}
+
+table td {
+    border-color: rgba(139, 115, 85, 0.3) !important;
+    color: var(--tavern-text-primary) !important;
+}
+
+/* Fix any remaining blue colors */
+[style*="color: blue"],
+[style*="color: #00"],
+[class*="text-blue"] {
+    color: var(--tavern-gold) !important;
+}
+
+/* ============================================
+   ABSOLUTE FINAL OVERRIDES - LAST IN FILE
+   These MUST be the last rules
+   ============================================ */
+
+/* Fix white guild buttons visible in screenshot */
+body.guild-hall-active .guild-tab,
+body.guild-hall-active button.guild-tab,
+body.guild-hall-active [role="button"].guild-tab {
+    background: var(--tavern-wood-light) !important;
+    background-color: var(--tavern-wood-light) !important;
+    color: var(--tavern-text-primary) !important;
+    border: 3px solid var(--tavern-wood-dark) !important;
+}
+
+/* Fix any white divs or containers */
+body.guild-hall-active div[style*="background: white"],
+body.guild-hall-active div[style*="background-color: white"],
+body.guild-hall-active div[style*="background: rgb(255"],
+body.guild-hall-active div[style*="background-color: rgb(255"],
+body.guild-hall-active *[style*="background: white"],
+body.guild-hall-active *[style*="background-color: white"] {
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+/* Final nuclear option for #tab-guild-hall content */
+body.guild-hall-active #tab-guild-hall>* {
+    background-color: transparent !important;
+}
+
+body.guild-hall-active #tab-guild-hall .stat-card,
+body.guild-hall-active #tab-guild-hall .hall-panel {
+    background-color: rgba(42, 37, 32, 0.7) !important;
+}
+
+/* ============================================
+   BANK ALT TAGS
+   Tag-style display with class colors
+   ============================================ */
+
+.bank-alts-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 15px 0;
+}
+
+.bank-alt-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    border-radius: 16px;
+    border: 2px solid;
+    font-weight: 500;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.bank-alt-tag:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+}
+
+.bank-alt-name {
+    margin-right: 8px;
+    letter-spacing: 0.3px;
+    color: #000000 !important;
+    /* Force black text for all tags */
+}
+
+.bank-alt-remove {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 1;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000000 !important;
+    /* Force black X button */
+}
+
+.bank-alt-remove:hover {
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+.bank-alt-remove:active {
+    transform: scale(0.9);
+}
+
+/* Override tavern button styles for tags */
+.bank-alt-tag button {
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+}
+
+/* ============================================
+   BUSINESS CHART CONTAINERS
+   For SVG line charts in Guild Business tab
+   ============================================ */
+
+.business-chart-container {
+    width: 100%;
+    margin: 15px 0;
+    padding: 15px;
+    background: rgba(42, 37, 32, 0.4);
+    border: 2px solid var(--tavern-wood-light);
+    border-radius: 8px;
+}
+
+.business-chart-container svg {
+    display: block;
+    width: 100%;
+    height: auto;
+}

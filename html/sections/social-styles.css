@@ -1,0 +1,632 @@
+/* ============================================================
+   SOCIAL — Companions, Instances, Friends, Activity & Brackets
+   WhoDASH / Belmont Labs — BL-002
+   ============================================================
+   Sources consolidated from style.css:
+     ~11424–12401  Full social block — tabs, hero stats,
+                   fun facts, chart legend, size/day bar
+                   charts, companions, instance grid,
+                   friends, hour heatmap, timeline feed,
+                   member tags, group brackets tab
+   NOTE: .legend-item/color/label/value here are scoped under
+   .chart-legend (social's grid-style legend layout) to avoid
+   colliding with the column-style versions in role/combat.
+   @keyframes fadeIn renamed to socialFadeIn.
+   @keyframes pulse renamed to socialPulse.
+   ============================================================ */
+
+/* ============================================================
+   TABS
+   ============================================================ */
+
+.social-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  border-bottom: 2px solid #e6eefb;
+  padding-bottom: 0;
+}
+
+.social-tab {
+  padding: 12px 24px;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: #6e7f9b;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: -2px;
+}
+
+.social-tab:hover  { color: #2456a5; background: #f7fafc; }
+.social-tab.active { color: #2456a5; border-bottom-color: #3182ce; background: #eef4ff; }
+
+.social-tab-content        { display: none; animation: socialFadeIn 0.3s ease-in; }
+.social-tab-content.active { display: block; }
+
+@keyframes socialFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   HERO STATS (The True Adventure)
+   ============================================================ */
+
+.social-hero-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.hero-stat-card {
+  background: linear-gradient(135deg, #eef4ff 0%, #ffffff 100%);
+  border: 2px solid #d4e3fc;
+  border-radius: 16px;
+  padding: 32px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(36, 86, 165, 0.08);
+  transition: all 0.3s;
+}
+
+.hero-stat-card:hover     { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(36, 86, 165, 0.15); }
+.hero-stat-card.hero-primary   { background: linear-gradient(135deg, #fff3cd 0%, #ffffff 100%); border-color: #ffc107; }
+.hero-stat-card.hero-secondary { background: linear-gradient(135deg, #e3f2fd 0%, #ffffff 100%); border-color: #2196f3; }
+.hero-stat-card.hero-tertiary  { background: linear-gradient(135deg, #f3e5f5 0%, #ffffff 100%); border-color: #9c27b0; }
+
+.hero-icon     { font-size: 3rem; margin-bottom: 16px; }
+.hero-value    { font-size: 3rem; font-weight: 700; color: #2456a5; margin-bottom: 8px; }
+.hero-label    { font-size: 1.1rem; font-weight: 600; color: #2c3e50; margin-bottom: 4px; }
+.hero-sublabel { font-size: 0.9rem; color: #6e7f9b; }
+
+/* ============================================================
+   FUN FACTS GRID
+   ============================================================ */
+
+.social-fun-facts         { margin-bottom: 40px; }
+.social-fun-facts h3      { font-size: 1.5rem; color: #2456a5; margin-bottom: 20px; text-align: center; }
+
+.facts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.fact-card {
+  background: #fff;
+  border: 2px solid #e6eefb;
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.fact-card:hover { border-color: #3182ce; box-shadow: 0 4px 12px rgba(49, 130, 206, 0.1); }
+
+.fact-icon     { font-size: 2.5rem; margin-bottom: 12px; }
+.fact-value    { font-size: 2rem; font-weight: 700; color: #2456a5; margin-bottom: 8px; }
+.fact-title    { font-size: 1rem; font-weight: 600; color: #2c3e50; margin-bottom: 4px; }
+.fact-subtitle { font-size: 0.85rem; color: #6e7f9b; }
+
+/* ============================================================
+   CHART SECTION & PIE LEGEND
+   ============================================================ */
+
+.social-chart-section    { margin-bottom: 40px; }
+.social-chart-section h3 { font-size: 1.5rem; color: #2456a5; margin-bottom: 20px; text-align: center; }
+.class-pie-chart         { position: relative; }
+
+/* Legend scoped to social's grid layout */
+.chart-legend {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.chart-legend .legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+.chart-legend .legend-color {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.chart-legend .legend-label { flex: 1; color: #2c3e50; font-weight: 500; }
+.chart-legend .legend-value { color: #6e7f9b; font-weight: 600; }
+
+/* ============================================================
+   SIZE BAR CHART (party size distribution)
+   ============================================================ */
+
+.size-bar-chart {
+  background: #fff;
+  border: 2px solid #e6eefb;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.size-bar-row            { display: grid; grid-template-columns: 120px 1fr; gap: 16px; align-items: center; margin-bottom: 16px; }
+.size-bar-row:last-child { margin-bottom: 0; }
+.size-label              { font-weight: 600; color: #2c3e50; text-align: right; }
+
+.size-bar-container {
+  background: #f0f4f8;
+  border-radius: 8px;
+  height: 32px;
+  position: relative;
+}
+
+.size-bar {
+  background: linear-gradient(90deg, #3182ce 0%, #2456a5 100%);
+  height: 100%;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  min-width: 80px;
+  transition: width 0.3s ease;
+}
+
+.size-count { color: white; font-weight: 600; font-size: 0.85rem; white-space: nowrap; }
+
+/* ============================================================
+   COMPANIONS LIST
+   ============================================================ */
+
+.companions-section    { margin-bottom: 40px; }
+.companions-section h3 { font-size: 1.5rem; color: #2456a5; margin-bottom: 20px; }
+.companions-list       { display: grid; gap: 12px; }
+
+.companion-card {
+  background: #fff;
+  border: 2px solid #e6eefb;
+  border-radius: 12px;
+  padding: 16px;
+  display: grid;
+  grid-template-columns: 50px 1fr auto;
+  gap: 16px;
+  align-items: center;
+  transition: all 0.2s;
+}
+
+.companion-card:hover { border-color: #3182ce; box-shadow: 0 4px 12px rgba(49, 130, 206, 0.1); }
+
+.companion-rank  { font-size: 1.5rem; font-weight: 700; color: #6e7f9b; text-align: center; }
+.companion-info  { flex: 1; }
+.companion-name  { font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; }
+.companion-class { font-size: 0.9rem; color: #6e7f9b; }
+.companion-stats { text-align: right; }
+.companion-count { font-size: 1.5rem; font-weight: 700; color: #2456a5; }
+.companion-label { font-size: 0.85rem; color: #6e7f9b; margin-bottom: 4px; }
+.companion-last  { font-size: 0.8rem; color: #999; }
+
+/* ============================================================
+   INSTANCE GRID
+   ============================================================ */
+
+.instances-section    { margin-bottom: 40px; }
+.instances-section h3 { font-size: 1.5rem; color: #2456a5; margin-bottom: 20px; }
+
+.instance-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.instance-card {
+  background: #fff;
+  border: 2px solid #e6eefb;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.instance-card:hover { border-color: #3182ce; box-shadow: 0 4px 12px rgba(49, 130, 206, 0.1); transform: translateY(-2px); }
+
+.instance-icon   { font-size: 2.5rem; margin-bottom: 12px; }
+.instance-name   { font-size: 1.1rem; font-weight: 700; color: #2c3e50; margin-bottom: 12px; }
+
+.difficulty-badge {
+  display: inline-block;
+  background: #ffc107;
+  color: #000;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-left: 8px;
+}
+
+.instance-stats  { margin-top: 12px; }
+.instance-runs   { font-size: 1.2rem; font-weight: 700; color: #2456a5; margin-bottom: 4px; }
+.instance-detail { font-size: 0.85rem; color: #6e7f9b; margin-bottom: 2px; }
+.instance-last   { font-size: 0.8rem; color: #999; }
+
+/* ============================================================
+   FRIENDS LIST
+   ============================================================ */
+
+.friends-section    { margin-bottom: 40px; }
+.friends-section h3 { font-size: 1.5rem; color: #2456a5; margin-bottom: 20px; }
+.friends-list       { display: grid; gap: 12px; }
+
+.friend-card {
+  background: #fff;
+  border: 2px solid #e6eefb;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s;
+}
+
+.friend-card:hover { border-color: #3182ce; box-shadow: 0 4px 12px rgba(49, 130, 206, 0.1); }
+
+.friend-info    { flex: 1; }
+.friend-name    { font-size: 1.1rem; font-weight: 700; margin-bottom: 4px; }
+.friend-details { font-size: 0.9rem; color: #6e7f9b; }
+.friend-time    { font-size: 0.9rem; color: #999; text-align: right; }
+
+/* ============================================================
+   ACTIVITY HEATMAP (hourly)
+   ============================================================ */
+
+.heatmap-section    { margin-bottom: 40px; }
+.heatmap-section h3 { font-size: 1.5rem; color: #2456a5; margin-bottom: 20px; text-align: center; }
+
+.hour-heatmap {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+  gap: 8px;
+  background: #fff;
+  border: 2px solid #e6eefb;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.hour-cell {
+  aspect-ratio: 1;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: 600;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.hour-cell:hover { transform: scale(1.1); z-index: 10; }
+.hour-label      { font-size: 0.7rem; margin-bottom: 4px; }
+.hour-count      { font-size: 1rem; }
+
+/* ============================================================
+   DAY CHART (day-of-week bar chart)
+   ============================================================ */
+
+.day-section    { margin-bottom: 40px; }
+.day-section h3 { font-size: 1.5rem; color: #2456a5; margin-bottom: 20px; text-align: center; }
+
+.day-chart {
+  background: #fff;
+  border: 2px solid #e6eefb;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.day-bar-row            { display: grid; grid-template-columns: 120px 1fr; gap: 16px; align-items: center; margin-bottom: 16px; }
+.day-bar-row:last-child { margin-bottom: 0; }
+.day-label              { font-weight: 600; color: #2c3e50; text-align: right; }
+
+.day-bar-container {
+  background: #f0f4f8;
+  border-radius: 8px;
+  height: 36px;
+  position: relative;
+}
+
+.day-bar {
+  background: linear-gradient(90deg, #9c27b0 0%, #7b1fa2 100%);
+  height: 100%;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  min-width: 60px;
+  transition: width 0.3s ease;
+}
+
+.day-count { color: white; font-weight: 600; font-size: 0.9rem; }
+
+/* ============================================================
+   TIMELINE FEED
+   ============================================================ */
+
+.timeline-feed-section    { margin-bottom: 40px; }
+.timeline-feed-section h3 { font-size: 1.5rem; color: #2456a5; margin-bottom: 20px; }
+.timeline-feed            { display: grid; gap: 16px; }
+
+.timeline-item {
+  background: #fff;
+  border: 2px solid #e6eefb;
+  border-radius: 12px;
+  padding: 16px;
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 16px;
+  transition: all 0.2s;
+}
+
+.timeline-item:hover { border-color: #3182ce; box-shadow: 0 4px 12px rgba(49, 130, 206, 0.1); }
+
+.timeline-icon    { font-size: 1.5rem; text-align: center; }
+.timeline-content { flex: 1; }
+
+.timeline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.timeline-time     { font-size: 0.85rem; color: #999; font-weight: 400; }
+.timeline-location { font-size: 0.9rem; color: #6e7f9b; margin-bottom: 8px; }
+
+.timeline-members {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.member-tag {
+  display: inline-block;
+  padding: 4px 12px;
+  background: #f0f4f8;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* ============================================================
+   GROUP BRACKETS TAB
+   ============================================================ */
+
+.brackets-controls {
+  background: linear-gradient(135deg, #eef4ff 0%, #f7fafc 100%);
+  border: 1px solid #d4e3fc;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 30px;
+}
+
+.brackets-search-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.brackets-search-bar input[type="text"] {
+  flex: 2;
+  min-width: 250px;
+  padding: 10px 16px;
+  border: 1px solid #bcd0ee;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #ffffff;
+  margin: 0;
+}
+
+.brackets-search-bar input[type="date"] {
+  flex: 1;
+  min-width: 150px;
+  padding: 10px 12px;
+  border: 1px solid #bcd0ee;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: #ffffff;
+  margin: 0;
+}
+
+.brackets-search-bar button {
+  padding: 10px 20px;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.brackets-content {
+  background: linear-gradient(135deg, #a8d0ff 0%, #86c5ff 100%);
+  border-radius: 16px;
+  padding: 30px;
+  min-height: 400px;
+}
+
+.bracket-section          { margin-bottom: 40px; }
+.bracket-section:last-child { margin-bottom: 0; }
+
+.bracket-section h3 {
+  color: #ffffff;
+  font-size: 1.8rem;
+  text-align: center;
+  margin-bottom: 30px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.bracket-groups     { display: flex; flex-direction: column; gap: 20px; }
+
+.tournament-bracket {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  backdrop-filter: blur(8px);
+}
+
+.bracket-main {
+  background: #ffffff;
+  color: #2456a5;
+  border: 2px solid #2456a5;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-align: center;
+  min-width: 200px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.bracket-connector {
+  width: 40px;
+  height: 3px;
+  background: #ffffff;
+  position: relative;
+}
+
+.bracket-connector::after {
+  content: '';
+  position: absolute;
+  right: -6px;
+  top: -3px;
+  width: 0;
+  height: 0;
+  border-left: 6px solid #ffffff;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+}
+
+.bracket-members {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  flex: 1;
+}
+
+.bracket-member {
+  background: #ffffff;
+  color: #333333;
+  border: 2px solid #2456a5;
+  border-radius: 8px;
+  padding: 12px;
+  min-width: 160px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.member-name {
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 6px;
+  color: var(--class-color, #333333);
+}
+
+.member-role {
+  font-size: 0.9rem;
+  color: #666666;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.member-class-strip {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: #999999;
+  border-radius: 0 0 6px 6px;
+  font-size: 0.75rem;
+  color: #ffffff;
+  text-align: center;
+  line-height: 4px;
+  overflow: hidden;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.bracket-extra {
+  background: #f0f0f0;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 0.8rem;
+  color: #666666;
+  margin-top: 6px;
+  text-align: center;
+}
+
+.bracket-time {
+  color: #ffffff;
+  font-size: 0.9rem;
+  opacity: 0.8;
+  text-align: center;
+  min-width: 120px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.brackets-loading {
+  text-align: center;
+  padding: 60px 20px;
+  color: #2456a5;
+  font-size: 1.2rem;
+}
+
+.no-results {
+  text-align: center;
+  color: #ffffff;
+  font-size: 1.1rem;
+  padding: 40px;
+  opacity: 0.8;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes socialPulse {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 1; }
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 768px) {
+  .social-tabs              { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .social-tab               { padding: 10px 16px; font-size: 0.9rem; white-space: nowrap; }
+  .social-hero-stats        { grid-template-columns: 1fr; }
+  .facts-grid               { grid-template-columns: 1fr; }
+  .instance-grid            { grid-template-columns: 1fr; }
+  .companion-card           { grid-template-columns: 40px 1fr; gap: 12px; }
+  .companion-stats          { grid-column: 2; text-align: left; margin-top: 8px; }
+  .hour-heatmap             { grid-template-columns: repeat(auto-fit, minmax(50px, 1fr)); }
+  .size-bar-row,
+  .day-bar-row              { grid-template-columns: 100px 1fr; gap: 12px; }
+
+  /* Brackets responsive */
+  .brackets-search-bar                              { flex-direction: column; align-items: stretch; }
+  .brackets-search-bar input[type="text"],
+  .brackets-search-bar input[type="date"]           { min-width: 100%; flex: none; }
+  .tournament-bracket                               { flex-direction: column; text-align: center; gap: 15px; }
+  .bracket-connector                                { width: 3px; height: 20px; transform: rotate(90deg); }
+  .bracket-connector::after                         { right: -3px; top: -6px; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 6px solid #ffffff; border-bottom: none; }
+  .bracket-main                                     { min-width: 100%; order: -1; }
+  .bracket-members                                  { justify-content: center; }
+  .bracket-member                                   { min-width: 140px; }
+  .bracket-time                                     { min-width: 100%; order: 1; }
+}

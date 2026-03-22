@@ -1,0 +1,688 @@
+/* ============================================================
+   DASHBOARD — db2 Widget Dashboard (Deep Blue / Frosted Glass)
+   WhoDASH / Belmont Labs — BL-002
+   ============================================================
+   NOTE: Three historical versions of this CSS exist in
+   style.css (~54855, ~55288, ~55722). The canonical version
+   is the "Deep Blue" dark-navy block (~55722 / ~168744).
+   Earlier light-glass and white-card iterations are preserved
+   here in cascade order so the dark version wins.
+   ============================================================ */
+
+/* ============================================================
+   FONT IMPORT
+   ============================================================ */
+
+
+/* ============================================================
+   LAYOUT HELPERS — dashboard-section / dashboard-row
+   (shared with currencies and other sections)
+   ============================================================ */
+
+.dashboard-section {
+  margin-bottom: 24px;
+}
+
+.dashboard-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.dashboard-row-three {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+@media (max-width: 1200px) {
+  .dashboard-row-three {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .dashboard-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ============================================================
+   CONTAINER OVERRIDE
+   When dashboard is active, let the blue body gradient show
+   through the container.
+   ============================================================ */
+
+body.db2-active .container {
+  background: transparent;
+  box-shadow: none;
+  padding: 20px 28px 40px;
+}
+
+/* Section wrapper */
+#tab-dashboard.db2-section {
+  background: transparent;
+  padding: 0;
+  min-height: 60vh;
+}
+
+/* ============================================================
+   BASE CARD — Dark navy frosted glass
+   ============================================================ */
+
+.db2-card {
+  background: rgba(20, 52, 110, 0.62);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: 14px;
+  box-shadow:
+    0 4px 24px rgba(10, 25, 65, 0.30),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  transition: box-shadow 0.2s, transform 0.15s;
+}
+
+.db2-card:hover {
+  box-shadow:
+    0 8px 32px rgba(10, 25, 65, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.10);
+  transform: translateY(-2px);
+}
+
+/* ============================================================
+   ROOT & GRID
+   ============================================================ */
+
+.db2-root {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.db2-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+}
+
+/* Wide widgets span 2 columns */
+.db2-wide {
+  grid-column: span 2;
+}
+
+/* ============================================================
+   LOADING STATE
+   ============================================================ */
+
+.db2-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 64px 0;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 1rem;
+}
+
+body.db2-active .db2-loading {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.db2-spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid rgba(255, 255, 255, 0.15);
+  border-top-color: rgba(255, 255, 255, 0.75);
+  border-radius: 50%;
+  animation: db2spin 0.75s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes db2spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================================
+   HERO CARD
+   ============================================================ */
+
+.db2-hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px 28px;
+  flex-wrap: wrap;
+}
+
+.db2-hero-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.db2-hero-name {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
+}
+
+.db2-hero-sub {
+  color: rgba(180, 210, 255, 0.85);
+  font-size: 0.95rem;
+  margin-top: 2px;
+}
+
+.db2-hero-guild {
+  color: #f0c060;
+  font-size: 0.88rem;
+  font-weight: 600;
+  margin-top: 3px;
+}
+
+/* ============================================================
+   BADGES
+   ============================================================ */
+
+.db2-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.db2-badge {
+  background: rgba(255, 255, 255, 0.10);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 20px;
+  padding: 4px 14px;
+  font-size: 0.79rem;
+  color: rgba(220, 235, 255, 0.90);
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.db2-badge-zone {
+  background: rgba(60, 180, 80, 0.16);
+  border-color: rgba(60, 180, 80, 0.28);
+  color: #a0f0a0;
+}
+
+.db2-faction-alliance {
+  background: rgba(80, 130, 255, 0.15);
+  color: #b0ccff;
+  border-color: rgba(80, 130, 255, 0.28);
+}
+
+.db2-faction-horde {
+  background: rgba(200, 60, 40, 0.15);
+  color: #ffa0a0;
+  border-color: rgba(200, 60, 40, 0.28);
+}
+
+/* ============================================================
+   WIDGET BASE
+   ============================================================ */
+
+.db2-widget {
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-height: 120px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle inner accent line at top */
+.db2-widget::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20px;
+  right: 20px;
+  height: 1px;
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.12),
+      transparent);
+}
+
+.db2-alert {
+  border-color: rgba(255, 140, 40, 0.38) !important;
+  background: rgba(80, 35, 5, 0.55) !important;
+}
+
+/* ── Widget anatomy ── */
+
+.db2-w-icon {
+  font-size: 1.35rem;
+  line-height: 1;
+  margin-bottom: 3px;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.4));
+}
+
+.db2-w-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: rgba(160, 190, 230, 0.70);
+  margin-bottom: 1px;
+}
+
+.db2-w-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.1;
+}
+
+.db2-w-sub {
+  font-size: 0.80rem;
+  color: rgba(160, 190, 230, 0.65);
+}
+
+.db2-w-foot {
+  font-size: 0.75rem;
+  color: rgba(160, 190, 230, 0.60);
+  margin-top: 8px;
+  padding-top: 7px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+/* ── Utility atoms ── */
+
+.db2-unit {
+  font-size: 1rem;
+  font-weight: 400;
+  color: rgba(160, 190, 230, 0.55);
+}
+
+.db2-dim {
+  color: rgba(160, 190, 230, 0.50);
+}
+
+.db2-ok {
+  color: #70e070 !important;
+}
+
+.db2-warn {
+  color: #ffb050 !important;
+}
+
+/* ── Gold / currency colours ── */
+
+.db2-goldline {
+  font-size: 1.2rem;
+}
+
+.db2-gold {
+  color: #f0c840;
+  font-weight: 700;
+}
+
+.db2-silver {
+  color: #b0bec5;
+}
+
+.db2-copper {
+  color: #d08060;
+}
+
+.db2-neg {
+  color: #ff7060;
+}
+
+/* ── Trend arrows ── */
+
+.db2-trend-up {
+  color: #70e870 !important;
+}
+
+.db2-trend-dn {
+  color: #ff7060 !important;
+}
+
+/* ============================================================
+   PROGRESS BAR
+   ============================================================ */
+
+.db2-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 7px;
+}
+
+.db2-bar-track {
+  flex: 1;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.db2-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #5ba8f5, #3468c8);
+  border-radius: 99px;
+  transition: width 0.9s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.db2-barlabel {
+  font-size: 0.70rem;
+  color: rgba(160, 190, 230, 0.55);
+  white-space: nowrap;
+  min-width: 30px;
+  text-align: right;
+}
+
+/* ============================================================
+   SHARING FLAGS
+   ============================================================ */
+
+.db2-flags {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.db2-flag {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 0.83rem;
+  color: rgba(180, 210, 255, 0.70);
+}
+
+.db2-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.db2-flag.on .db2-dot {
+  background: #50e050;
+  box-shadow: 0 0 7px rgba(80, 224, 80, 0.65);
+}
+
+.db2-flag.off .db2-dot {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.db2-flag.off {
+  color: rgba(160, 190, 230, 0.40);
+}
+
+/* ============================================================
+   PROFESSIONS
+   ============================================================ */
+
+.db2-prof-list {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  margin-top: 8px;
+}
+
+.db2-prof-row {
+  display: grid;
+  grid-template-columns: 1fr auto 120px;
+  gap: 10px;
+  align-items: center;
+}
+
+.db2-prof-name {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: rgba(220, 235, 255, 0.90);
+}
+
+.db2-prof-rank {
+  font-size: 0.75rem;
+  color: rgba(160, 190, 230, 0.55);
+  white-space: nowrap;
+}
+
+/* ============================================================
+   REPUTATION
+   ============================================================ */
+
+.db2-rep-list {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  margin-top: 8px;
+}
+
+.db2-rep-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 4px;
+}
+
+.db2-rep-name {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: rgba(220, 235, 255, 0.90);
+}
+
+.db2-rep-standing {
+  font-size: 0.70rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+/* ============================================================
+   COMBAT ROLE
+   ============================================================ */
+
+.db2-role-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.db2-role-badge {
+  margin-left: auto;
+  padding: 2px 11px;
+  border-radius: 20px;
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: 1px solid;
+}
+
+.db2-role-damage {
+  background: rgba(200, 40, 30, 0.20);
+  color: #ff8080;
+  border-color: rgba(200, 40, 30, 0.35);
+}
+
+.db2-role-tanking {
+  background: rgba(40, 80, 220, 0.22);
+  color: #80a8ff;
+  border-color: rgba(40, 80, 220, 0.38);
+}
+
+.db2-role-healing {
+  background: rgba(30, 160, 60, 0.20);
+  color: #70e890;
+  border-color: rgba(30, 160, 60, 0.35);
+}
+
+.db2-role-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.db2-role-stat {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 10px;
+  padding: 9px 8px;
+  text-align: center;
+}
+
+.db2-role-val {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.db2-role-lbl {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(160, 190, 230, 0.55);
+  margin-top: 3px;
+}
+
+/* ============================================================
+   TIPS WIDGET
+   ============================================================ */
+
+.db2-tip {
+  background: rgba(30, 28, 10, 0.55) !important;
+  border-color: rgba(200, 170, 40, 0.22) !important;
+}
+
+.db2-tip-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 9px;
+}
+
+.db2-tip-text {
+  font-size: 0.87rem;
+  color: rgba(240, 225, 170, 0.88);
+  line-height: 1.6;
+  transition: opacity 0.18s ease;
+}
+
+.db2-tip-btn {
+  margin-left: auto;
+  background: rgba(200, 170, 30, 0.14);
+  border: 1px solid rgba(200, 170, 30, 0.25);
+  color: rgba(240, 210, 100, 0.85);
+  font-size: 0.73rem;
+  padding: 3px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: none;
+  margin-right: 0;
+  margin-bottom: 0;
+  transition: background 0.18s;
+}
+
+.db2-tip-btn:hover {
+  background: rgba(200, 170, 30, 0.28);
+}
+
+/* ============================================================
+   WALLET SPARKLINE
+   ============================================================ */
+
+.db2-spark-row {
+  margin-top: 10px;
+  line-height: 0;
+  display: block;
+  width: 100%;
+}
+
+.db2-spark {
+  display: block;
+  width: 100%;
+  height: 28px;
+  overflow: visible;
+}
+
+/* ============================================================
+   ACHIEVEMENT NAME TRUNCATION
+   ============================================================ */
+
+.db2-ach-name {
+  display: inline-block;
+  max-width: 16ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: bottom;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 1100px) {
+  .db2-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 800px) {
+  .db2-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .db2-wide {
+    grid-column: span 2;
+  }
+
+  .db2-role-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .db2-prof-row {
+    grid-template-columns: 1fr auto;
+  }
+
+  .db2-prof-row .db2-bar-track {
+    display: none;
+  }
+}
+
+@media (max-width: 560px) {
+  body.db2-active .container {
+    padding: 10px 10px 24px;
+  }
+
+  .db2-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .db2-widget {
+    padding: 14px;
+    min-height: 100px;
+  }
+
+  .db2-hero {
+    padding: 16px 18px;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .db2-badges {
+    justify-content: flex-start;
+  }
+
+  .db2-hero-name {
+    font-size: 1.6rem;
+  }
+}

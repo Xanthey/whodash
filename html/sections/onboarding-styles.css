@@ -1,0 +1,438 @@
+/* ============================================================
+   ONBOARDING WIZARD STYLES
+   Matches WhoDASH white-card design language
+   ============================================================ */
+
+.onboarding-root {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 32px 16px 48px;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+/* ---- Step tracker ---- */
+.onboarding-steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 36px;
+  gap: 0;
+}
+
+.onboarding-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.step-dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #e6eefb;
+  color: #6e7f9b;
+  font-weight: 700;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #d7e3fb;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.onboarding-step.active .step-dot {
+  background: #2456a5;
+  color: #fff;
+  border-color: #2456a5;
+}
+
+.onboarding-step.completed .step-dot {
+  background: #38a169;
+  color: #fff;
+  border-color: #38a169;
+}
+
+.step-label {
+  font-size: 0.72rem;
+  color: #6e7f9b;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: color 0.25s ease;
+}
+
+.onboarding-step.active .step-label {
+  color: #2456a5;
+  font-weight: 700;
+}
+
+.onboarding-step.completed .step-label {
+  color: #38a169;
+}
+
+.onboarding-step-line {
+  flex: 1;
+  height: 2px;
+  background: #e6eefb;
+  margin: 0 8px;
+  margin-bottom: 22px;
+  min-width: 32px;
+  transition: background 0.25s ease;
+}
+
+.onboarding-step-line.completed {
+  background: #38a169;
+}
+
+/* ---- Slide viewport ---- */
+.onboarding-viewport {
+  position: relative;
+  overflow: hidden;
+}
+
+/* ---- Slides ---- */
+.onboarding-slide {
+  display: none;
+  opacity: 0;
+}
+
+.onboarding-slide.active {
+  display: block;
+  animation: ob-fadein 0.32s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.onboarding-slide.slide-out-left {
+  display: block;
+  animation: ob-slideout-left 0.28s cubic-bezier(0.55, 0, 1, 0.45) forwards;
+}
+
+.onboarding-slide.slide-in-right {
+  display: block;
+  animation: ob-slidein-right 0.30s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.onboarding-slide.slide-out-right {
+  display: block;
+  animation: ob-slideout-right 0.28s cubic-bezier(0.55, 0, 1, 0.45) forwards;
+}
+
+.onboarding-slide.slide-in-left {
+  display: block;
+  animation: ob-slidein-left 0.30s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes ob-fadein {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes ob-slideout-left {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 0; transform: translateX(-48px); }
+}
+
+@keyframes ob-slidein-right {
+  from { opacity: 0; transform: translateX(56px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes ob-slideout-right {
+  from { opacity: 1; transform: translateX(0); }
+  to   { opacity: 0; transform: translateX(48px); }
+}
+
+@keyframes ob-slidein-left {
+  from { opacity: 0; transform: translateX(-56px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ---- Card ---- */
+.onboarding-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f7fafc 100%);
+  border: 1px solid #e6eefb;
+  border-radius: 16px;
+  padding: 40px 40px 32px;
+  box-shadow: 0 4px 20px rgba(30, 60, 114, 0.09);
+}
+
+.onboarding-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  line-height: 1;
+}
+
+.onboarding-title {
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: #2456a5;
+  margin: 0 0 18px 0;
+  line-height: 1.3;
+}
+
+.onboarding-body {
+  font-size: 1rem;
+  color: #334e88;
+  line-height: 1.7;
+  margin: 0 0 16px 0;
+}
+
+/* ---- Info box (path display) ---- */
+.onboarding-info-box {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  background: #eef4ff;
+  border: 1px solid #d7e3fb;
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin: 20px 0 20px;
+}
+
+.onboarding-info-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.onboarding-path {
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 0.82rem;
+  background: #fff;
+  border: 1px solid #d7e3fb;
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin: 8px 0 6px;
+  color: #2456a5;
+  word-break: break-all;
+  line-height: 1.5;
+}
+
+.onboarding-path-note {
+  font-size: 0.85rem;
+  color: #6e7f9b;
+  margin: 4px 0 0;
+  line-height: 1.5;
+}
+
+.onboarding-path-note code {
+  background: #e6eefb;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 0.82rem;
+  color: #2456a5;
+}
+
+/* ---- Upload area ---- */
+.onboarding-upload-area {
+  border: 2px dashed #b8cef5;
+  border-radius: 12px;
+  background: #f7faff;
+  padding: 32px 24px;
+  text-align: center;
+  margin: 20px 0 16px;
+  transition: border-color 0.2s ease, background 0.2s ease;
+  cursor: pointer;
+}
+
+.onboarding-upload-area.drag-over {
+  border-color: #2456a5;
+  background: #eef4ff;
+}
+
+.upload-drop-icon {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+}
+
+.upload-drop-text {
+  font-size: 1rem;
+  color: #334e88;
+  margin: 0 0 4px;
+}
+
+.upload-drop-sub {
+  font-size: 0.85rem;
+  color: #6e7f9b;
+  margin: 0 0 12px;
+}
+
+.onboarding-file-label {
+  display: inline-block;
+  background: #eef4ff;
+  border: 1px solid #d7e3fb;
+  color: #2456a5;
+  font-weight: 600;
+  padding: 8px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.18s ease;
+}
+
+.onboarding-file-label:hover {
+  background: #d7e3fb;
+}
+
+.upload-selected-name {
+  margin: 12px 0 0;
+  font-size: 0.9rem;
+  color: #38a169;
+  font-weight: 600;
+  min-height: 1.2em;
+}
+
+/* ---- Buttons ---- */
+.onboarding-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 24px;
+}
+
+.onboarding-btn-primary {
+  background: linear-gradient(135deg, #2456a5 0%, #3182ce 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.18s ease, transform 0.15s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.onboarding-btn-primary:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.onboarding-btn-primary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.onboarding-upload-submit {
+  width: 100%;
+  text-align: center;
+  padding: 14px;
+  margin-top: 0;
+}
+
+.onboarding-btn-secondary {
+  background: #fff;
+  color: #2456a5;
+  border: 2px solid #d7e3fb;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.18s ease, background 0.18s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.onboarding-btn-secondary:hover {
+  border-color: #2456a5;
+  background: #eef4ff;
+}
+
+.onboarding-btn-ghost {
+  background: transparent;
+  color: #6e7f9b;
+  border: none;
+  padding: 10px 16px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: color 0.18s ease, background 0.18s ease;
+}
+
+.onboarding-btn-ghost:hover {
+  color: #334e88;
+  background: #f0f4ff;
+}
+
+.onboarding-btn-back {
+  background: none;
+  border: none;
+  color: #6e7f9b;
+  font-size: 0.88rem;
+  cursor: pointer;
+  padding: 10px 0 0;
+  display: block;
+  transition: color 0.18s ease;
+}
+
+.onboarding-btn-back:hover {
+  color: #2456a5;
+}
+
+/* ---- Next steps cards (step 3) ---- */
+.onboarding-next-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.onboarding-next-card {
+  display: flex;
+  gap: 16px;
+  background: #f7fafc;
+  border: 1px solid #e6eefb;
+  border-radius: 12px;
+  padding: 20px;
+  align-items: flex-start;
+}
+
+.next-card-icon {
+  font-size: 1.8rem;
+  flex-shrink: 0;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.next-card-body h3 {
+  margin: 0 0 8px 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #2456a5;
+}
+
+.next-card-body p {
+  margin: 0 0 14px 0;
+  font-size: 0.92rem;
+  color: #334e88;
+  line-height: 1.6;
+}
+
+.next-card-body code {
+  background: #e6eefb;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  color: #2456a5;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 540px) {
+  .onboarding-card {
+    padding: 28px 20px 24px;
+  }
+  .step-label {
+    display: none;
+  }
+  .onboarding-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .onboarding-btn-primary,
+  .onboarding-btn-secondary {
+    text-align: center;
+  }
+}

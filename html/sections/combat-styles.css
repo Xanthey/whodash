@@ -1,0 +1,714 @@
+/* ============================================================
+   COMBAT — DPS / Damage Analytics (Red Theme)
+   WhoDASH / Belmont Labs — BL-002
+   ============================================================
+   Sources consolidated from style.css:
+     ~8052–8111   Tab navigation
+     ~8114–8503   Overview card, stats grid, chart cards,
+                  pie legend, boss table, DPS distribution,
+                  role stats, section heading utilities
+     ~8509–8771   Burst analysis, target analysis,
+                  consistency metrics
+     ~161059      .target-name (orphaned, folded in)
+     ~162210–215  .combat-overview-card stat colour override
+   NOTE: .stat-value, .stat-label, .stat-sublabel,
+   .stat-value-huge are scoped inside .combat-overview-card
+   or .combat-stat to avoid bleeding into other sections.
+   .positive / .negative are global utilities shared with
+   currencies — included here for combat context.
+   ============================================================ */
+
+/* ============================================================
+   TAB NAVIGATION
+   ============================================================ */
+
+.combat-tabs-container {
+  margin-bottom: 32px;
+}
+
+.combat-tabs {
+  display: flex;
+  gap: 8px;
+  border-bottom: 2px solid #e2e8f0;
+  margin-bottom: 24px;
+}
+
+.combat-tab {
+  padding: 12px 24px;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  bottom: -2px;
+}
+
+.combat-tab:hover {
+  color: #3b82f6;
+  background: rgba(59, 130, 246, 0.05);
+}
+
+.combat-tab.active {
+  color: #3b82f6;
+  border-bottom-color: #3b82f6;
+  background: rgba(59, 130, 246, 0.05);
+}
+
+.combat-tab-content {
+  position: relative;
+}
+
+.combat-tab-pane {
+  display: none;
+}
+
+.combat-tab-pane.active {
+  display: block;
+  animation: combatFadeIn 0.3s ease-in;
+}
+
+@keyframes combatFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   OVERVIEW CARD
+   ============================================================ */
+
+.combat-overview-card {
+  background: linear-gradient(135deg, #991b1b 0%, #450a0a 100%);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.combat-title {
+  color: #f1f5f9;
+  font-size: 1.75rem;
+  margin: 0 0 24px 0;
+  font-weight: 600;
+}
+
+.combat-stats-grid {
+  display: grid;
+  grid-template-columns: 2fr repeat(2, 1fr);
+  gap: 24px;
+}
+
+.combat-stat-main {
+  grid-column: span 1;
+  text-align: center;
+  padding: 24px;
+  background: rgba(239, 68, 68, 0.1);
+  border-radius: 12px;
+  border: 2px solid rgba(239, 68, 68, 0.3);
+}
+
+.combat-stat {
+  text-align: center;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}
+
+/* Stat atoms — scoped inside overview/stat containers */
+.combat-overview-card .stat-value-huge,
+.combat-stat-main .stat-value-huge {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #ef4444;
+  margin: 8px 0;
+  text-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+.combat-overview-card .stat-value,
+.combat-stat .stat-value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #f1f5f9;
+  margin: 8px 0;
+}
+
+.combat-overview-card .stat-value.highlight {
+  color: #fbbf24;
+}
+
+.combat-overview-card .stat-label,
+.combat-stat .stat-label {
+  font-size: 0.875rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}
+
+.combat-overview-card .stat-sublabel,
+.combat-stat .stat-sublabel {
+  font-size: 0.875rem;
+  color: #cbd5e1;
+  margin-top: 4px;
+}
+
+/* Force white text inside the dark overview card */
+.combat-overview-card .stat-value,
+.combat-overview-card .stat-label {
+  color: #ffffff !important;
+  text-shadow: none !important;
+}
+
+/* ============================================================
+   CHART CARDS
+   ============================================================ */
+
+.dps-chart-card,
+.combat-breakdown-card,
+.instance-performance-card,
+.dps-distribution-card,
+.role-performance-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.dps-chart-card h3,
+.combat-breakdown-card h3,
+.instance-performance-card h3,
+.dps-distribution-card h3,
+.role-performance-card h3 {
+  margin: 0 0 20px 0;
+  color: #1e293b;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.dps-canvas,
+.combat-breakdown-card canvas,
+.instance-performance-card canvas,
+.dps-distribution-card canvas {
+  display: block;
+  margin: 20px auto;
+}
+
+/* ============================================================
+   PIE LEGEND
+   ============================================================ */
+
+.pie-legend {
+  margin-top: 20px;
+}
+
+.pie-legend .legend-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding: 8px;
+  background: #f8fafc;
+  border-radius: 6px;
+}
+
+.pie-legend .legend-color {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.pie-legend .legend-label {
+  flex: 1;
+  color: #475569;
+  font-weight: 500;
+}
+
+.pie-legend .legend-value {
+  color: #64748b;
+  font-weight: 600;
+}
+
+/* ============================================================
+   BOSS ENCOUNTERS TABLE
+   ============================================================ */
+
+.boss-table-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.boss-table-card h3 {
+  margin: 0 0 20px 0;
+  color: #1e293b;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.boss-table-controls,
+.combat-table-controls {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.search-input {
+  flex: 1;
+  min-width: 200px;
+  padding: 10px 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.2s;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.filter-btn {
+  padding: 8px 16px;
+  border: 2px solid #e2e8f0;
+  background: white;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-btn:hover       { border-color: #3b82f6; color: #3b82f6; }
+.filter-btn.active      { background: #3b82f6; border-color: #3b82f6; color: white; }
+
+.table-wrapper {
+  overflow-x: auto;
+  margin-bottom: 16px;
+}
+
+.boss-encounters-table,
+.combat-encounters-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.boss-encounters-table thead,
+.combat-encounters-table thead {
+  background: #f8fafc;
+}
+
+.boss-encounters-table th,
+.combat-encounters-table th {
+  padding: 12px 16px;
+  text-align: left;
+  font-weight: 600;
+  color: #475569;
+  border-bottom: 2px solid #e2e8f0;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.2s;
+}
+
+.boss-encounters-table th:hover,
+.combat-encounters-table th:hover { background: #f1f5f9; }
+
+.boss-encounters-table th.sorted,
+.combat-encounters-table th.sorted { background: #e0e7ff; color: #3b82f6; }
+
+.sort-arrow {
+  margin-left: 4px;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.boss-encounters-table tbody tr,
+.combat-encounters-table tbody tr {
+  border-bottom: 1px solid #f1f5f9;
+  transition: background-color 0.2s;
+}
+
+.boss-encounters-table tbody tr:hover,
+.combat-encounters-table tbody tr:hover { background: #f8fafc; }
+
+.boss-encounters-table td,
+.combat-encounters-table td {
+  padding: 12px 16px;
+  color: #334155;
+}
+
+.boss-name {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.target-name {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.dps-value {
+  font-weight: 600;
+  color: #64748b;
+}
+
+.dps-value.high-dps { color: #10b981; }
+
+.table-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.page-btn {
+  padding: 8px 16px;
+  border: 2px solid #e2e8f0;
+  background: white;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.page-btn:hover:not(:disabled) { border-color: #3b82f6; color: #3b82f6; }
+.page-btn:disabled              { opacity: 0.5; cursor: not-allowed; }
+
+/* ============================================================
+   DPS DISTRIBUTION / PERCENTILES
+   ============================================================ */
+
+.percentiles-info {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.percentile-item {
+  text-align: center;
+  padding: 16px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 2px solid #e2e8f0;
+}
+
+.percentile-label {
+  display: block;
+  font-size: 0.875rem;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+
+.percentile-value {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #06b6d4;
+}
+
+/* ============================================================
+   ROLE PERFORMANCE
+   ============================================================ */
+
+.role-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.role-stat {
+  text-align: center;
+  padding: 20px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 2px solid #e2e8f0;
+}
+
+/* ============================================================
+   SECTION WRAPPER & HEADING
+   ============================================================ */
+
+.combat-section {
+  margin-bottom: 48px;
+}
+
+.section-title {
+  color: #1e293b;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 24px 0;
+  padding-bottom: 12px;
+  border-bottom: 3px solid #e2e8f0;
+}
+
+/* ============================================================
+   UTILITY
+   ============================================================ */
+
+.positive { color: #10b981; }
+.negative { color: #ef4444; }
+
+/* ============================================================
+   BURST vs SUSTAINED ANALYSIS
+   ============================================================ */
+
+.burst-analysis-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.burst-analysis-card h3 {
+  margin: 0 0 20px 0;
+  color: #1e293b;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.burst-comparison {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 24px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.burst-item {
+  text-align: center;
+  padding: 20px;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 2px solid #e2e8f0;
+}
+
+.burst-label {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #475569;
+  margin-bottom: 4px;
+}
+
+.burst-desc {
+  font-size: 0.875rem;
+  color: #94a3b8;
+  margin-bottom: 12px;
+}
+
+.burst-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ef4444;
+  margin-bottom: 8px;
+}
+
+.burst-value.highlight { color: #dc2626; }
+
+.burst-count {
+  font-size: 0.875rem;
+  color: #64748b;
+}
+
+.burst-divider {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #cbd5e1;
+}
+
+.burst-insight {
+  padding: 16px;
+  background: #eff6ff;
+  border-left: 4px solid #3b82f6;
+  border-radius: 8px;
+  font-size: 0.9375rem;
+  color: #1e40af;
+}
+
+/* ============================================================
+   TARGET TYPE ANALYSIS
+   ============================================================ */
+
+.target-analysis-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.target-analysis-card h3 {
+  margin: 0 0 20px 0;
+  color: #1e293b;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.target-comparison {
+  display: grid;
+  grid-template-columns: 1fr 2px 1fr;
+  gap: 24px;
+  margin-bottom: 20px;
+}
+
+.target-item {
+  text-align: center;
+  padding: 20px;
+  background: #f8fafc;
+  border-radius: 12px;
+}
+
+.target-label {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #475569;
+  margin-bottom: 12px;
+}
+
+.target-value {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.target-value.boss { color: #7c3aed; }
+.target-value.adds { color: #f97316; }
+
+.target-detail {
+  font-size: 0.875rem;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+
+.target-count {
+  font-size: 0.875rem;
+  color: #94a3b8;
+}
+
+.target-divider {
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    #e2e8f0 20%,
+    #e2e8f0 80%,
+    transparent
+  );
+}
+
+.target-insight {
+  padding: 16px;
+  background: #fef3c7;
+  border-left: 4px solid #f59e0b;
+  border-radius: 8px;
+  font-size: 0.9375rem;
+  color: #92400e;
+}
+
+/* ============================================================
+   CONSISTENCY METRICS
+   ============================================================ */
+
+.consistency-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.consistency-card h3 {
+  margin: 0 0 20px 0;
+  color: #1e293b;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.consistency-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.consistency-item {
+  text-align: center;
+  padding: 16px;
+  background: #f8fafc;
+  border-radius: 8px;
+}
+
+.consistency-label {
+  font-size: 0.875rem;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+
+.consistency-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #334155;
+}
+
+.consistency-rating {
+  font-size: 1.25rem;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+.consistency-rating.excellent { background: #d1fae5; color: #065f46; }
+.consistency-rating.good      { background: #dbeafe; color: #1e40af; }
+.consistency-rating.average   { background: #fef3c7; color: #92400e; }
+.consistency-rating.poor      { background: #fee2e2; color: #991b1b; }
+
+.consistency-insight {
+  padding: 16px;
+  background: #f0f9ff;
+  border-left: 4px solid #0ea5e9;
+  border-radius: 8px;
+  font-size: 0.9375rem;
+  color: #075985;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media (max-width: 968px) {
+  .consistency-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .combat-stats-grid  { grid-template-columns: 1fr; }
+  .percentiles-info   { grid-template-columns: 1fr; }
+  .role-stats-grid    { grid-template-columns: 1fr; }
+
+  .burst-comparison   { grid-template-columns: 1fr; gap: 16px; }
+  .burst-divider      { display: none; }
+
+  .target-comparison  { grid-template-columns: 1fr; gap: 16px; }
+  .target-divider     { display: none; }
+}
+
+@media (max-width: 640px) {
+  .consistency-grid { grid-template-columns: 1fr; }
+}

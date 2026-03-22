@@ -1,0 +1,651 @@
+/* ============================================================
+   CONF — Settings, Upload, Share & API Key Management
+   WhoDASH / Belmont Labs — BL-002
+   ============================================================
+   Sources consolidated from:
+     sections_conf.php lines 482–1443 — entire inline <style>
+     block. Nothing for this section existed in style.css;
+     all styles were self-contained in the PHP file.
+
+   Sections covered:
+     - Upload & management cards (shared card shell)
+     - File input wrapper + label + upload button
+     - Management grid + items + danger zone variant
+     - Button palette: danger, secondary, cancel, save,
+       confirm-delete, final-delete, confirm-share, unshare,
+       copy, upload, primary
+     - Modal system: overlay, content, header, body, footer,
+       slide-in animation
+     - Delete flow: warning-box, confirmation-input,
+       final-warning
+     - Upload progress modal: progress bar + shimmer,
+       progress stats / text / message
+     - Share modal: share-info-box, share-note, share-options,
+       checkbox-group/label, share-url-box, url-display-group,
+       copy-btn, copy-success
+     - API Keys section: api-keys-card/info/list, loading
+       spinner, no-keys-message, api-key-item/header/details,
+       key-status badges (active/inactive/expired),
+       key-btn palette (activate/revoke/delete),
+       modal-large, success-box, api-key-display,
+       key-copy-group, key-input, next-steps-box,
+       key-name-display, form-group/input/select, label-hint
+
+   PENDING ACTION: Remove the inline <style> block from
+   sections_conf.php (lines 482–1443) once this file is linked.
+
+   NOTE: .copy-btn is defined twice in the source (share
+   modal ~1061 and API key display ~1346) with identical
+   rules — merged to a single definition here.
+   .copy-success similarly appears twice (~1078 / ~1363) with
+   slightly different margin values; the API key version
+   (margin-top: 8px, font-weight: 600) is used as canonical.
+   ============================================================ */
+
+/* ============================================================
+   CARD SHELLS
+   ============================================================ */
+
+.upload-card,
+.management-card {
+  max-width: 900px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 16px;
+  padding: 40px;
+  box-shadow: 0 4px 20px rgba(30, 60, 114, 0.12);
+}
+
+.upload-card h2,
+.management-card h2 {
+  color: #2456a5;
+  margin-bottom: 8px;
+  font-size: 1.75rem;
+}
+
+.section-subtitle {
+  color: #6e7f9b;
+  margin-bottom: 32px;
+  font-size: 0.95rem;
+}
+
+.upload-card p { color: #6e7f9b; margin-bottom: 32px; }
+
+/* ============================================================
+   FILE INPUT & UPLOAD BUTTON
+   ============================================================ */
+
+.file-input-wrapper {
+  position: relative;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.file-input-wrapper input[type="file"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.file-label {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #f0f4f8;
+  color: #2456a5;
+  border: 2px solid #d7e3fb;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.file-label:hover { background: #e6eefb; border-color: #2456a5; }
+
+.file-name { color: #6e7f9b; font-size: 0.95rem; }
+
+.upload-btn {
+  width: 100%;
+  padding: 14px 28px;
+  background: linear-gradient(135deg, #2456a5 0%, #1e4a8f 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(36, 86, 165, 0.3);
+}
+
+.upload-btn:hover {
+  background: linear-gradient(135deg, #1e4a8f 0%, #2456a5 100%);
+  box-shadow: 0 4px 12px rgba(36, 86, 165, 0.4);
+  transform: translateY(-1px);
+}
+
+.upload-btn:active { transform: translateY(0); }
+
+/* ============================================================
+   MANAGEMENT GRID
+   ============================================================ */
+
+.management-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 24px;
+}
+
+.management-item {
+  background: #f8fafc;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.management-item.danger-zone { border-color: #fee2e2; background: #fef2f2; }
+.management-item.disabled    { opacity: 0.6; }
+
+.management-icon { font-size: 2.5rem; margin-bottom: 12px; }
+
+.management-item h3 { color: #1e293b; font-size: 1.1rem; margin-bottom: 8px; }
+.management-item p  { color: #64748b; font-size: 0.875rem; margin-bottom: 16px; line-height: 1.4; }
+
+.character-name-display {
+  font-weight: 700;
+  color: #dc2626;
+  font-size: 1.1rem;
+  margin: 8px 0 12px 0;
+}
+
+/* ============================================================
+   BUTTON PALETTE
+   ============================================================ */
+
+.danger-btn,
+.secondary-btn,
+.cancel-btn,
+.save-btn,
+.confirm-delete-btn,
+.final-delete-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.95rem;
+}
+
+.danger-btn { background: #dc2626; color: white; }
+.danger-btn:hover {
+  background: #b91c1c;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+.secondary-btn          { background: #e2e8f0; color: #64748b; }
+.secondary-btn:disabled { cursor: not-allowed; }
+
+.cancel-btn,
+.save-btn { background: #f1f5f9; color: #475569; }
+
+.cancel-btn:hover,
+.save-btn:hover { background: #e2e8f0; }
+
+.save-btn { background: #16a34a; color: white; }
+.save-btn:hover {
+  background: #15803d;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+}
+
+.confirm-delete-btn { background: #dc2626; color: white; }
+.confirm-delete-btn:disabled { background: #e2e8f0; color: #94a3b8; cursor: not-allowed; }
+.confirm-delete-btn:not(:disabled):hover {
+  background: #b91c1c;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+.final-delete-btn { background: #dc2626; color: white; }
+.final-delete-btn:hover {
+  background: #b91c1c;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+.final-delete-btn:disabled { background: #e2e8f0; color: #94a3b8; cursor: not-allowed; }
+
+.confirm-share-btn { background: #16a34a; color: white; }
+.confirm-share-btn:hover {
+  background: #15803d;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+}
+
+.unshare-btn { background: #f59e0b; color: white; }
+.unshare-btn:hover { background: #d97706; transform: translateY(-1px); }
+
+.copy-btn {
+  padding: 12px 24px;
+  background: #2456a5;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+.copy-btn:hover { background: #1e4a8f; transform: translateY(-1px); }
+
+.copy-success { margin-top: 8px; color: #16a34a; font-weight: 600; }
+
+/* ============================================================
+   MODAL SYSTEM
+   ============================================================ */
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 10000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+.modal.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 16px;
+  max-width: 600px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: confModalSlideIn 0.3s ease;
+}
+
+@keyframes confModalSlideIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.modal-header          { padding: 24px 32px; border-bottom: 2px solid #f1f5f9; }
+.modal-header h2       { color: #dc2626; margin: 0; font-size: 1.5rem; }
+.modal-body            { padding: 32px; }
+.modal-footer {
+  padding: 20px 32px;
+  border-top: 2px solid #f1f5f9;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.modal-large { max-width: 600px; }
+
+/* ============================================================
+   DELETE FLOW
+   ============================================================ */
+
+.warning-box {
+  background: #fef2f2;
+  border: 2px solid #fecaca;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.warning-box strong  { color: #dc2626; display: block; margin-bottom: 12px; font-size: 1.1rem; }
+.warning-box p       { color: #7f1d1d; margin: 8px 0; line-height: 1.6; }
+.warning-box ul      { color: #991b1b; margin: 12px 0 12px 20px; line-height: 1.8; }
+.warning-box .emphasis { font-weight: 600; color: #dc2626; margin-top: 16px; }
+
+.confirmation-input { margin-top: 24px; }
+
+.confirmation-input label    { display: block; color: #1e293b; margin-bottom: 12px; font-weight: 500; }
+.confirmation-input strong   { color: #dc2626; font-family: monospace; font-size: 1.05rem; }
+
+.confirmation-input input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: monospace;
+  transition: border-color 0.2s ease;
+}
+.confirmation-input input:focus   { outline: none; border-color: #2456a5; }
+.confirmation-input input.error   { border-color: #dc2626; }
+.confirmation-input input.success { border-color: #16a34a; }
+
+.input-hint         { margin-top: 8px; font-size: 0.875rem; min-height: 20px; }
+.input-hint.error   { color: #dc2626; }
+.input-hint.success { color: #16a34a; }
+
+.final-warning { text-align: center; padding: 20px; }
+.final-warning .large-text { font-size: 1.5rem; font-weight: 700; color: #dc2626; margin-bottom: 20px; }
+.final-warning p            { color: #1e293b; margin: 12px 0; font-size: 1.05rem; line-height: 1.6; }
+.final-warning .emphasis    { font-weight: 600; color: #dc2626; font-size: 1.1rem; margin-top: 20px; }
+
+/* ============================================================
+   UPLOAD PROGRESS MODAL
+   ============================================================ */
+
+.upload-modal-content  { max-width: 500px; }
+.upload-progress-wrapper { padding: 20px 0; }
+
+.progress-bar-container {
+  width: 100%;
+  height: 32px;
+  background: #e2e8f0;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg,
+    #2456a5 0%,
+    #3b6fd9 25%,
+    #5a8fef 50%,
+    #3b6fd9 75%,
+    #2456a5 100%);
+  background-size: 200% 100%;
+  border-radius: 16px;
+  transition: width 0.3s ease;
+  position: relative;
+  animation: confProgressShimmer 2s infinite;
+}
+
+@keyframes confProgressShimmer {
+  0%   { background-position: -100% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.progress-stats   { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.progress-text    { font-size: 2rem; font-weight: 700; color: #2456a5; }
+.progress-message { font-size: 1rem; color: #64748b; font-style: italic; }
+
+/* ============================================================
+   SHARE MODAL
+   ============================================================ */
+
+.share-info-box {
+  background: #f0f7ff;
+  border: 1px solid #b3d9ff;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+.share-info-box p { margin: 8px 0; color: #1e293b; }
+.share-note       { font-size: 0.9rem; color: #64748b; font-style: italic; }
+
+.share-options    { margin-bottom: 24px; }
+.share-options h3 { margin-bottom: 16px; color: #1e293b; font-size: 1.1rem; }
+
+.checkbox-group { display: flex; flex-direction: column; gap: 16px; }
+
+.checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  background: #f8fafc;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.checkbox-label:hover { background: #f1f5f9; border-color: #cbd5e1; }
+.checkbox-label input[type="checkbox"] { margin-top: 2px; width: 20px; height: 20px; cursor: pointer; }
+.checkbox-label span  { font-weight: 500; color: #1e293b; flex: 1; }
+
+.option-description { font-size: 0.875rem; color: #64748b; margin: 4px 0 0 0; }
+
+.share-url-box {
+  background: #f8fafc;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 24px;
+}
+.share-url-box label { display: block; font-weight: 500; color: #1e293b; margin-bottom: 12px; }
+
+.url-display-group { display: flex; gap: 8px; }
+.url-display-group input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-family: monospace;
+  font-size: 0.9rem;
+  background: white;
+}
+
+/* ============================================================
+   API KEYS SECTION
+   ============================================================ */
+
+.api-keys-card { margin-top: 32px; }
+
+.api-keys-info {
+  background: #eff6ff;
+  border-left: 4px solid #2456a5;
+  padding: 16px 20px;
+  margin: 20px 0;
+  border-radius: 8px;
+}
+.api-keys-info p      { margin: 8px 0; line-height: 1.6; }
+.api-keys-info strong { color: #1e40af; }
+
+.download-link { color: #2456a5; text-decoration: underline; font-weight: 600; }
+
+.api-key-actions { margin: 24px 0; }
+.api-keys-list   { margin-top: 24px; }
+
+/* === Loading spinner === */
+
+.loading-keys { text-align: center; padding: 40px; color: #64748b; }
+
+.spinner {
+  border: 3px solid #e2e8f0;
+  border-top: 3px solid #2456a5;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: confSpin 1s linear infinite;
+  margin: 0 auto 16px;
+}
+
+@keyframes confSpin {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* === Empty state === */
+
+.no-keys-message {
+  text-align: center;
+  padding: 40px;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 2px dashed #cbd5e1;
+}
+.no-keys-message p { color: #64748b; margin: 8px 0; }
+
+/* === API key list items === */
+
+.api-key-item {
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+  transition: all 0.2s ease;
+}
+.api-key-item:hover { border-color: #cbd5e1; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); }
+
+.api-key-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.key-name { font-weight: 700; font-size: 1.1rem; color: #1e293b; }
+
+.key-status {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.key-status.active   { background: #d1fae5; color: #065f46; }
+.key-status.inactive { background: #fee2e2; color: #991b1b; }
+.key-status.expired  { background: #fef3c7; color: #92400e; }
+
+.api-key-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin: 12px 0;
+  padding: 12px;
+  background: #f8fafc;
+  border-radius: 8px;
+}
+
+.key-detail       { display: flex; flex-direction: column; }
+.key-detail-label {
+  font-size: 0.75rem;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+.key-detail-value { font-size: 0.9rem; color: #1e293b; font-family: 'Courier New', monospace; }
+
+.api-key-actions-row { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+
+/* === Key action buttons === */
+
+.key-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.key-btn-activate       { background: #d1fae5; color: #065f46; }
+.key-btn-activate:hover { background: #a7f3d0; }
+
+.key-btn-revoke         { background: #fef3c7; color: #92400e; }
+.key-btn-revoke:hover   { background: #fde047; }
+
+.key-btn-delete         { background: #fee2e2; color: #991b1b; }
+.key-btn-delete:hover   { background: #fecaca; }
+
+/* === API key creation modal === */
+
+.success-box {
+  background: #d1fae5;
+  border: 2px solid #10b981;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  margin-bottom: 24px;
+}
+.success-box p      { margin: 8px 0; color: #065f46; }
+.success-box strong { font-size: 1.1rem; }
+
+.api-key-display       { margin: 24px 0; }
+.api-key-display label { display: block; margin-bottom: 12px; color: #1e293b; }
+
+.key-copy-group { display: flex; gap: 8px; }
+
+.key-input {
+  flex: 1;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  padding: 12px 16px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.next-steps-box {
+  background: #fffbeb;
+  border: 2px solid #fde047;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 24px;
+}
+.next-steps-box h3  { color: #92400e; margin-bottom: 12px; }
+.next-steps-box ol  { margin: 12px 0 0 20px; color: #78350f; }
+.next-steps-box li  { margin: 8px 0; line-height: 1.6; }
+.next-steps-box code {
+  background: #fef3c7;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.85rem;
+  color: #92400e;
+}
+
+.key-name-display {
+  font-weight: 700;
+  color: #2456a5;
+  font-size: 1.1rem;
+  margin: 16px 0;
+  text-align: center;
+}
+
+/* ============================================================
+   FORMS
+   ============================================================ */
+
+.form-group           { margin-bottom: 20px; }
+.form-group label     { display: block; margin-bottom: 8px; color: #1e293b; font-weight: 600; }
+
+.label-hint {
+  display: block;
+  font-size: 0.85rem;
+  color: #64748b;
+  font-weight: 400;
+  margin-top: 4px;
+}
+
+.form-input,
+.form-select {
+  width: 100%;
+  padding: 10px 14px;
+  border: 2px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.form-input:focus,
+.form-select:focus {
+  outline: none;
+  border-color: #2456a5;
+}
